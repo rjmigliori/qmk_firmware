@@ -20,12 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config_common.h"
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID 0xFEED
-#define PRODUCT_ID 0x0000
+#define VENDOR_ID 0x0481
+#define PRODUCT_ID 0x0002
 #define DEVICE_VER 0x0001
-#define MANUFACTURER Purdea Andrei
-#define PRODUCT modelfkeyboards.com
-#define DESCRIPTION A custom keyboard
+#define MANUFACTURER Tom Wong-Cornall/Ellipse/wcass/Purdea Andrei
+#define PRODUCT modelfkeyboards.com Brand New F62/F77 Model F Keybard by Model F Labs
+#define DESCRIPTION QMK firmware for the modelfkeyboards.com reproduction of the IBM Model F keyboards
 
 /* key matrix size */
 #define MATRIX_ROWS 2
