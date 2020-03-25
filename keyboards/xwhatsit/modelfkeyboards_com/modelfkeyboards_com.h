@@ -26,11 +26,151 @@
  * The second converts the arguments into a two-dimensional array which
  * represents the switch matrix.
  */
-#define LAYOUT( \
-    k00, k01, k02, \
-      k10,  k12    \
+
+// Note: unused columns 10..14 are not listed here. Column 15 is listed here as column 10
+// Note arguments representing the layout are named based on default F77 hhkb split backspace configuration, for other layouts argument naming might not make much sense
+// This was done for ease of implementation.
+
+#define LAYOUT_F77_HHKB_split_shift_split_backspace( \
+    k_esc, k_1, k_2, k_3, k_4, k_5, k_6, k_7, k_8, k_9, k_0, k_minus, k_equals, k_backslash, k_backtick,    k_kp7, k_kp8, k_kp9,\
+    k_tab,   k_q, k_w, k_e, k_r, k_t, k_y, k_u, k_i, k_o, k_p, k_squarebrop, k_squarebrcl,k_backspace,      k_kp4, k_kp5, k_kp6,\
+    k_lctrl,   k_a, k_s, k_d, k_f, k_g, k_h, k_j, k_k, k_l, k_semicolon, k_singlequote, k_return,           k_kp1, k_kp2, k_kp3,\
+    k_lshift,    k_z, k_x, k_c, k_v, k_b, k_n, k_m, k_cm,k_period, k_forwardslash, k_rshift, k_fn,          k_kp0, k_up,  k_kpperdel,\
+    k_caps, k_lgui, k_lalt,         k_space,                 k_ralt                , k_numlock, k_rctrl,    k_left,k_down,k_right\
 ) \
 { \
-    { k00, k01,   k02 }, \
-    { k10, KC_NO, k12 }  \
+    { KC_NO,    k_x,    k_d, k_g,     k_k, k_l,         k_forwardslash, k_rshift,     k_kp0,   k_up,       KC_NO},\
+    { k_lgui,   k_z,    k_c, k_b,     k_n, k_period,    k_ralt,         k_fn,         k_left,  k_kpperdel, KC_NO},\
+    { k_lshift, k_s,    k_f, k_h,     k_j, k_semicolon, k_singlequote,  k_return,     k_kp1,   k_kp3,      KC_NO},\
+    { k_caps,   k_lalt, k_v, k_space, k_m, k_cm,        KC_NO,          k_numlock,    k_rctrl, k_down,     k_right},\
+    { k_esc,    k_q,    k_3, k_5,     k_7, k_9,         k_minus,        k_backslash,  KC_NO,   k_kp8,      KC_NO},\
+    { k_tab,    k_w,    k_r, k_y,     k_i, k_p,         k_squarebrop,   k_squarebrcl, k_kp4,   k_kp6,      KC_NO},\
+    { k_1,      k_2,    k_4, k_6,     k_8, k_0,         k_equals,       k_backtick,   k_kp7,   k_kp9,      KC_NO},\
+    { k_lctrl,  k_a,    k_e, k_t,     k_u, k_o,         KC_NO,          k_backspace,  k_kp2,   k_kp5,      KC_NO}\
+}
+
+#define LAYOUT_all( \
+    k_esc, k_1, k_2, k_3, k_4, k_5, k_6, k_7, k_8, k_9, k_0, k_minus, k_equals, k_backslash, k_backtick,     k_kp7, k_kp8, k_kp9,\
+    k_tab,   k_q, k_w, k_e, k_r, k_t, k_y, k_u, k_i, k_o, k_p, k_squarebrop, k_squarebrcl,k_backspace,       k_kp4, k_kp5, k_kp6,\
+    k_lctrl,   k_a, k_s, k_d, k_f, k_g, k_h, k_j, k_k, k_l, k_semicolon, k_singlequote, k_hashtag, k_return, k_kp1, k_kp2, k_kp3,\
+    k_lshift, k_nonusbs, k_z, k_x, k_c, k_v, k_b, k_n, k_m, k_cm,k_period, k_forwardslash, k_rshift, k_fn,   k_kp0, k_up,  k_kpperdel,\
+    k_caps, k_lgui, k_lalt,         k_space,                 k_ralt                , k_numlock, k_rctrl,     k_left,k_down,k_right\
+) \
+{ \
+    { k_nonusbs,k_x,    k_d, k_g,     k_k, k_l,         k_forwardslash, k_rshift,     k_kp0,   k_up,       KC_NO},\
+    { k_lgui,   k_z,    k_c, k_b,     k_n, k_period,    k_ralt,         k_fn,         k_left,  k_kpperdel, KC_NO},\
+    { k_lshift, k_s,    k_f, k_h,     k_j, k_semicolon, k_singlequote,  k_return,     k_kp1,   k_kp3,      KC_NO},\
+    { k_caps,   k_lalt, k_v, k_space, k_m, k_cm,        KC_NO,          k_numlock,    k_rctrl, k_down,     k_right},\
+    { k_esc,    k_q,    k_3, k_5,     k_7, k_9,         k_minus,        k_backslash,  KC_NO,   k_kp8,      KC_NO},\
+    { k_tab,    k_w,    k_r, k_y,     k_i, k_p,         k_squarebrop,   k_squarebrcl, k_kp4,   k_kp6,      KC_NO},\
+    { k_1,      k_2,    k_4, k_6,     k_8, k_0,         k_equals,       k_backtick,   k_kp7,   k_kp9,      KC_NO},\
+    { k_lctrl,  k_a,    k_e, k_t,     k_u, k_o,         k_hashtag,      k_backspace,  k_kp2,   k_kp5,      KC_NO}\
+}
+
+#define LAYOUT_ISO_UK_NON_HHKB_SPLIT_SHIFT( \
+    k_esc, k_1, k_2, k_3, k_4, k_5, k_6, k_7, k_8, k_9, k_0, k_minus, k_equals, k_backspace,                 k_kp7, k_kp8, k_kp9,\
+    k_tab,   k_q, k_w, k_e, k_r, k_t, k_y, k_u, k_i, k_o, k_p, k_squarebrop, k_squarebrcl, k_return,         k_kp4, k_kp5, k_kp6,\
+    k_lctrl,   k_a, k_s, k_d, k_f, k_g, k_h, k_j, k_k, k_l, k_semicolon, k_singlequote, k_hashtag,           k_kp1, k_kp2, k_kp3,\
+    k_lshift, k_nonusbs, k_z, k_x, k_c, k_v, k_b, k_n, k_m, k_cm,k_period, k_forwardslash, k_rshift, k_fn,   k_kp0, k_up,  k_kpperdel,\
+    k_caps, k_lgui, k_lalt,         k_space,                 k_ralt                , k_numlock, k_rctrl,     k_left,k_down,k_right\
+) \
+{ \
+    { k_nonusbs,k_x,    k_d, k_g,     k_k, k_l,         k_forwardslash, k_rshift,     k_kp0,   k_up,       KC_NO},\
+    { k_lgui,   k_z,    k_c, k_b,     k_n, k_period,    k_ralt,         k_fn,         k_left,  k_kpperdel, KC_NO},\
+    { k_lshift, k_s,    k_f, k_h,     k_j, k_semicolon, k_singlequote,  k_return,     k_kp1,   k_kp3,      KC_NO},\
+    { k_caps,   k_lalt, k_v, k_space, k_m, k_cm,        KC_NO,          k_numlock,    k_rctrl, k_down,     k_right},\
+    { k_esc,    k_q,    k_3, k_5,     k_7, k_9,         k_minus,        KC_NO,        KC_NO,   k_kp8,      KC_NO},\
+    { k_tab,    k_w,    k_r, k_y,     k_i, k_p,         k_squarebrop,   k_squarebrcl, k_kp4,   k_kp6,      KC_NO},\
+    { k_1,      k_2,    k_4, k_6,     k_8, k_0,         k_equals,       k_backspace,  k_kp7,   k_kp9,      KC_NO},\
+    { k_lctrl,  k_a,    k_e, k_t,     k_u, k_o,         k_hashtag,      KC_NO,        k_kp2,   k_kp5,      KC_NO}\
+}
+
+#define LAYOUT_F77_ANSI( \
+    k_esc, k_1, k_2, k_3, k_4, k_5, k_6, k_7, k_8, k_9, k_0, k_minus, k_equals, k_backspace,                k_kp7, k_kp8, k_kp9,\
+    k_tab,   k_q, k_w, k_e, k_r, k_t, k_y, k_u, k_i, k_o, k_p, k_squarebrop, k_squarebrcl,k_backslash,      k_kp4, k_kp5, k_kp6,\
+    k_caps,    k_a, k_s, k_d, k_f, k_g, k_h, k_j, k_k, k_l, k_semicolon, k_singlequote, k_return,           k_kp1, k_kp2, k_kp3,\
+    k_lshift,    k_z, k_x, k_c, k_v, k_b, k_n, k_m, k_cm,k_period, k_forwardslash, k_rshift,                k_kp0, k_up,  k_kpperdel,\
+    k_lctrl, k_lgui, k_lalt,         k_space,                 k_ralt                , k_numlock, k_rctrl,    k_left,k_down,k_right\
+) \
+{ \
+    { KC_NO,    k_x,    k_d, k_g,     k_k, k_l,         k_forwardslash, KC_NO,        k_kp0,   k_up,       KC_NO},\
+    { k_lgui,   k_z,    k_c, k_b,     k_n, k_period,    k_ralt,         k_rshift,     k_left,  k_kpperdel, KC_NO},\
+    { k_lshift, k_s,    k_f, k_h,     k_j, k_semicolon, k_singlequote,  k_return,     k_kp1,   k_kp3,      KC_NO},\
+    { k_lctrl,  k_lalt, k_v, k_space, k_m, k_cm,        KC_NO,          k_numlock,    k_rctrl, k_down,     k_right},\
+    { k_esc,    k_q,    k_3, k_5,     k_7, k_9,         k_minus,        KC_NO,        KC_NO,   k_kp8,      KC_NO},\
+    { k_tab,    k_w,    k_r, k_y,     k_i, k_p,         k_squarebrop,   k_squarebrcl, k_kp4,   k_kp6,      KC_NO},\
+    { k_1,      k_2,    k_4, k_6,     k_8, k_0,         k_equals,       k_backspace,  k_kp7,   k_kp9,      KC_NO},\
+    { k_caps,   k_a,    k_e, k_t,     k_u, k_o,         KC_NO,          k_backslash,  k_kp2,   k_kp5,      KC_NO}\
+}
+
+#define LAYOUT_F62_HHKB_split_shift_split_backspace( \
+    k_esc, k_1, k_2, k_3, k_4, k_5, k_6, k_7, k_8, k_9, k_0, k_minus, k_equals, k_backslash, k_backtick,\
+    k_tab,   k_q, k_w, k_e, k_r, k_t, k_y, k_u, k_i, k_o, k_p, k_squarebrop, k_squarebrcl,k_backspace,\
+    k_lctrl,   k_a, k_s, k_d, k_f, k_g, k_h, k_j, k_k, k_l, k_semicolon, k_singlequote, k_return,\
+    k_lshift,    k_z, k_x, k_c, k_v, k_b, k_n, k_m, k_cm,k_period, k_forwardslash, k_rshift, k_fn,\
+    k_caps, k_lgui, k_lalt,         k_space,                 k_ralt                , k_numlock, k_rctrl\
+) \
+{ \
+    { KC_NO,    k_x,    k_d, k_g,     k_k, k_l,         k_forwardslash, k_rshift,     KC_NO,   KC_NO,      KC_NO},\
+    { k_lgui,   k_z,    k_c, k_b,     k_n, k_period,    k_ralt,         k_fn,         KC_NO,   KC_NO,      KC_NO},\
+    { k_lshift, k_s,    k_f, k_h,     k_j, k_semicolon, k_singlequote,  k_return,     KC_NO,   KC_NO,      KC_NO},\
+    { k_caps,   k_lalt, k_v, k_space, k_m, k_cm,        KC_NO,          k_numlock,    KC_NO,   KC_NO,      k_rctrl},\
+    { k_esc,    k_q,    k_3, k_5,     k_7, k_9,         k_minus,        k_backslash,  KC_NO,   KC_NO,      KC_NO},\
+    { k_tab,    k_w,    k_r, k_y,     k_i, k_p,         k_squarebrop,   k_squarebrcl, KC_NO,   KC_NO,      KC_NO},\
+    { k_1,      k_2,    k_4, k_6,     k_8, k_0,         k_equals,       k_backtick,   KC_NO,   KC_NO,      KC_NO},\
+    { k_lctrl,  k_a,    k_e, k_t,     k_u, k_o,         KC_NO,          k_backspace,  KC_NO,   KC_NO,      KC_NO}\
+}
+
+#define LAYOUT_F62_HHKB_split_shift_regular_backspace( \
+    k_esc, k_1, k_2, k_3, k_4, k_5, k_6, k_7, k_8, k_9, k_0, k_minus, k_equals, k_backspace,\
+    k_tab,   k_q, k_w, k_e, k_r, k_t, k_y, k_u, k_i, k_o, k_p, k_squarebrop, k_squarebrcl,k_backslash,\
+    k_lctrl,   k_a, k_s, k_d, k_f, k_g, k_h, k_j, k_k, k_l, k_semicolon, k_singlequote, k_return,\
+    k_lshift,    k_z, k_x, k_c, k_v, k_b, k_n, k_m, k_cm,k_period, k_forwardslash, k_rshift, k_fn,\
+    k_caps, k_lgui, k_lalt,         k_space,                 k_ralt                , k_numlock, k_rctrl\
+) \
+{ \
+    { KC_NO,    k_x,    k_d, k_g,     k_k, k_l,         k_forwardslash, k_rshift,     KC_NO,   KC_NO,      KC_NO},\
+    { k_lgui,   k_z,    k_c, k_b,     k_n, k_period,    k_ralt,         k_fn,         KC_NO,   KC_NO,      KC_NO},\
+    { k_lshift, k_s,    k_f, k_h,     k_j, k_semicolon, k_singlequote,  k_return,     KC_NO,   KC_NO,      KC_NO},\
+    { k_caps,   k_lalt, k_v, k_space, k_m, k_cm,        KC_NO,          k_numlock,    KC_NO,   KC_NO,      k_rctrl},\
+    { k_esc,    k_q,    k_3, k_5,     k_7, k_9,         k_minus,        KC_NO,        KC_NO,   KC_NO,      KC_NO},\
+    { k_tab,    k_w,    k_r, k_y,     k_i, k_p,         k_squarebrop,   k_squarebrcl, KC_NO,   KC_NO,      KC_NO},\
+    { k_1,      k_2,    k_4, k_6,     k_8, k_0,         k_equals,       k_backspace,  KC_NO,   KC_NO,      KC_NO},\
+    { k_lctrl,  k_a,    k_e, k_t,     k_u, k_o,         KC_NO,          k_backslash,  KC_NO,   KC_NO,      KC_NO}\
+}
+
+#define LAYOUT_F62_ANSI_split_backspace( \
+    k_esc, k_1, k_2, k_3, k_4, k_5, k_6, k_7, k_8, k_9, k_0, k_minus, k_equals, k_backtick, k_backspace,\
+    k_tab,   k_q, k_w, k_e, k_r, k_t, k_y, k_u, k_i, k_o, k_p, k_squarebrop, k_squarebrcl, k_backslash,\
+    k_caps,   k_a, k_s, k_d, k_f, k_g, k_h, k_j, k_k, k_l, k_semicolon, k_singlequote, k_return,\
+    k_lshift,    k_z, k_x, k_c, k_v, k_b, k_n, k_m, k_cm,k_period, k_forwardslash, k_rshift,\
+    k_lctrl, k_lgui, k_lalt,         k_space,                 k_ralt                , k_numlock, k_fn\
+) \
+{ \
+    { KC_NO,    k_x,    k_d, k_g,     k_k, k_l,         k_forwardslash, KC_NO,        KC_NO,   KC_NO,      KC_NO},\
+    { k_lgui,   k_z,    k_c, k_b,     k_n, k_period,    k_ralt,         k_rshift,     KC_NO,   KC_NO,      KC_NO},\
+    { k_lshift, k_s,    k_f, k_h,     k_j, k_semicolon, k_singlequote,  k_return,     KC_NO,   KC_NO,      KC_NO},\
+    { k_lctrl,  k_lalt, k_v, k_space, k_m, k_cm,        KC_NO,          k_numlock,    KC_NO,   KC_NO,      k_fn},\
+    { k_esc,    k_q,    k_3, k_5,     k_7, k_9,         k_minus,        k_backtick,   KC_NO,   KC_NO,      KC_NO},\
+    { k_tab,    k_w,    k_r, k_y,     k_i, k_p,         k_squarebrop,   k_squarebrcl, KC_NO,   KC_NO,      KC_NO},\
+    { k_1,      k_2,    k_4, k_6,     k_8, k_0,         k_equals,       k_backspace,  KC_NO,   KC_NO,      KC_NO},\
+    { k_caps,   k_a,    k_e, k_t,     k_u, k_o,         KC_NO,          k_backslash,  KC_NO,   KC_NO,      KC_NO}\
+}
+
+#define LAYOUT_F62_ANSI_regular_backspace( \
+    k_esc, k_1, k_2, k_3, k_4, k_5, k_6, k_7, k_8, k_9, k_0, k_minus, k_equals, k_backspace,\
+    k_tab,   k_q, k_w, k_e, k_r, k_t, k_y, k_u, k_i, k_o, k_p, k_squarebrop, k_squarebrcl, k_backslash,\
+    k_caps,   k_a, k_s, k_d, k_f, k_g, k_h, k_j, k_k, k_l, k_semicolon, k_singlequote, k_return,\
+    k_lshift,    k_z, k_x, k_c, k_v, k_b, k_n, k_m, k_cm,k_period, k_forwardslash, k_rshift,\
+    k_lctrl, k_lgui, k_lalt,         k_space,                 k_ralt                , k_numlock, k_fn\
+) \
+{ \
+    { KC_NO,    k_x,    k_d, k_g,     k_k, k_l,         k_forwardslash, KC_NO,        KC_NO,   KC_NO,      KC_NO},\
+    { k_lgui,   k_z,    k_c, k_b,     k_n, k_period,    k_ralt,         k_rshift,     KC_NO,   KC_NO,      KC_NO},\
+    { k_lshift, k_s,    k_f, k_h,     k_j, k_semicolon, k_singlequote,  k_return,     KC_NO,   KC_NO,      KC_NO},\
+    { k_lctrl,  k_lalt, k_v, k_space, k_m, k_cm,        KC_NO,          k_numlock,    KC_NO,   KC_NO,      k_fn},\
+    { k_esc,    k_q,    k_3, k_5,     k_7, k_9,         k_minus,        KC_NO,        KC_NO,   KC_NO,      KC_NO},\
+    { k_tab,    k_w,    k_r, k_y,     k_i, k_p,         k_squarebrop,   k_squarebrcl, KC_NO,   KC_NO,      KC_NO},\
+    { k_1,      k_2,    k_4, k_6,     k_8, k_0,         k_equals,       k_backspace,  KC_NO,   KC_NO,      KC_NO},\
+    { k_caps,   k_a,    k_e, k_t,     k_u, k_o,         KC_NO,          k_backslash,  KC_NO,   KC_NO,      KC_NO}\
 }
