@@ -153,8 +153,7 @@ void test_col_print_data(uint8_t col)
     print("\n");
 }
 
-void matrix_init_custom(void) {
-    // TODO: initialize hardware here
+void test_v1(void) {
     int i;
     for (i=7;i>0;i--) {
         uprintf("Starting test in %d\n", i);
@@ -180,6 +179,10 @@ void matrix_init_custom(void) {
     }
     uprintf("TEST DONE\n");
     while(1);
+}
+
+void matrix_init_custom(void) {
+    test_v1();
 }
 
 bool matrix_scan_custom(matrix_row_t current_matrix[]) {
