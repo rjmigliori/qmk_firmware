@@ -30,7 +30,7 @@
 
 #define REPS 15
 
-inline uint8_t read_rows(void)
+static inline uint8_t read_rows(void)
 {
     uint8_t pc = PINC;
     uint8_t pd = PIND;
