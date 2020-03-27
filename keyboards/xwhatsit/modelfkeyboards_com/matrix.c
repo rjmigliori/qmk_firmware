@@ -38,7 +38,7 @@
 #define READ_ROWS_PIN_1 _SFR_IO_ADDR(PINC)
 #define READ_ROWS_PIN_2 _SFR_IO_ADDR(PIND)
 #define READ_ROWS_ASM_INSTRUCTIONS "in %[dest_row_1], %[ioreg_row_1]\n\tin %[dest_row_2], %[ioreg_row_2]"
-#define READ_ROWS_OUTPUT_CONSTRAINTS [dest_row_1] "=r" (dest_row_1), [dest_row_2] "=r" (dest_row_2)
+#define READ_ROWS_OUTPUT_CONSTRAINTS [dest_row_1] "=&r" (dest_row_1), [dest_row_2] "=&r" (dest_row_2)
 #define READ_ROWS_INPUT_CONSTRAINTS [ioreg_row_1] "I" (READ_ROWS_PIN_1), [ioreg_row_2] "I" (READ_ROWS_PIN_2)
 #define READ_ROWS_LOCAL_VARS uint8_t dest_row_1, dest_row_2
 #define READ_ROWS_VALUE ((dest_row_1 >> 4) | (dest_row_2 << 4))
@@ -101,8 +101,6 @@ void shift_select_col_no_strobe(uint8_t col)
         writePin(SHIFT_SHCP, 1);
         writePin(SHIFT_SHCP, 0);
     }
-    writePin(SHIFT_STCP, 1);
-    writePin(SHIFT_STCP, 0);
 }
 
 static inline void shift_select_col(uint8_t col)
@@ -163,6 +161,8 @@ void test_multiple(uint8_t col, uint16_t time, uint8_t *array)
         dest_row_2 = array[p0++];
         array[p1++] = READ_ROWS_VALUE;
     }
+    shift_select_nothing();
+    wait_us(KEYBOARD_SETTLE_TIME_US);
 }
 
 uint8_t test_single(uint8_t col, uint16_t time)
@@ -195,6 +195,8 @@ uint8_t test_single(uint8_t col, uint16_t time)
         READ_ROWS_INPUT_CONSTRAINTS,
         "0" (arrayp)
       : "memory" );
+    shift_select_nothing();
+    wait_us(KEYBOARD_SETTLE_TIME_US);
     return READ_ROWS_VALUE;
 }
 
@@ -221,7 +223,7 @@ void test_col_print_data(uint8_t col)
     uint8_t data[16];
     uint8_t sums[(16+1) * 8];
     uint8_t i;
-    for (i=0;i<sizeof(sums);i++)
+    for (i=0;i<(sizeof(sums)/sizeof(sums[0]));i++)
     {
         sums[i] = 0;
     }
@@ -260,6 +262,80 @@ void test_col_print_data(uint8_t col)
     print("\n");
 }
 
+#define NRTIMES 128
+#define TESTATONCE 8
+#define REPS_V2 15
+void test_col_print_data_v2(uint8_t col)
+{
+    uprintf("%d: ", col);
+    static uint8_t data[NRTIMES*2];
+    static uint8_t sums[(TESTATONCE+1) * 8];
+    uint8_t to_time = NRTIMES-1;
+    uint8_t from_time = 0;
+    while (from_time<NRTIMES-1)
+    {
+        if (to_time - from_time + 1 > TESTATONCE)
+        {
+            to_time = from_time + TESTATONCE - 1;
+        }
+        uint8_t curr_TESTATONCE = to_time - from_time + 1;
+        uint8_t i;
+        for (i=0;i<(sizeof(sums)/sizeof(sums[0]));i++)
+        {
+            sums[i] = 0;
+        }
+        for (i=0;i<REPS_V2;i++)
+        {
+            uint8_t st = read_rows();
+            test_multiple(col, to_time, data);
+            uint8_t j;
+            uint8_t ii = 0;
+            uint8_t k;
+            for (j=0;j<curr_TESTATONCE;j++)
+            {
+                uint8_t dataj = data[j + from_time];
+                for (k=0; k<8;k++)
+                {
+                    sums[ii] += (dataj & 1);
+                    dataj >>= 1;
+                    ii += 1;
+                }
+            }
+            if (from_time == 0) {
+                ii = TESTATONCE * 8;
+                for (k=0; k<8;k++)
+                {
+                    sums[ii] += (st & 1);
+                    st >>= 1;
+                    ii += 1;
+                }
+            }
+        }
+        if (from_time == 0) {
+            for (i=TESTATONCE*8;i<(TESTATONCE+1)*8;i++) {
+                if (sums[i] > 0xf) {
+                    print("?");
+                } else {
+                    uprintf("%X", sums[i]);
+                }
+            }
+            print(":");
+        }
+        for (i=0;i<curr_TESTATONCE*8;i++)
+        {
+            if (sums[i] > 0xf) {
+                print("?");
+            } else {
+                uprintf("%X", sums[i]);
+            }
+        }
+        from_time = to_time + 1;
+        to_time = NRTIMES - 1;
+    }
+    print("\n");
+}
+
+
 void test_v1(void) {
     int i;
     for (i=7;i>0;i--) {
@@ -288,6 +364,43 @@ void test_v1(void) {
     while(1);
 }
 
+void test_v2(void) {
+    int i;
+    for (i=7;i>0;i--) {
+        uprintf("Starting test in %d\n", i);
+        wait_ms(1000);
+    }
+    uprintf("shift_init()");
+    shift_init();
+    uprintf(" DONE\n");
+    uprintf("dac_init()");
+    dac_init();
+    uprintf(" DONE\n");
+    int d;
+    for (d=90;d<=260;d++)
+    {
+        uprintf("Testing threshold: %d\n", d);
+        dac_write_threshold(d);
+        #if 1
+            int c;
+            for (c=0; c<10;c++)
+            {
+                test_col_print_data_v2(c);
+            }
+            test_col_print_data_v2(15);
+        #else
+            test_col_print_data_v2(0);
+            test_col_print_data_v2(2);
+            test_col_print_data_v2(6);
+            test_col_print_data_v2(7);
+            test_col_print_data_v2(15);
+        #endif
+    }
+    uprintf("TEST DONE\n");
+    while(1);
+}
+
+
 void real_keyboard_init_basic(void)
 {
     uprintf("shift_init()");
@@ -301,6 +414,7 @@ void real_keyboard_init_basic(void)
 
 void matrix_init_custom(void) {
     //test_v1();
+    test_v2();
     real_keyboard_init_basic();
 }
 
