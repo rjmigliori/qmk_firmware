@@ -194,17 +194,40 @@ void test_v1(void) {
     while(1);
 }
 
+void real_keyboard_init_basic(void)
+{
+    uprintf("shift_init()");
+    shift_init();
+    uprintf(" DONE\n");
+    uprintf("dac_init()");
+    dac_init();
+    uprintf(" DONE\n");
+    dac_write_threshold(569);
+}
+
 void matrix_init_custom(void) {
-    test_v1();
+    //test_v1();
+    real_keyboard_init_basic();
 }
 
 bool matrix_scan_custom(matrix_row_t current_matrix[]) {
-    bool matrix_has_changed = false;
-/*    current_matrix[0] ^= 1;
-    uprintf("test %d\n", current_matrix[0]);
-    bool matrix_has_changed = true;
-*/
-    // TODO: add matrix scanning routine here
-
-    return matrix_has_changed;
+    uint8_t col;
+    uint8_t row;
+    for (row=0;row<8;row++)
+    {
+        current_matrix[row] = 0;
+    }
+    for (col=0;col<11;col++)
+    {
+        if (col == 10) col = 15;
+        uint8_t data[16];
+        test_col(col, data);
+        uint8_t d = data[1];
+        for (row=0;row<8;row++)
+        {
+            current_matrix[7-row] |= ((d & 1) << col);
+            d >>= 1;
+        }
+    }
+    return true;
 }
