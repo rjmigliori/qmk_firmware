@@ -224,10 +224,10 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
         if (col == 10) real_col = 15;
         uint8_t data[16];
         test_col(real_col, data);
-        uint8_t d = data[1];
+        uint8_t d = data[2];
         for (row=0;row<8;row++)
         {
-            current_matrix[7-row] |= ((d & 1) << col);
+            current_matrix[7-row] |= (((uint16_t)(d & 1)) << col);
             d >>= 1;
         }
     }
