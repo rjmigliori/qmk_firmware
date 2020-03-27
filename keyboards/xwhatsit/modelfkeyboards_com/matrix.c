@@ -211,9 +211,12 @@ void matrix_init_custom(void) {
     real_keyboard_init_basic();
 }
 
+uint8_t previous_raw_matrix[11];
+
 bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     uint8_t col;
     uint8_t row;
+    bool changed = false;
     for (row=0;row<8;row++)
     {
         current_matrix[row] = 0;
@@ -225,11 +228,13 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
         uint8_t data[16];
         test_col(real_col, data);
         uint8_t d = data[2];
+        if (previous_raw_matrix[col] != d) changed = true;
+        previous_raw_matrix[col] = d;
         for (row=0;row<8;row++)
         {
             current_matrix[7-row] |= (((uint16_t)(d & 1)) << col);
             d >>= 1;
         }
     }
-    return true;
+    return changed;
 }
