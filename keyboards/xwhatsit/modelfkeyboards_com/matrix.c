@@ -220,9 +220,10 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     }
     for (col=0;col<11;col++)
     {
-        if (col == 10) col = 15;
+        uint8_t real_col = col;
+        if (col == 10) real_col = 15;
         uint8_t data[16];
-        test_col(col, data);
+        test_col(real_col, data);
         uint8_t d = data[1];
         for (row=0;row<8;row++)
         {
