@@ -104,9 +104,10 @@ void shift_init(void)
 }
 
 
-void test_col(uint8_t col, uint8_t *array)
+uint8_t test_col(uint8_t col, uint8_t *array)
 {
     cli();
+    uint8_t starting_state = read_rows();
     shift_select_col(col);
     int i;
     for (i=0;i<16;i++)
@@ -117,27 +118,28 @@ void test_col(uint8_t col, uint8_t *array)
     sei();
     shift_select_nothing();
     wait_us(KEYBOARD_SETTLE_TIME_US);
+    return starting_state;
 }
 
 void test_col_print_data(uint8_t col)
 {
     uprintf("%d: ", col);
     uint8_t data[16];
-    uint8_t sums[16 * 8];
+    uint8_t sums[(16+1) * 8];
     uint8_t i;
-    for (i=0;i<16*8;i++)
+    for (i=0;i<sizeof(sums);i++)
     {
         sums[i] = 0;
     }
     for (i=0;i<REPS;i++)
     {
-        test_col(col, data);
+        uint8_t st = test_col(col, data);
         uint8_t j;
         uint8_t ii = 0;
+        uint8_t k;
         for (j=0;j<16;j++)
         {
             uint8_t dataj = data[j];
-            uint8_t k;
             for (k=0; k<8;k++)
             {
                 sums[ii] += (dataj & 1);
@@ -145,7 +147,18 @@ void test_col_print_data(uint8_t col)
                 ii += 1;
             }
         }
+        for (k=0; k<8;k++)
+        {
+            sums[ii] += (st & 1);
+            st >>= 1;
+            ii += 1;
+        }
     }
+    for (i=16*8;i<17*8;i++)
+    {
+        uprintf("%X", sums[i]);
+    }
+    print(":");
     for (i=0;i<16*8;i++)
     {
         uprintf("%X", sums[i]);
