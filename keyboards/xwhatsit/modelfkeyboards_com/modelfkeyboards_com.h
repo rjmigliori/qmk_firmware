@@ -67,7 +67,7 @@
     { k_lctrl,  k_a,    k_e, k_t,     k_u, k_o,         k_hashtag,      k_backspace,  k_kp2,   k_kp5,      KC_NO}\
 }
 
-#define LAYOUT_ISO_UK_NON_HHKB_SPLIT_SHIFT( \
+#define LAYOUT_F77_ISO_UK_NON_HHKB_SPLIT_SHIFT( \
     k_esc, k_1, k_2, k_3, k_4, k_5, k_6, k_7, k_8, k_9, k_0, k_minus, k_equals, k_backspace,                 k_kp7, k_kp8, k_kp9,\
     k_tab,   k_q, k_w, k_e, k_r, k_t, k_y, k_u, k_i, k_o, k_p, k_squarebrop, k_squarebrcl, k_return,         k_kp4, k_kp5, k_kp6,\
     k_lctrl,   k_a, k_s, k_d, k_f, k_g, k_h, k_j, k_k, k_l, k_semicolon, k_singlequote, k_hashtag,           k_kp1, k_kp2, k_kp3,\
