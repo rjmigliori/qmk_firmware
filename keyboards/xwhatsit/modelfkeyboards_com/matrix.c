@@ -140,9 +140,9 @@ void test_col_print_data(uint8_t col)
             uint8_t k;
             for (k=0; k<8;k++)
             {
-                ii += 1;
                 sums[ii] += (dataj & 1);
                 dataj >>= 1;
+                ii += 1;
             }
         }
     }
