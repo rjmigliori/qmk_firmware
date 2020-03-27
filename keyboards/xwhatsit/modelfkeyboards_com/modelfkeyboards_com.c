@@ -16,6 +16,12 @@
 
 #include "modelfkeyboards_com.h"
 
+void keyboard_post_init_kb(void)
+{
+    debug_enable=true;
+    debug_matrix=true;
+}
+
 // Optional override functions below.
 // You can leave any or all of these undefined.
 // These are only required if you want to perform custom actions.
