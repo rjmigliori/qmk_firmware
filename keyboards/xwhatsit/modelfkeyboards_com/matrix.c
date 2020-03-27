@@ -50,6 +50,7 @@ void dac_init(void)
 
 void dac_write_threshold(uint16_t value)
 {
+    value <<= 2; // The two LSB bits of this DAC are don't care.
     writePin(DAC_SYNC_N, 0);
     int i;
     for (i=0;i<16;i++)
@@ -202,7 +203,7 @@ void real_keyboard_init_basic(void)
     uprintf("dac_init()");
     dac_init();
     uprintf(" DONE\n");
-    dac_write_threshold(569);
+    dac_write_threshold(142);
 }
 
 void matrix_init_custom(void) {
