@@ -22,19 +22,32 @@
 
 #define SHIFT_DIN  D4
 #define SHIFT_OE   D5
-#define SHIFT_STCP D6
 #define SHIFT_SHCP D7
+#define SHIFT_STCP D6
+#define SHIFT_STCP_IO _SFR_IO_ADDR(PORTD)
+#define SHIFT_STCP_BIT 6
 
 #define KEYBOARD_SETTLE_TIME_US 8
 #define DAC_SETTLE_TIME_US 8
 
 #define REPS 15
 
+// the following black magic ensures, that no matter how you optimize your C code, the reads can be done in a controlled time manner.
+//#define READ_ROWS_PIN_1 ((uint8_t)(((uint16_t)&PINC) - 0x20))
+//#define READ_ROWS_PIN_2 ((uint8_t)(((uint16_t)&PIND) - 0x20))
+#define READ_ROWS_PIN_1 _SFR_IO_ADDR(PINC)
+#define READ_ROWS_PIN_2 _SFR_IO_ADDR(PIND)
+#define READ_ROWS_ASM_INSTRUCTIONS "in %[dest_row_1], %[ioreg_row_1]\n\tin %[dest_row_2], %[ioreg_row_2]"
+#define READ_ROWS_OUTPUT_CONSTRAINTS [dest_row_1] "=r" (dest_row_1), [dest_row_2] "=r" (dest_row_2)
+#define READ_ROWS_INPUT_CONSTRAINTS [ioreg_row_1] "I" (READ_ROWS_PIN_1), [ioreg_row_2] "I" (READ_ROWS_PIN_2)
+#define READ_ROWS_LOCAL_VARS uint8_t dest_row_1, dest_row_2
+#define READ_ROWS_VALUE ((dest_row_1 >> 4) | (dest_row_2 << 4))
+
 static inline uint8_t read_rows(void)
 {
-    uint8_t pc = PINC;
-    uint8_t pd = PIND;
-    return (pc >> 4) | (pd << 4);
+    READ_ROWS_LOCAL_VARS;
+    asm volatile (READ_ROWS_ASM_INSTRUCTIONS : READ_ROWS_OUTPUT_CONSTRAINTS : READ_ROWS_INPUT_CONSTRAINTS);
+    return READ_ROWS_VALUE;
 }
 
 void dac_init(void)
@@ -79,7 +92,7 @@ void shift_select_nothing(void)
     writePin(SHIFT_STCP, 0);
 }
 
-void shift_select_col(uint8_t col)
+void shift_select_col_no_strobe(uint8_t col)
 {
     int i;
     for (i=15; i>=0; i--)
@@ -88,6 +101,13 @@ void shift_select_col(uint8_t col)
         writePin(SHIFT_SHCP, 1);
         writePin(SHIFT_SHCP, 0);
     }
+    writePin(SHIFT_STCP, 1);
+    writePin(SHIFT_STCP, 0);
+}
+
+static inline void shift_select_col(uint8_t col)
+{
+    shift_select_col_no_strobe(col);
     writePin(SHIFT_STCP, 1);
     writePin(SHIFT_STCP, 0);
 }
@@ -104,6 +124,79 @@ void shift_init(void)
     wait_us(KEYBOARD_SETTLE_TIME_US);
 }
 
+// the following function requires storage for 2 * (time + 1) bytes
+// but returns valid data only in the first (time + 1) bytes
+void test_multiple(uint8_t col, uint16_t time, uint8_t *array)
+{
+    shift_select_col_no_strobe(col);
+    uint16_t index;
+    READ_ROWS_LOCAL_VARS;
+    uint8_t *arrayp = array;
+    asm volatile (
+             "ldi %A[index], 0"                 "\n\t"
+             "ldi %B[index], 0"                 "\n\t"
+             "cli"                              "\n\t"
+             "sbi %[stcp_regaddr], %[stcp_bit]" "\n\t"
+        "1:" READ_ROWS_ASM_INSTRUCTIONS         "\n\t"
+             "st %a[arr]+, %[dest_row_1]"       "\n\t"
+             "st %a[arr]+, %[dest_row_2]"       "\n\t"
+             "adiw %A[index], 0x01"             "\n\t"
+             "cp %A[index], %A[time]"           "\n\t"
+             "cpc %B[index], %B[time]"          "\n\t"
+             "brlo 1b"                          "\n\t"
+             "sei"                              "\n\t"
+             "cbi %[stcp_regaddr], %[stcp_bit]" "\n\t"
+      : [arr] "=e" (arrayp),
+        [index] "=&w" (index),
+        READ_ROWS_OUTPUT_CONSTRAINTS
+      : [time] "r" (time + 1),
+        [stcp_regaddr] "I" (SHIFT_STCP_IO),
+        [stcp_bit] "I" (SHIFT_STCP_BIT),
+        READ_ROWS_INPUT_CONSTRAINTS,
+        "0" (arrayp)
+      : "memory" );
+    uint16_t i, p0, p1;
+    p0 = p1 = 0;
+    for (i=0; i<=time; i++)
+    {
+        dest_row_1 = array[p0++];
+        dest_row_2 = array[p0++];
+        array[p1++] = READ_ROWS_VALUE;
+    }
+}
+
+uint8_t test_single(uint8_t col, uint16_t time)
+{
+    shift_select_col_no_strobe(col);
+    uint16_t index;
+    READ_ROWS_LOCAL_VARS;
+    uint8_t dummy_data;
+    uint8_t *arrayp = &dummy_data;
+    asm volatile (
+             "ldi %A[index], 0"                 "\n\t"
+             "ldi %B[index], 0"                 "\n\t"
+             "cli"                              "\n\t"
+             "sbi %[stcp_regaddr], %[stcp_bit]" "\n\t"
+        "1:" READ_ROWS_ASM_INSTRUCTIONS         "\n\t"
+             "st %a[arr], %[dest_row_1]"       "\n\t"
+             "st %a[arr], %[dest_row_2]"       "\n\t"
+             "adiw %A[index], 0x01"             "\n\t"
+             "cp %A[index], %A[time]"           "\n\t"
+             "cpc %B[index], %B[time]"          "\n\t"
+             "brlo 1b"                          "\n\t"
+             "sei"                              "\n\t"
+             "cbi %[stcp_regaddr], %[stcp_bit]" "\n\t"
+      : [arr] "=e" (arrayp),
+        [index] "=&w" (index),
+        READ_ROWS_OUTPUT_CONSTRAINTS
+      : [time] "r" (time + 1),
+        [stcp_regaddr] "I" (SHIFT_STCP_IO),
+        [stcp_bit] "I" (SHIFT_STCP_BIT),
+        READ_ROWS_INPUT_CONSTRAINTS,
+        "0" (arrayp)
+      : "memory" );
+    return READ_ROWS_VALUE;
+}
 
 uint8_t test_col(uint8_t col, uint8_t *array)
 {
