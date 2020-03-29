@@ -400,6 +400,70 @@ void test_v2(void) {
     while(1);
 }
 
+#define TRACKING_TEST_TIME 4
+// Key 1 is the always non-pressed key under the space bar to the right.
+#define TRACKING_KEY_1_COL 6
+#define TRACKING_KEY_1_ROW 4
+// Key 2 is the always-pressed calibration pad to the far right-bottom of the keyboard. (both on F62 and F77)
+#define TRACKING_KEY_2_COL 15
+#define TRACKING_KEY_2_ROW 6
+// Key 3 is the F key
+#define TRACKING_KEY_3_COL 2
+#define TRACKING_KEY_3_ROW 5
+// Key 4 is the half of the split backspace that is unused if the user has a normal backspace.
+#define TRACKING_KEY_4_COL 7
+#define TRACKING_KEY_4_ROW 3
+// Key 5 is hidden key next to the left shift, which is only used in ISO layouts.
+#define TRACKING_KEY_5_COL 0
+#define TRACKING_KEY_5_ROW 7
+
+#define TRACKING_REPS 16
+
+static uint16_t measure_middle(uint8_t col, uint8_t row, uint8_t time)
+{
+    uint16_t min = 0, max = 1023;
+    while (min < max)
+    {
+        uint16_t mid = (min + max) / 2;
+        dac_write_threshold(mid);
+        uint8_t sum = 0;
+        uint8_t i;
+        for (i=0;i<TRACKING_REPS;i++)
+        {
+            sum += (test_single(col, time) >> row) & 1;
+        }
+        if (sum < (TRACKING_REPS/2))
+        {
+            max = mid - 1;
+        } else if (sum > (TRACKING_REPS/2)) {
+            min = mid + 1;
+        } else return mid;
+    }
+    return min;
+}
+
+void tracking_test(void)
+{
+    int i;
+    for (i=7;i>0;i--) {
+        uprintf("Starting test in %d\n", i);
+        wait_ms(1000);
+    }
+    uprintf("shift_init()");
+    shift_init();
+    uprintf(" DONE\n");
+    uprintf("dac_init()");
+    dac_init();
+    uprintf(" DONE\n");
+    while (1) {
+        uint16_t key1 = measure_middle(TRACKING_KEY_1_COL, TRACKING_KEY_1_ROW, TRACKING_TEST_TIME);
+        uint16_t key2 = measure_middle(TRACKING_KEY_2_COL, TRACKING_KEY_2_ROW, TRACKING_TEST_TIME);
+        uint16_t key3 = measure_middle(TRACKING_KEY_3_COL, TRACKING_KEY_3_ROW, TRACKING_TEST_TIME);
+        uint16_t key4 = measure_middle(TRACKING_KEY_4_COL, TRACKING_KEY_4_ROW, TRACKING_TEST_TIME);
+        uint16_t key5 = measure_middle(TRACKING_KEY_5_COL, TRACKING_KEY_5_ROW, TRACKING_TEST_TIME);
+        uprintf("%u, %u, %u, %u, %u\n", key1, key2, key3, key4, key5);
+    }
+}
 
 void real_keyboard_init_basic(void)
 {
@@ -417,6 +481,7 @@ void real_keyboard_init_basic(void)
 void matrix_init_custom(void) {
     //test_v1();
     //test_v2();
+    //tracking_test();
     real_keyboard_init_basic();
 }
 
