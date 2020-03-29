@@ -410,11 +410,13 @@ void real_keyboard_init_basic(void)
     dac_init();
     uprintf(" DONE\n");
     dac_write_threshold(142);
+    dac_write_threshold(142);
+    dac_write_threshold(142);
 }
 
 void matrix_init_custom(void) {
     //test_v1();
-    test_v2();
+    //test_v2();
     real_keyboard_init_basic();
 }
 
@@ -432,9 +434,7 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     {
         uint8_t real_col = col;
         if (col == 10) real_col = 15;
-        uint8_t data[16];
-        test_col(real_col, data);
-        uint8_t d = data[2];
+        uint8_t d = test_single(real_col, 4);
         if (previous_raw_matrix[col] != d) changed = true;
         previous_raw_matrix[col] = d;
         for (row=0;row<8;row++)
