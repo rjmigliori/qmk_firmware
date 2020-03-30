@@ -30,6 +30,8 @@
 #define KEYBOARD_SETTLE_TIME_US 8
 #define DAC_SETTLE_TIME_US 8
 
+#define HARDCODED_SAMPLE_TIME 4
+
 #define REPS 15
 
 // the following black magic ensures, that no matter how you optimize your C code, the reads can be done in a controlled time manner.
@@ -419,8 +421,9 @@ void test_v2(void) {
 
 #define TRACKING_REPS 16
 
-static uint16_t measure_middle(uint8_t col, uint8_t row, uint8_t time)
+static uint16_t measure_middle(uint8_t col, uint8_t row, uint8_t time, uint8_t reps)
 {
+    uint8_t reps_div2 = reps / 2;
     uint16_t min = 0, max = 1023;
     while (min < max)
     {
@@ -428,14 +431,14 @@ static uint16_t measure_middle(uint8_t col, uint8_t row, uint8_t time)
         dac_write_threshold(mid);
         uint8_t sum = 0;
         uint8_t i;
-        for (i=0;i<TRACKING_REPS;i++)
+        for (i=0;i<reps;i++)
         {
             sum += (test_single(col, time) >> row) & 1;
         }
-        if (sum < (TRACKING_REPS/2))
+        if (sum < reps_div2)
         {
             max = mid - 1;
-        } else if (sum > (TRACKING_REPS/2)) {
+        } else if (sum > reps_div2) {
             min = mid + 1;
         } else return mid;
     }
@@ -456,12 +459,117 @@ void tracking_test(void)
     dac_init();
     uprintf(" DONE\n");
     while (1) {
-        uint16_t key1 = measure_middle(TRACKING_KEY_1_COL, TRACKING_KEY_1_ROW, TRACKING_TEST_TIME);
-        uint16_t key2 = measure_middle(TRACKING_KEY_2_COL, TRACKING_KEY_2_ROW, TRACKING_TEST_TIME);
-        uint16_t key3 = measure_middle(TRACKING_KEY_3_COL, TRACKING_KEY_3_ROW, TRACKING_TEST_TIME);
-        uint16_t key4 = measure_middle(TRACKING_KEY_4_COL, TRACKING_KEY_4_ROW, TRACKING_TEST_TIME);
-        uint16_t key5 = measure_middle(TRACKING_KEY_5_COL, TRACKING_KEY_5_ROW, TRACKING_TEST_TIME);
+        uint16_t key1 = measure_middle(TRACKING_KEY_1_COL, TRACKING_KEY_1_ROW, TRACKING_TEST_TIME, TRACKING_REPS);
+        uint16_t key2 = measure_middle(TRACKING_KEY_2_COL, TRACKING_KEY_2_ROW, TRACKING_TEST_TIME, TRACKING_REPS);
+        uint16_t key3 = measure_middle(TRACKING_KEY_3_COL, TRACKING_KEY_3_ROW, TRACKING_TEST_TIME, TRACKING_REPS);
+        uint16_t key4 = measure_middle(TRACKING_KEY_4_COL, TRACKING_KEY_4_ROW, TRACKING_TEST_TIME, TRACKING_REPS);
+        uint16_t key5 = measure_middle(TRACKING_KEY_5_COL, TRACKING_KEY_5_ROW, TRACKING_TEST_TIME, TRACKING_REPS);
         uprintf("%u, %u, %u, %u, %u\n", key1, key2, key3, key4, key5);
+    }
+}
+
+#define KEYMAP_ROW_TO_PHYSICAL_ROW(row) (7-(row))
+#define PHYSICAL_ROW_TO_KEYMAP_ROW(row) (7-(row))
+#define KEYMAP_COL_TO_PHYSICAL_COL(col) (((col) == 10)?15:(col))
+
+uint16_t calibration_measure_all_valid_keys(uint8_t time, uint8_t reps, bool looking_for_all_zero)
+{
+    uint16_t min = 0, max = 1023;
+    while (min < max)
+    {
+        uint16_t mid = (min + max) / 2;
+        if (!looking_for_all_zero) {
+            mid = (min + max + 1) / 2;
+        }
+        dac_write_threshold(mid);
+        uint8_t col;
+        for (col = 0; col < MATRIX_COLS; col++)
+        {
+            uint8_t valid_physical_rows = 0;
+            uint8_t row;
+            for (row=0; row < MATRIX_ROWS; row++)
+            {
+                if (pgm_read_byte(&keymaps[0][row][col]) != KC_NO)
+                {
+                    valid_physical_rows |= (1 << KEYMAP_ROW_TO_PHYSICAL_ROW(row)); // convert keymap row to physical row
+                }
+            }
+            uint8_t physical_col = KEYMAP_COL_TO_PHYSICAL_COL(col);
+            uint8_t i;
+            for (i=0;i<reps;i++) {
+                if (looking_for_all_zero)
+                {
+                    uint8_t all_zero = (test_single(physical_col, time) & valid_physical_rows) == 0;
+                    if (!all_zero) {
+                        min = mid + 1;
+                        goto next_binary_search;
+                    }
+                } else {
+                    uint8_t all_ones = (test_single(physical_col, time) & valid_physical_rows) == valid_physical_rows;
+                    if (!all_ones) {
+                        max = mid - 1;
+                        goto next_binary_search;
+                    }
+                }
+            }
+        }
+        if (looking_for_all_zero) {
+            max = mid;
+        } else {
+            min = mid;
+        }
+        next_binary_search:;
+    }
+    return min;
+}
+
+#define CAL_ENABLED
+#define CAL_DEBUG
+#define CAL_INIT_REPS 16
+#define CAL_EACHKEY_REPS 16
+#define CAL_BINS 3
+#define CAL_THRESHOLD_OFFSET 12
+
+uint16_t cal_thresholds[CAL_BINS];
+matrix_row_t assigned_to_threshold[CAL_BINS][MATRIX_ROWS];
+uint16_t cal_tr_allzero;
+uint16_t cal_tr_allone;
+
+void calibration(void)
+{
+    cal_tr_allzero = calibration_measure_all_valid_keys(HARDCODED_SAMPLE_TIME, CAL_INIT_REPS, true);
+    cal_tr_allone = calibration_measure_all_valid_keys(HARDCODED_SAMPLE_TIME, CAL_INIT_REPS, false);
+    uint16_t max = (cal_tr_allzero == 0) ? 0 : (cal_tr_allzero - 1);
+    uint16_t min = cal_tr_allone + 1;
+    if (max < min) max = min;
+    uint16_t d = max - min;
+    uint8_t i;
+    for (i=0;i<CAL_BINS;i++) {
+        cal_thresholds[i] = min + (d * (2 * i + 1)) / 2 / CAL_BINS;
+    }
+    uint8_t col;
+    for (col = 0; col < MATRIX_COLS; col++) {
+        uint8_t physical_col = KEYMAP_COL_TO_PHYSICAL_COL(col);
+        uint8_t row;
+        for (row = 0; row < MATRIX_ROWS; row++) {
+            if (pgm_read_byte(&keymaps[0][row][col]) != KC_NO) {
+                uint16_t threshold = measure_middle(physical_col, KEYMAP_ROW_TO_PHYSICAL_ROW(row), HARDCODED_SAMPLE_TIME, CAL_EACHKEY_REPS);
+                uint8_t besti = 0;
+                uint16_t best_diff = (uint16_t)abs(threshold - cal_thresholds[besti]);
+                for (i=1;i<CAL_BINS;i++) {
+                    uint16_t this_diff = (uint16_t)abs(threshold - cal_thresholds[i]);
+                    if (this_diff < best_diff)
+                    {
+                        best_diff = this_diff;
+                        besti = i;
+                    }
+                }
+                assigned_to_threshold[besti][row] |= (1 << col);
+            }
+        }
+    }
+    for (i=0;i<CAL_BINS;i++) {
+        cal_thresholds[i] += CAL_THRESHOLD_OFFSET;
     }
 }
 
@@ -473,9 +581,13 @@ void real_keyboard_init_basic(void)
     uprintf("dac_init()");
     dac_init();
     uprintf(" DONE\n");
+    #if defined(CAL_ENABLED)
+    calibration();
+    #else
     dac_write_threshold(142);
     dac_write_threshold(142);
     dac_write_threshold(142);
+    #endif
 }
 
 void matrix_init_custom(void) {
@@ -485,28 +597,73 @@ void matrix_init_custom(void) {
     real_keyboard_init_basic();
 }
 
-uint8_t previous_raw_matrix[11];
+matrix_row_t previous_matrix[MATRIX_ROWS];
+#if defined(CAL_ENABLED) && defined(CAL_DEBUG)
+bool cal_stats_printed = false;
+#endif
 
 bool matrix_scan_custom(matrix_row_t current_matrix[]) {
-    uint8_t col;
-    uint8_t row;
-    bool changed = false;
+    uint8_t col, row, cal;
+    #if defined(CAL_ENABLED) && defined(CAL_DEBUG)
+    if (!cal_stats_printed)
+    {
+        uint32_t time = timer_read32();
+        if (time >= 10 * 1000UL) { // after 10 seconds
+            uprintf("Cal All Zero = %u, Cal All Ones = %u\n", cal_tr_allzero, cal_tr_allone);
+            for (cal=0;cal<CAL_BINS;cal++)
+            {
+                uprintf("Cal bin %u, Threshold=%u Assignments:\n", cal, cal_thresholds[cal]);
+                for (row=0;row<MATRIX_ROWS;row++)
+                {
+                    uprintf("0x%02X\n", assigned_to_threshold[cal][row]);
+                }
+            }
+            cal_stats_printed = true;
+        }
+    }
+    #endif
     for (row=0;row<8;row++)
     {
         current_matrix[row] = 0;
     }
-    for (col=0;col<11;col++)
+    #if defined(CAL_ENABLED)
+    for (cal=0;cal<CAL_BINS;cal++) {
+        dac_write_threshold(cal_thresholds[cal]);
+        for (col=0;col<MATRIX_COLS;col++) {
+            uint8_t real_col = KEYMAP_COL_TO_PHYSICAL_COL(col);
+            uint8_t d;
+            uint8_t d_tested = 0;
+            for (row=0;row<MATRIX_ROWS;row++) {
+                if (assigned_to_threshold[cal][row] & (1 << col))
+                {
+                    if (!d_tested)
+                    {
+                        d = test_single(real_col, HARDCODED_SAMPLE_TIME);
+                        d_tested = 1;
+                    }
+                    uint8_t physical_row = KEYMAP_ROW_TO_PHYSICAL_ROW(row);
+                    current_matrix[row] |= ((d >> physical_row) & 1) << col;
+                }
+            }
+        }
+    }
+    #else
+    for (col=0;col<MATRIX_COLS;col++)
     {
-        uint8_t real_col = col;
-        if (col == 10) real_col = 15;
-        uint8_t d = test_single(real_col, 4);
-        if (previous_raw_matrix[col] != d) changed = true;
-        previous_raw_matrix[col] = d;
-        for (row=0;row<8;row++)
+        uint8_t real_col = KEYMAP_COL_TO_PHYSICAL_COL(col);
+        uint8_t d = test_single(real_col, HARDCODED_SAMPLE_TIME);
+        for (row=0;row<MATRIX_ROWS;row++)
         {
-            current_matrix[7-row] |= (((uint16_t)(d & 1)) << col);
+            current_matrix[PHYSICAL_ROW_TO_KEYMAP_ROW(row)] |= (((uint16_t)(d & 1)) << col);
             d >>= 1;
         }
+    }
+    #endif
+    bool changed = false;
+    for (row=0;row<MATRIX_ROWS;row++)
+    {
+        if (previous_matrix[row] != current_matrix[row]) changed = true;
+        previous_matrix[row] = current_matrix[row];
     }
     return changed;
 }
