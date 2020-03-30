@@ -534,9 +534,10 @@ uint16_t cal_thresholds[CAL_BINS];
 matrix_row_t assigned_to_threshold[CAL_BINS][MATRIX_ROWS];
 uint16_t cal_tr_allzero;
 uint16_t cal_tr_allone;
-
 void calibration(void)
 {
+    uint16_t cal_thresholds_max[CAL_BINS]={0xFFFFU,0xFFFFU,0xFFFFU};
+    uint16_t cal_thresholds_min[CAL_BINS]={0xFFFFU,0xFFFFU,0xFFFFU};
     cal_tr_allzero = calibration_measure_all_valid_keys(HARDCODED_SAMPLE_TIME, CAL_INIT_REPS, true);
     cal_tr_allone = calibration_measure_all_valid_keys(HARDCODED_SAMPLE_TIME, CAL_INIT_REPS, false);
     uint16_t max = (cal_tr_allzero == 0) ? 0 : (cal_tr_allzero - 1);
@@ -565,11 +566,17 @@ void calibration(void)
                     }
                 }
                 assigned_to_threshold[besti][row] |= (1 << col);
+                if ((cal_thresholds_max[besti] = 0xFFFFU) || (cal_thresholds_max[besti] < threshold)) cal_thresholds_max[besti] = threshold;
+                if ((cal_thresholds_min[besti] = 0xFFFFU) || (cal_thresholds_min[besti] > threshold)) cal_thresholds_min[besti] = threshold;
             }
         }
     }
     for (i=0;i<CAL_BINS;i++) {
-        cal_thresholds[i] += CAL_THRESHOLD_OFFSET;
+        if ((cal_thresholds_max[i] == 0xFFFFU) || (cal_thresholds_min[i] == 0xFFFFU)) {
+            cal_thresholds[i] += CAL_THRESHOLD_OFFSET;
+        } else {
+            cal_thresholds[i] = (cal_thresholds_max[i] + cal_thresholds_min[i]) / 2 + CAL_THRESHOLD_OFFSET;
+        }
     }
 }
 
