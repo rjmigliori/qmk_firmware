@@ -363,12 +363,13 @@ void tracking_test(void)
     dac_init();
     uprintf(" DONE\n");
     while (1) {
+        uint32_t tt = timer_read32();
         uint16_t key1 = measure_middle(TRACKING_KEY_1_COL, TRACKING_KEY_1_ROW, TRACKING_TEST_TIME, TRACKING_REPS);
         uint16_t key2 = measure_middle(TRACKING_KEY_2_COL, TRACKING_KEY_2_ROW, TRACKING_TEST_TIME, TRACKING_REPS);
         uint16_t key3 = measure_middle(TRACKING_KEY_3_COL, TRACKING_KEY_3_ROW, TRACKING_TEST_TIME, TRACKING_REPS);
         uint16_t key4 = measure_middle(TRACKING_KEY_4_COL, TRACKING_KEY_4_ROW, TRACKING_TEST_TIME, TRACKING_REPS);
         uint16_t key5 = measure_middle(TRACKING_KEY_5_COL, TRACKING_KEY_5_ROW, TRACKING_TEST_TIME, TRACKING_REPS);
-        uprintf("%u, %u, %u, %u, %u\n", key1, key2, key3, key4, key5);
+        uprintf("%5lu.%03u, %u, %u, %u, %u, %u\n", tt/1000, (uint16_t)(tt%1000), key1, key2, key3, key4, key5);
     }
 }
 
