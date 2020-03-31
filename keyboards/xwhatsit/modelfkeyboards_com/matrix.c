@@ -434,6 +434,12 @@ uint16_t calibration_measure_all_valid_keys(uint8_t time, uint8_t reps, bool loo
 #define CAL_BINS 3
 #define CAL_THRESHOLD_OFFSET 12
 
+#if defined(CAL_ENABLED)
+#if defined(BOOTMAGIC_ENABLE) || defined(BOOTMAGIC_LITE)
+#error "Calibration is not supported in conjunction with BOOTMAGIC, because calibration requires that no keys are pressed while the keyboard is plugged in"
+#endif
+#endif
+
 uint16_t cal_thresholds[CAL_BINS];
 matrix_row_t assigned_to_threshold[CAL_BINS][MATRIX_ROWS];
 uint16_t cal_tr_allzero;
