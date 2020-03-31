@@ -197,7 +197,7 @@ uint8_t test_single(uint8_t col, uint16_t time)
     return READ_ROWS_VALUE;
 }
 
-#define NRTIMES 128
+#define NRTIMES 64
 #define TESTATONCE 8
 #define REPS_V2 15
 void test_col_print_data_v2(uint8_t col)
