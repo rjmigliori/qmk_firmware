@@ -18,8 +18,8 @@
 
 void keyboard_post_init_kb(void)
 {
-    debug_enable=true;
-    debug_matrix=true;
+//    debug_enable=true;
+//    debug_matrix=true;
 }
 
 // Optional override functions below.
