@@ -18,7 +18,8 @@
 // Defines names for use in layer keycodes and the keymap
 enum layer_names {
     _BASE,
-    _FN
+    _FN,
+    _FN2
 };
 
 // Defines the keycodes used by our macros in process_record_user
@@ -41,11 +42,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_NO,      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_PSCR, KC_SLCK, KC_PAUS, KC_UP, KC_NO, KC_NO,           KC_LEFT,   KC_NO,   KC_RIGHT,
         _______,     KC_VOLD, KC_VOLU, KC_MUTE, KC_EJCT, KC_NO, KC_PAST, KC_PSLS, KC_HOME, KC_PGUP, KC_LEFT, KC_RIGHT, KC_NO,  KC_END,    KC_DOWN, KC_PGDN,
         _______, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_PPLS, KC_PMNS, KC_END, KC_PGDN, KC_DOWN, _______, _______,       KC_INS,    KC_NO,   KC_DEL,
-        _______, KC_NO, _______,                             KC_NO,                              _______, KC_NO, _______,      KC_NO,     KC_NO,   KC_NO
+        _______, KC_NO, _______,                            MO(_FN2),                            _______, KC_NO, _______,      KC_NO,     KC_NO,   KC_NO
+    ),
+    [_FN2] = LAYOUT_F77_ISO_UK_NON_HHKB_SPLIT_SHIFT(
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
+        _______,   _______, _______, EEPROM_RESET, RESET, _______, _______, _______, _______, _______, _______, _______, _______, _______,     _______, _______, _______,
+        _______,     _______, _______, DEBUG, _______, _______, _______, _______, _______, _______, _______, _______, _______,                 _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______,
+        _______, _______, _______,                            _______,                            _______, _______, _______,                   _______, _______, _______
     )
 };
 
-// TODO: on orginal keymap Fn + numpad7 = KC_INSERT, no KC_HOME. Should I change it here?
+// TODO: on orginal keymap Fn + numpad7 = KC_INSERT, not KC_HOME. Should I change it here?
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
