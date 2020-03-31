@@ -32,11 +32,6 @@
 
 #define HARDCODED_SAMPLE_TIME 4
 
-#define REPS 15
-
-// the following black magic ensures, that no matter how you optimize your C code, the reads can be done in a controlled time manner.
-//#define READ_ROWS_PIN_1 ((uint8_t)(((uint16_t)&PINC) - 0x20))
-//#define READ_ROWS_PIN_2 ((uint8_t)(((uint16_t)&PIND) - 0x20))
 #define READ_ROWS_PIN_1 _SFR_IO_ADDR(PINC)
 #define READ_ROWS_PIN_2 _SFR_IO_ADDR(PIND)
 #define READ_ROWS_ASM_INSTRUCTIONS "in %[dest_row_1], %[ioreg_row_1]\n\tin %[dest_row_2], %[ioreg_row_2]"
@@ -202,68 +197,6 @@ uint8_t test_single(uint8_t col, uint16_t time)
     return READ_ROWS_VALUE;
 }
 
-uint8_t test_col(uint8_t col, uint8_t *array)
-{
-    cli();
-    uint8_t starting_state = read_rows();
-    shift_select_col(col);
-    int i;
-    for (i=0;i<16;i++)
-    {
-        uint8_t data = read_rows();
-        array[i] = data;
-    }
-    sei();
-    shift_select_nothing();
-    wait_us(KEYBOARD_SETTLE_TIME_US);
-    return starting_state;
-}
-
-void test_col_print_data(uint8_t col)
-{
-    uprintf("%d: ", col);
-    uint8_t data[16];
-    uint8_t sums[(16+1) * 8];
-    uint8_t i;
-    for (i=0;i<(sizeof(sums)/sizeof(sums[0]));i++)
-    {
-        sums[i] = 0;
-    }
-    for (i=0;i<REPS;i++)
-    {
-        uint8_t st = test_col(col, data);
-        uint8_t j;
-        uint8_t ii = 0;
-        uint8_t k;
-        for (j=0;j<16;j++)
-        {
-            uint8_t dataj = data[j];
-            for (k=0; k<8;k++)
-            {
-                sums[ii] += (dataj & 1);
-                dataj >>= 1;
-                ii += 1;
-            }
-        }
-        for (k=0; k<8;k++)
-        {
-            sums[ii] += (st & 1);
-            st >>= 1;
-            ii += 1;
-        }
-    }
-    for (i=16*8;i<17*8;i++)
-    {
-        uprintf("%X", sums[i]);
-    }
-    print(":");
-    for (i=0;i<16*8;i++)
-    {
-        uprintf("%X", sums[i]);
-    }
-    print("\n");
-}
-
 #define NRTIMES 128
 #define TESTATONCE 8
 #define REPS_V2 15
@@ -335,35 +268,6 @@ void test_col_print_data_v2(uint8_t col)
         to_time = NRTIMES - 1;
     }
     print("\n");
-}
-
-
-void test_v1(void) {
-    int i;
-    for (i=7;i>0;i--) {
-        uprintf("Starting test in %d\n", i);
-        wait_ms(1000);
-    }
-    uprintf("shift_init()");
-    shift_init();
-    uprintf(" DONE\n");
-    uprintf("dac_init()");
-    dac_init();
-    uprintf(" DONE\n");
-    int d;
-    for (d=0;d<1024;d++)
-    {
-        uprintf("Testing threshold: %d\n", d);
-        dac_write_threshold(d);
-        int c;
-        for (c=0; c<10;c++)
-        {
-            test_col_print_data(c);
-        }
-        test_col_print_data(15);
-    }
-    uprintf("TEST DONE\n");
-    while(1);
 }
 
 void test_v2(void) {
@@ -598,7 +502,6 @@ void real_keyboard_init_basic(void)
 }
 
 void matrix_init_custom(void) {
-    //test_v1();
     //test_v2();
     //tracking_test();
     real_keyboard_init_basic();
