@@ -16,77 +16,84 @@
 
 #include "quantum.h"
 
-#define DAC_SCLK   B1
-#define DAC_DIN    B2
-#define DAC_SYNC_N B0
+#define CAPSENSE_DAC_SCLK   B1
+#define CAPSENSE_DAC_DIN    B2
+#define CAPSENSE_DAC_SYNC_N B0
 
-#define SHIFT_DIN  D4
-#define SHIFT_OE   D5
-#define SHIFT_SHCP D7
-#define SHIFT_STCP D6
-#define SHIFT_STCP_IO _SFR_IO_ADDR(PORTD)
-#define SHIFT_STCP_BIT 6
+#define CAPSENSE_SHIFT_DIN  D4
+#define CAPSENSE_SHIFT_OE   D5
+#define CAPSENSE_SHIFT_SHCP D7
+#define CAPSENSE_SHIFT_STCP D6
+#define CAPSENSE_SHIFT_STCP_IO _SFR_IO_ADDR(PORTD)
+#define CAPSENSE_SHIFT_STCP_BIT 6
 
-#define KEYBOARD_SETTLE_TIME_US 8
-#define DAC_SETTLE_TIME_US 8
+#define CAPSENSE_KEYBOARD_SETTLE_TIME_US 8
+#define CAPSENSE_DAC_SETTLE_TIME_US 8
 
-#define HARDCODED_SAMPLE_TIME 4
+#define CAPSENSE_HARDCODED_SAMPLE_TIME 4
 
-#define READ_ROWS_PIN_1 _SFR_IO_ADDR(PINC)
-#define READ_ROWS_PIN_2 _SFR_IO_ADDR(PIND)
-#define READ_ROWS_ASM_INSTRUCTIONS "in %[dest_row_1], %[ioreg_row_1]\n\tin %[dest_row_2], %[ioreg_row_2]"
-#define READ_ROWS_OUTPUT_CONSTRAINTS [dest_row_1] "=&r" (dest_row_1), [dest_row_2] "=&r" (dest_row_2)
-#define READ_ROWS_INPUT_CONSTRAINTS [ioreg_row_1] "I" (READ_ROWS_PIN_1), [ioreg_row_2] "I" (READ_ROWS_PIN_2)
-#define READ_ROWS_LOCAL_VARS uint8_t dest_row_1, dest_row_2
-#define READ_ROWS_VALUE ((dest_row_1 >> 4) | (dest_row_2 << 4))
+#define CAPSENSE_READ_ROWS_PIN_1 _SFR_IO_ADDR(PINC)
+#define CAPSENSE_READ_ROWS_PIN_2 _SFR_IO_ADDR(PIND)
+#define CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS "in %[dest_row_1], %[ioreg_row_1]\n\tin %[dest_row_2], %[ioreg_row_2]"
+#define CAPSENSE_READ_ROWS_OUTPUT_CONSTRAINTS [dest_row_1] "=&r" (dest_row_1), [dest_row_2] "=&r" (dest_row_2)
+#define CAPSENSE_READ_ROWS_INPUT_CONSTRAINTS [ioreg_row_1] "I" (CAPSENSE_READ_ROWS_PIN_1), [ioreg_row_2] "I" (CAPSENSE_READ_ROWS_PIN_2)
+#define CAPSENSE_READ_ROWS_LOCAL_VARS uint8_t dest_row_1, dest_row_2
+#define CAPSENSE_READ_ROWS_VALUE ((dest_row_1 >> 4) | (dest_row_2 << 4))
+
+#define CAPSENSE_CAL_ENABLED
+#define CAPSENSE_CAL_DEBUG
+#define CAPSENSE_CAL_INIT_REPS 16
+#define CAPSENSE_CAL_EACHKEY_REPS 16
+#define CAPSENSE_CAL_BINS 3
+#define CAPSENSE_CAL_THRESHOLD_OFFSET 12
 
 static inline uint8_t read_rows(void)
 {
-    READ_ROWS_LOCAL_VARS;
-    asm volatile (READ_ROWS_ASM_INSTRUCTIONS : READ_ROWS_OUTPUT_CONSTRAINTS : READ_ROWS_INPUT_CONSTRAINTS);
-    return READ_ROWS_VALUE;
+    CAPSENSE_READ_ROWS_LOCAL_VARS;
+    asm volatile (CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS : CAPSENSE_READ_ROWS_OUTPUT_CONSTRAINTS : CAPSENSE_READ_ROWS_INPUT_CONSTRAINTS);
+    return CAPSENSE_READ_ROWS_VALUE;
 }
 
 void dac_init(void)
 {
-    setPinOutput(DAC_SCLK);
-    setPinOutput(DAC_DIN);
-    setPinOutput(DAC_SYNC_N);
-    writePin(DAC_SYNC_N, 1);
-    writePin(DAC_SCLK, 0);
-    writePin(DAC_SCLK, 1);
-    writePin(DAC_SCLK, 0);
+    setPinOutput(CAPSENSE_DAC_SCLK);
+    setPinOutput(CAPSENSE_DAC_DIN);
+    setPinOutput(CAPSENSE_DAC_SYNC_N);
+    writePin(CAPSENSE_DAC_SYNC_N, 1);
+    writePin(CAPSENSE_DAC_SCLK, 0);
+    writePin(CAPSENSE_DAC_SCLK, 1);
+    writePin(CAPSENSE_DAC_SCLK, 0);
 }
 
 void dac_write_threshold(uint16_t value)
 {
     value <<= 2; // The two LSB bits of this DAC are don't care.
-    writePin(DAC_SYNC_N, 0);
+    writePin(CAPSENSE_DAC_SYNC_N, 0);
     int i;
     for (i=0;i<16;i++)
     {
-        writePin(DAC_DIN, (value >> 15) & 1);
+        writePin(CAPSENSE_DAC_DIN, (value >> 15) & 1);
         value <<= 1;
-        writePin(DAC_SCLK, 1);
-        writePin(DAC_SCLK, 0);
+        writePin(CAPSENSE_DAC_SCLK, 1);
+        writePin(CAPSENSE_DAC_SCLK, 0);
     }
-    writePin(DAC_SYNC_N, 1);
-    writePin(DAC_SCLK, 1);
-    writePin(DAC_SCLK, 0);
-    wait_us(DAC_SETTLE_TIME_US);
+    writePin(CAPSENSE_DAC_SYNC_N, 1);
+    writePin(CAPSENSE_DAC_SCLK, 1);
+    writePin(CAPSENSE_DAC_SCLK, 0);
+    wait_us(CAPSENSE_DAC_SETTLE_TIME_US);
 }
 
 void shift_select_nothing(void)
 {
-    writePin(SHIFT_DIN, 0);
+    writePin(CAPSENSE_SHIFT_DIN, 0);
     int i;
     for (i=0;i<16;i++)
     {
-        writePin(SHIFT_SHCP, 1);
-        writePin(SHIFT_SHCP, 0);
+        writePin(CAPSENSE_SHIFT_SHCP, 1);
+        writePin(CAPSENSE_SHIFT_SHCP, 0);
     }
-    writePin(SHIFT_STCP, 1);
-    writePin(SHIFT_STCP, 0);
+    writePin(CAPSENSE_SHIFT_STCP, 1);
+    writePin(CAPSENSE_SHIFT_STCP, 0);
 }
 
 void shift_select_col_no_strobe(uint8_t col)
@@ -94,29 +101,29 @@ void shift_select_col_no_strobe(uint8_t col)
     int i;
     for (i=15; i>=0; i--)
     {
-        writePin(SHIFT_DIN, !!(col == i));
-        writePin(SHIFT_SHCP, 1);
-        writePin(SHIFT_SHCP, 0);
+        writePin(CAPSENSE_SHIFT_DIN, !!(col == i));
+        writePin(CAPSENSE_SHIFT_SHCP, 1);
+        writePin(CAPSENSE_SHIFT_SHCP, 0);
     }
 }
 
 static inline void shift_select_col(uint8_t col)
 {
     shift_select_col_no_strobe(col);
-    writePin(SHIFT_STCP, 1);
-    writePin(SHIFT_STCP, 0);
+    writePin(CAPSENSE_SHIFT_STCP, 1);
+    writePin(CAPSENSE_SHIFT_STCP, 0);
 }
 
 void shift_init(void)
 {
-    setPinOutput(SHIFT_DIN);
-    setPinOutput(SHIFT_OE);
-    setPinOutput(SHIFT_STCP);
-    setPinOutput(SHIFT_SHCP);
-    writePin(SHIFT_STCP, 0);
-    writePin(SHIFT_SHCP, 0);
+    setPinOutput(CAPSENSE_SHIFT_DIN);
+    setPinOutput(CAPSENSE_SHIFT_OE);
+    setPinOutput(CAPSENSE_SHIFT_STCP);
+    setPinOutput(CAPSENSE_SHIFT_SHCP);
+    writePin(CAPSENSE_SHIFT_STCP, 0);
+    writePin(CAPSENSE_SHIFT_SHCP, 0);
     shift_select_nothing();
-    wait_us(KEYBOARD_SETTLE_TIME_US);
+    wait_us(CAPSENSE_KEYBOARD_SETTLE_TIME_US);
 }
 
 // the following function requires storage for 2 * (time + 1) bytes
@@ -125,14 +132,14 @@ void test_multiple(uint8_t col, uint16_t time, uint8_t *array)
 {
     shift_select_col_no_strobe(col);
     uint16_t index;
-    READ_ROWS_LOCAL_VARS;
+    CAPSENSE_READ_ROWS_LOCAL_VARS;
     uint8_t *arrayp = array;
     asm volatile (
              "ldi %A[index], 0"                 "\n\t"
              "ldi %B[index], 0"                 "\n\t"
              "cli"                              "\n\t"
              "sbi %[stcp_regaddr], %[stcp_bit]" "\n\t"
-        "1:" READ_ROWS_ASM_INSTRUCTIONS         "\n\t"
+        "1:" CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS         "\n\t"
              "st %a[arr]+, %[dest_row_1]"       "\n\t"
              "st %a[arr]+, %[dest_row_2]"       "\n\t"
              "adiw %A[index], 0x01"             "\n\t"
@@ -143,11 +150,11 @@ void test_multiple(uint8_t col, uint16_t time, uint8_t *array)
              "cbi %[stcp_regaddr], %[stcp_bit]" "\n\t"
       : [arr] "=e" (arrayp),
         [index] "=&w" (index),
-        READ_ROWS_OUTPUT_CONSTRAINTS
+        CAPSENSE_READ_ROWS_OUTPUT_CONSTRAINTS
       : [time] "r" (time + 1),
-        [stcp_regaddr] "I" (SHIFT_STCP_IO),
-        [stcp_bit] "I" (SHIFT_STCP_BIT),
-        READ_ROWS_INPUT_CONSTRAINTS,
+        [stcp_regaddr] "I" (CAPSENSE_SHIFT_STCP_IO),
+        [stcp_bit] "I" (CAPSENSE_SHIFT_STCP_BIT),
+        CAPSENSE_READ_ROWS_INPUT_CONSTRAINTS,
         "0" (arrayp)
       : "memory" );
     uint16_t i, p0, p1;
@@ -156,17 +163,17 @@ void test_multiple(uint8_t col, uint16_t time, uint8_t *array)
     {
         dest_row_1 = array[p0++];
         dest_row_2 = array[p0++];
-        array[p1++] = READ_ROWS_VALUE;
+        array[p1++] = CAPSENSE_READ_ROWS_VALUE;
     }
     shift_select_nothing();
-    wait_us(KEYBOARD_SETTLE_TIME_US);
+    wait_us(CAPSENSE_KEYBOARD_SETTLE_TIME_US);
 }
 
 uint8_t test_single(uint8_t col, uint16_t time)
 {
     shift_select_col_no_strobe(col);
     uint16_t index;
-    READ_ROWS_LOCAL_VARS;
+    CAPSENSE_READ_ROWS_LOCAL_VARS;
     uint8_t dummy_data;
     uint8_t *arrayp = &dummy_data;
     asm volatile (
@@ -174,7 +181,7 @@ uint8_t test_single(uint8_t col, uint16_t time)
              "ldi %B[index], 0"                 "\n\t"
              "cli"                              "\n\t"
              "sbi %[stcp_regaddr], %[stcp_bit]" "\n\t"
-        "1:" READ_ROWS_ASM_INSTRUCTIONS         "\n\t"
+        "1:" CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS         "\n\t"
              "st %a[arr], %[dest_row_1]"       "\n\t"
              "st %a[arr], %[dest_row_2]"       "\n\t"
              "adiw %A[index], 0x01"             "\n\t"
@@ -185,16 +192,16 @@ uint8_t test_single(uint8_t col, uint16_t time)
              "cbi %[stcp_regaddr], %[stcp_bit]" "\n\t"
       : [arr] "=e" (arrayp),
         [index] "=&w" (index),
-        READ_ROWS_OUTPUT_CONSTRAINTS
+        CAPSENSE_READ_ROWS_OUTPUT_CONSTRAINTS
       : [time] "r" (time + 1),
-        [stcp_regaddr] "I" (SHIFT_STCP_IO),
-        [stcp_bit] "I" (SHIFT_STCP_BIT),
-        READ_ROWS_INPUT_CONSTRAINTS,
+        [stcp_regaddr] "I" (CAPSENSE_SHIFT_STCP_IO),
+        [stcp_bit] "I" (CAPSENSE_SHIFT_STCP_BIT),
+        CAPSENSE_READ_ROWS_INPUT_CONSTRAINTS,
         "0" (arrayp)
       : "memory" );
     shift_select_nothing();
-    wait_us(KEYBOARD_SETTLE_TIME_US);
-    return READ_ROWS_VALUE;
+    wait_us(CAPSENSE_KEYBOARD_SETTLE_TIME_US);
+    return CAPSENSE_READ_ROWS_VALUE;
 }
 
 #define NRTIMES 64
@@ -428,36 +435,29 @@ uint16_t calibration_measure_all_valid_keys(uint8_t time, uint8_t reps, bool loo
     return min;
 }
 
-#define CAL_ENABLED
-#define CAL_DEBUG
-#define CAL_INIT_REPS 16
-#define CAL_EACHKEY_REPS 16
-#define CAL_BINS 3
-#define CAL_THRESHOLD_OFFSET 12
-
-#if defined(CAL_ENABLED)
+#if defined(CAPSENSE_CAL_ENABLED)
 #if defined(BOOTMAGIC_ENABLE) || defined(BOOTMAGIC_LITE)
 #error "Calibration is not supported in conjunction with BOOTMAGIC, because calibration requires that no keys are pressed while the keyboard is plugged in"
 #endif
 #endif
 
-uint16_t cal_thresholds[CAL_BINS];
-matrix_row_t assigned_to_threshold[CAL_BINS][MATRIX_ROWS];
+uint16_t cal_thresholds[CAPSENSE_CAL_BINS];
+matrix_row_t assigned_to_threshold[CAPSENSE_CAL_BINS][MATRIX_ROWS];
 uint16_t cal_tr_allzero;
 uint16_t cal_tr_allone;
 void calibration(void)
 {
-    uint16_t cal_thresholds_max[CAL_BINS]={0xFFFFU,0xFFFFU,0xFFFFU};
-    uint16_t cal_thresholds_min[CAL_BINS]={0xFFFFU,0xFFFFU,0xFFFFU};
-    cal_tr_allzero = calibration_measure_all_valid_keys(HARDCODED_SAMPLE_TIME, CAL_INIT_REPS, true);
-    cal_tr_allone = calibration_measure_all_valid_keys(HARDCODED_SAMPLE_TIME, CAL_INIT_REPS, false);
+    uint16_t cal_thresholds_max[CAPSENSE_CAL_BINS]={0xFFFFU,0xFFFFU,0xFFFFU};
+    uint16_t cal_thresholds_min[CAPSENSE_CAL_BINS]={0xFFFFU,0xFFFFU,0xFFFFU};
+    cal_tr_allzero = calibration_measure_all_valid_keys(CAPSENSE_HARDCODED_SAMPLE_TIME, CAPSENSE_CAL_INIT_REPS, true);
+    cal_tr_allone = calibration_measure_all_valid_keys(CAPSENSE_HARDCODED_SAMPLE_TIME, CAPSENSE_CAL_INIT_REPS, false);
     uint16_t max = (cal_tr_allzero == 0) ? 0 : (cal_tr_allzero - 1);
     uint16_t min = cal_tr_allone + 1;
     if (max < min) max = min;
     uint16_t d = max - min;
     uint8_t i;
-    for (i=0;i<CAL_BINS;i++) {
-        cal_thresholds[i] = min + (d * (2 * i + 1)) / 2 / CAL_BINS;
+    for (i=0;i<CAPSENSE_CAL_BINS;i++) {
+        cal_thresholds[i] = min + (d * (2 * i + 1)) / 2 / CAPSENSE_CAL_BINS;
     }
     uint8_t col;
     for (col = 0; col < MATRIX_COLS; col++) {
@@ -465,10 +465,10 @@ void calibration(void)
         uint8_t row;
         for (row = 0; row < MATRIX_ROWS; row++) {
             if (pgm_read_byte(&keymaps[0][row][col]) != KC_NO) {
-                uint16_t threshold = measure_middle(physical_col, KEYMAP_ROW_TO_PHYSICAL_ROW(row), HARDCODED_SAMPLE_TIME, CAL_EACHKEY_REPS);
+                uint16_t threshold = measure_middle(physical_col, KEYMAP_ROW_TO_PHYSICAL_ROW(row), CAPSENSE_HARDCODED_SAMPLE_TIME, CAPSENSE_CAL_EACHKEY_REPS);
                 uint8_t besti = 0;
                 uint16_t best_diff = (uint16_t)abs(threshold - cal_thresholds[besti]);
-                for (i=1;i<CAL_BINS;i++) {
+                for (i=1;i<CAPSENSE_CAL_BINS;i++) {
                     uint16_t this_diff = (uint16_t)abs(threshold - cal_thresholds[i]);
                     if (this_diff < best_diff)
                     {
@@ -482,11 +482,11 @@ void calibration(void)
             }
         }
     }
-    for (i=0;i<CAL_BINS;i++) {
+    for (i=0;i<CAPSENSE_CAL_BINS;i++) {
         if ((cal_thresholds_max[i] == 0xFFFFU) || (cal_thresholds_min[i] == 0xFFFFU)) {
-            cal_thresholds[i] += CAL_THRESHOLD_OFFSET;
+            cal_thresholds[i] += CAPSENSE_CAL_THRESHOLD_OFFSET;
         } else {
-            cal_thresholds[i] = (cal_thresholds_max[i] + cal_thresholds_min[i]) / 2 + CAL_THRESHOLD_OFFSET;
+            cal_thresholds[i] = (cal_thresholds_max[i] + cal_thresholds_min[i]) / 2 + CAPSENSE_CAL_THRESHOLD_OFFSET;
         }
     }
 }
@@ -499,7 +499,7 @@ void real_keyboard_init_basic(void)
     uprintf("dac_init()");
     dac_init();
     uprintf(" DONE\n");
-    #if defined(CAL_ENABLED)
+    #if defined(CAPSENSE_CAL_ENABLED)
     calibration();
     #else
     dac_write_threshold(142);
@@ -515,19 +515,19 @@ void matrix_init_custom(void) {
 }
 
 matrix_row_t previous_matrix[MATRIX_ROWS];
-#if defined(CAL_ENABLED) && defined(CAL_DEBUG)
+#if defined(CAPSENSE_CAL_ENABLED) && defined(CAPSENSE_CAL_DEBUG)
 bool cal_stats_printed = false;
 #endif
 
 bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     uint8_t col, row, cal;
-    #if defined(CAL_ENABLED) && defined(CAL_DEBUG)
+    #if defined(CAPSENSE_CAL_ENABLED) && defined(CAPSENSE_CAL_DEBUG)
     if (!cal_stats_printed)
     {
         uint32_t time = timer_read32();
         if (time >= 10 * 1000UL) { // after 10 seconds
             uprintf("Cal All Zero = %u, Cal All Ones = %u\n", cal_tr_allzero, cal_tr_allone);
-            for (cal=0;cal<CAL_BINS;cal++)
+            for (cal=0;cal<CAPSENSE_CAL_BINS;cal++)
             {
                 uprintf("Cal bin %u, Threshold=%u Assignments:\n", cal, cal_thresholds[cal]);
                 for (row=0;row<MATRIX_ROWS;row++)
@@ -543,8 +543,8 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     {
         current_matrix[row] = 0;
     }
-    #if defined(CAL_ENABLED)
-    for (cal=0;cal<CAL_BINS;cal++) {
+    #if defined(CAPSENSE_CAL_ENABLED)
+    for (cal=0;cal<CAPSENSE_CAL_BINS;cal++) {
         dac_write_threshold(cal_thresholds[cal]);
         for (col=0;col<MATRIX_COLS;col++) {
             uint8_t real_col = KEYMAP_COL_TO_PHYSICAL_COL(col);
@@ -555,7 +555,7 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
                 {
                     if (!d_tested)
                     {
-                        d = test_single(real_col, HARDCODED_SAMPLE_TIME);
+                        d = test_single(real_col, CAPSENSE_HARDCODED_SAMPLE_TIME);
                         d_tested = 1;
                     }
                     uint8_t physical_row = KEYMAP_ROW_TO_PHYSICAL_ROW(row);
@@ -568,7 +568,7 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     for (col=0;col<MATRIX_COLS;col++)
     {
         uint8_t real_col = KEYMAP_COL_TO_PHYSICAL_COL(col);
-        uint8_t d = test_single(real_col, HARDCODED_SAMPLE_TIME);
+        uint8_t d = test_single(real_col, CAPSENSE_HARDCODED_SAMPLE_TIME);
         for (row=0;row<MATRIX_ROWS;row++)
         {
             current_matrix[PHYSICAL_ROW_TO_KEYMAP_ROW(row)] |= (((uint16_t)(d & 1)) << col);
