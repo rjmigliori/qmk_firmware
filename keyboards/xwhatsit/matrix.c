@@ -16,6 +16,32 @@
 
 #include "quantum.h"
 
+#if defined(CONTROLLER_IS_XWHATSIT_BEAMSPRING_REV_4)
+#define CAPSENSE_DAC_SCLK   B1
+#define CAPSENSE_DAC_DIN    B2
+#define CAPSENSE_DAC_SYNC_N B0
+
+#define CAPSENSE_SHIFT_DIN  C4
+#define CAPSENSE_SHIFT_OE   C6
+#define CAPSENSE_SHIFT_SHCP C5
+#define CAPSENSE_SHIFT_STCP C7
+#define CAPSENSE_SHIFT_STCP_IO _SFR_IO_ADDR(PORTC)
+#define CAPSENSE_SHIFT_STCP_BIT 7
+
+#define CAPSENSE_READ_ROWS_PIN_1 _SFR_IO_ADDR(PIND)
+#define CAPSENSE_READ_ROWS_PIN_2 _SFR_IO_ADDR(PIND)
+#define CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS "in %[dest_row_1], %[ioreg_row_1]\n\tin %[dest_row_2], %[ioreg_row_2]"
+#define CAPSENSE_READ_ROWS_OUTPUT_CONSTRAINTS [dest_row_1] "=&r" (dest_row_1), [dest_row_2] "=&r" (dest_row_2)
+#define CAPSENSE_READ_ROWS_INPUT_CONSTRAINTS [ioreg_row_1] "I" (CAPSENSE_READ_ROWS_PIN_1), [ioreg_row_2] "I" (CAPSENSE_READ_ROWS_PIN_2)
+#define CAPSENSE_READ_ROWS_LOCAL_VARS uint8_t dest_row_1, dest_row_2
+#define CAPSENSE_READ_ROWS_VALUE (dest_row_1 & 0xf)
+// Note: for now Beamspring reads PIND twice to match model F timings. We might change that in the future
+
+#define CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row) (row)
+#define CAPSENSE_PHYSICAL_ROW_TO_KEYMAP_ROW(row) (row)
+#define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (col)
+#define CAPSENSE_CONDUCTIVE_PLASTIC_IS_PULLED_UP_ON_KEYPRESS
+#elif defined(CONTROLLER_IS_XWHATSIT_MODEL_F_OR_WCASS_MODEL_F)
 #define CAPSENSE_DAC_SCLK   B1
 #define CAPSENSE_DAC_DIN    B2
 #define CAPSENSE_DAC_SYNC_N B0
@@ -27,11 +53,6 @@
 #define CAPSENSE_SHIFT_STCP_IO _SFR_IO_ADDR(PORTD)
 #define CAPSENSE_SHIFT_STCP_BIT 6
 
-#define CAPSENSE_KEYBOARD_SETTLE_TIME_US 8
-#define CAPSENSE_DAC_SETTLE_TIME_US 8
-
-#define CAPSENSE_HARDCODED_SAMPLE_TIME 4
-
 #define CAPSENSE_READ_ROWS_PIN_1 _SFR_IO_ADDR(PINC)
 #define CAPSENSE_READ_ROWS_PIN_2 _SFR_IO_ADDR(PIND)
 #define CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS "in %[dest_row_1], %[ioreg_row_1]\n\tin %[dest_row_2], %[ioreg_row_2]"
@@ -40,12 +61,48 @@
 #define CAPSENSE_READ_ROWS_LOCAL_VARS uint8_t dest_row_1, dest_row_2
 #define CAPSENSE_READ_ROWS_VALUE ((dest_row_1 >> 4) | (dest_row_2 << 4))
 
-#define CAPSENSE_CAL_ENABLED
-#define CAPSENSE_CAL_DEBUG
+#define CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row) (7-(row))
+#define CAPSENSE_PHYSICAL_ROW_TO_KEYMAP_ROW(row) (7-(row))
+#define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (((col) == 10)?15:(col))
+#define CAPSENSE_CONDUCTIVE_PLASTIC_IS_PUSHED_DOWN_ON_KEYPRESS
+#else
+#ifndef CAPSENSE_DAC_SCLK
+#error "Please select controller type in config.h, or please define each macro that is defined when selecting a particular macro type in matrix.c"
+#endif
+#endif
+
+#ifndef CAPSENSE_KEYBOARD_SETTLE_TIME_US
+#error "Please define CAPSENSE_KEYBOARD_SETTLE_TIME_US in config.h"
+#endif
+#ifndef CAPSENSE_DAC_SETTLE_TIME_US
+#error "Please define CAPSENSE_DAC_SETTLE_TIME_US in config.h"
+#endif
+#ifndef CAPSENSE_HARDCODED_SAMPLE_TIME
+#error "Please define CAPSENSE_HARDCODED_SAMPLE_TIME in config.h"
+#endif
+
+#ifndef CAPSENSE_CAL_ENABLED
+#error "Please define CAPSENSE_CAL_ENABLED as 1/0 in config.h"
+#endif
+#ifndef CAPSENSE_CAL_DEBUG
+#error "Please define CAPSENSE_CAL_DEBUG as 1/0 in config.h"
+#endif
+#ifndef CAPSENSE_CAL_INIT_REPS
 #define CAPSENSE_CAL_INIT_REPS 16
+#endif
+#ifndef CAPSENSE_CAL_EACHKEY_REPS
 #define CAPSENSE_CAL_EACHKEY_REPS 16
-#define CAPSENSE_CAL_BINS 3
-#define CAPSENSE_CAL_THRESHOLD_OFFSET 12
+#endif
+#ifndef CAPSENSE_CAL_BINS
+#error "Please define CAPSENSE_CAL_BINS in config.h"
+#endif
+#ifndef CAPSENSE_CAL_THRESHOLD_OFFSET
+#error "Please define CAPSENSE_CAL_THRESHOLD_OFFSET in config.h"
+#endif
+
+#if (!defined(CAPSENSE_CONDUCTIVE_PLASTIC_IS_PULLED_UP_ON_KEYPRESS)) && (!defined(CAPSENSE_CONDUCTIVE_PLASTIC_IS_PUSHED_DOWN_ON_KEYPRESS))
+#error "Please specify whether the flyplate is pushed down or pulled up on keypress!"
+#endif
 
 static inline uint8_t read_rows(void)
 {
@@ -83,11 +140,13 @@ void dac_write_threshold(uint16_t value)
     wait_us(CAPSENSE_DAC_SETTLE_TIME_US);
 }
 
+#define SHIFT_BITS ((MATRIX_COLS > 16) ? 24 : 16)
+
 void shift_select_nothing(void)
 {
     writePin(CAPSENSE_SHIFT_DIN, 0);
     int i;
-    for (i=0;i<16;i++)
+    for (i=0;i<SHIFT_BITS;i++)
     {
         writePin(CAPSENSE_SHIFT_SHCP, 1);
         writePin(CAPSENSE_SHIFT_SHCP, 0);
@@ -99,7 +158,7 @@ void shift_select_nothing(void)
 void shift_select_col_no_strobe(uint8_t col)
 {
     int i;
-    for (i=15; i>=0; i--)
+    for (i=SHIFT_BITS-1; i>=0; i--)
     {
         writePin(CAPSENSE_SHIFT_DIN, !!(col == i));
         writePin(CAPSENSE_SHIFT_SHCP, 1);
@@ -380,10 +439,6 @@ void tracking_test(void)
     }
 }
 
-#define KEYMAP_ROW_TO_PHYSICAL_ROW(row) (7-(row))
-#define PHYSICAL_ROW_TO_KEYMAP_ROW(row) (7-(row))
-#define KEYMAP_COL_TO_PHYSICAL_COL(col) (((col) == 10)?15:(col))
-
 uint16_t calibration_measure_all_valid_keys(uint8_t time, uint8_t reps, bool looking_for_all_zero)
 {
     uint16_t min = 0, max = 1023;
@@ -403,10 +458,10 @@ uint16_t calibration_measure_all_valid_keys(uint8_t time, uint8_t reps, bool loo
             {
                 if (pgm_read_byte(&keymaps[0][row][col]) != KC_NO)
                 {
-                    valid_physical_rows |= (1 << KEYMAP_ROW_TO_PHYSICAL_ROW(row)); // convert keymap row to physical row
+                    valid_physical_rows |= (1 << CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row)); // convert keymap row to physical row
                 }
             }
-            uint8_t physical_col = KEYMAP_COL_TO_PHYSICAL_COL(col);
+            uint8_t physical_col = CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col);
             uint8_t i;
             for (i=0;i<reps;i++) {
                 if (looking_for_all_zero)
@@ -435,7 +490,7 @@ uint16_t calibration_measure_all_valid_keys(uint8_t time, uint8_t reps, bool loo
     return min;
 }
 
-#if defined(CAPSENSE_CAL_ENABLED)
+#if CAPSENSE_CAL_ENABLED
 #if defined(BOOTMAGIC_ENABLE) || defined(BOOTMAGIC_LITE)
 #error "Calibration is not supported in conjunction with BOOTMAGIC, because calibration requires that no keys are pressed while the keyboard is plugged in"
 #endif
@@ -461,11 +516,11 @@ void calibration(void)
     }
     uint8_t col;
     for (col = 0; col < MATRIX_COLS; col++) {
-        uint8_t physical_col = KEYMAP_COL_TO_PHYSICAL_COL(col);
+        uint8_t physical_col = CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col);
         uint8_t row;
         for (row = 0; row < MATRIX_ROWS; row++) {
             if (pgm_read_byte(&keymaps[0][row][col]) != KC_NO) {
-                uint16_t threshold = measure_middle(physical_col, KEYMAP_ROW_TO_PHYSICAL_ROW(row), CAPSENSE_HARDCODED_SAMPLE_TIME, CAPSENSE_CAL_EACHKEY_REPS);
+                uint16_t threshold = measure_middle(physical_col, CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row), CAPSENSE_HARDCODED_SAMPLE_TIME, CAPSENSE_CAL_EACHKEY_REPS);
                 uint8_t besti = 0;
                 uint16_t best_diff = (uint16_t)abs(threshold - cal_thresholds[besti]);
                 for (i=1;i<CAPSENSE_CAL_BINS;i++) {
@@ -484,9 +539,17 @@ void calibration(void)
     }
     for (i=0;i<CAPSENSE_CAL_BINS;i++) {
         if ((cal_thresholds_max[i] == 0xFFFFU) || (cal_thresholds_min[i] == 0xFFFFU)) {
+            #ifdef CAPSENSE_CONDUCTIVE_PLASTIC_IS_PUSHED_DOWN_ON_KEYPRESS
             cal_thresholds[i] += CAPSENSE_CAL_THRESHOLD_OFFSET;
+            #else
+            cal_thresholds[i] -= CAPSENSE_CAL_THRESHOLD_OFFSET;
+            #endif
         } else {
+            #ifdef CAPSENSE_CONDUCTIVE_PLASTIC_IS_PUSHED_DOWN_ON_KEYPRESS
             cal_thresholds[i] = (cal_thresholds_max[i] + cal_thresholds_min[i]) / 2 + CAPSENSE_CAL_THRESHOLD_OFFSET;
+            #else
+            cal_thresholds[i] = (cal_thresholds_max[i] + cal_thresholds_min[i]) / 2 - CAPSENSE_CAL_THRESHOLD_OFFSET;
+            #endif
         }
     }
 }
@@ -499,7 +562,7 @@ void real_keyboard_init_basic(void)
     uprintf("dac_init()");
     dac_init();
     uprintf(" DONE\n");
-    #if defined(CAPSENSE_CAL_ENABLED)
+    #if CAPSENSE_CAL_ENABLED
     calibration();
     #else
     dac_write_threshold(142);
@@ -515,13 +578,13 @@ void matrix_init_custom(void) {
 }
 
 matrix_row_t previous_matrix[MATRIX_ROWS];
-#if defined(CAPSENSE_CAL_ENABLED) && defined(CAPSENSE_CAL_DEBUG)
+#if CAPSENSE_CAL_ENABLED && CAPSENSE_CAL_DEBUG
 bool cal_stats_printed = false;
 #endif
 
 bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     uint8_t col, row, cal;
-    #if defined(CAPSENSE_CAL_ENABLED) && defined(CAPSENSE_CAL_DEBUG)
+    #if CAPSENSE_CAL_ENABLED && CAPSENSE_CAL_DEBUG
     if (!cal_stats_printed)
     {
         uint32_t time = timer_read32();
@@ -543,11 +606,11 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     {
         current_matrix[row] = 0;
     }
-    #if defined(CAPSENSE_CAL_ENABLED)
+    #if CAPSENSE_CAL_ENABLED
     for (cal=0;cal<CAPSENSE_CAL_BINS;cal++) {
         dac_write_threshold(cal_thresholds[cal]);
         for (col=0;col<MATRIX_COLS;col++) {
-            uint8_t real_col = KEYMAP_COL_TO_PHYSICAL_COL(col);
+            uint8_t real_col = CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col);
             uint8_t d;
             uint8_t d_tested = 0;
             for (row=0;row<MATRIX_ROWS;row++) {
@@ -556,9 +619,12 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
                     if (!d_tested)
                     {
                         d = test_single(real_col, CAPSENSE_HARDCODED_SAMPLE_TIME);
+                        #ifdef CAPSENSE_CONDUCTIVE_PLASTIC_IS_PULLED_UP_ON_KEYPRESS
+                            d = ~d;
+                        #endif
                         d_tested = 1;
                     }
-                    uint8_t physical_row = KEYMAP_ROW_TO_PHYSICAL_ROW(row);
+                    uint8_t physical_row = CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row);
                     current_matrix[row] |= ((d >> physical_row) & 1) << col;
                 }
             }
@@ -567,11 +633,14 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     #else
     for (col=0;col<MATRIX_COLS;col++)
     {
-        uint8_t real_col = KEYMAP_COL_TO_PHYSICAL_COL(col);
+        uint8_t real_col = CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col);
         uint8_t d = test_single(real_col, CAPSENSE_HARDCODED_SAMPLE_TIME);
+        #ifdef CAPSENSE_CONDUCTIVE_PLASTIC_IS_PULLED_UP_ON_KEYPRESS
+            d = ~d;
+        #endif
         for (row=0;row<MATRIX_ROWS;row++)
         {
-            current_matrix[PHYSICAL_ROW_TO_KEYMAP_ROW(row)] |= (((uint16_t)(d & 1)) << col);
+            current_matrix[CAPSENSE_PHYSICAL_ROW_TO_KEYMAP_ROW(row)] |= (((uint16_t)(d & 1)) << col);
             d >>= 1;
         }
     }
