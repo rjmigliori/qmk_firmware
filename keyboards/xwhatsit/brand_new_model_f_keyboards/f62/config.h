@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* key matrix size */
 #define MATRIX_ROWS 8
-#define MATRIX_COLS 11
+#define MATRIX_COLS 9
 // Note: physical column are 16, but only 11 are ever used. Column 0..9 match the physical column. Column 10 is physical column 15.
 
 /*
@@ -268,4 +268,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CAPSENSE_CAL_BINS 3
 #define CAPSENSE_CAL_THRESHOLD_OFFSET 12
 
-#define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (((col) == 10)?15:(col))
+#define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (((col) == 8)?15:(col))
