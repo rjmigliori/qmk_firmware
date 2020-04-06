@@ -274,7 +274,7 @@ void test_col_print_data_v2(uint8_t col)
 {
     uprintf("%d: ", col);
     static uint8_t data[NRTIMES*2];
-    static uint8_t sums[(TESTATONCE+1) * 8];
+    static uint8_t sums[(TESTATONCE+1) * MATRIX_ROWS];
     uint8_t to_time = NRTIMES-1;
     uint8_t from_time = 0;
     while (from_time<NRTIMES-1)
@@ -299,7 +299,7 @@ void test_col_print_data_v2(uint8_t col)
             for (j=0;j<curr_TESTATONCE;j++)
             {
                 uint8_t dataj = data[j + from_time];
-                for (k=0; k<8;k++)
+                for (k=0; k<MATRIX_ROWS;k++)
                 {
                     sums[ii] += (dataj & 1);
                     dataj >>= 1;
@@ -307,8 +307,8 @@ void test_col_print_data_v2(uint8_t col)
                 }
             }
             if (from_time == 0) {
-                ii = TESTATONCE * 8;
-                for (k=0; k<8;k++)
+                ii = TESTATONCE * MATRIX_ROWS;
+                for (k=0; k<MATRIX_ROWS;k++)
                 {
                     sums[ii] += (st & 1);
                     st >>= 1;
@@ -317,7 +317,7 @@ void test_col_print_data_v2(uint8_t col)
             }
         }
         if (from_time == 0) {
-            for (i=TESTATONCE*8;i<(TESTATONCE+1)*8;i++) {
+            for (i=TESTATONCE*MATRIX_ROWS;i<(TESTATONCE+1)*MATRIX_ROWS;i++) {
                 if (sums[i] > 0xf) {
                     print("?");
                 } else {
@@ -326,7 +326,7 @@ void test_col_print_data_v2(uint8_t col)
             }
             print(":");
         }
-        for (i=0;i<curr_TESTATONCE*8;i++)
+        for (i=0;i<curr_TESTATONCE*MATRIX_ROWS;i++)
         {
             if (sums[i] > 0xf) {
                 print("?");
@@ -359,11 +359,10 @@ void test_v2(void) {
         dac_write_threshold(d);
         #if 1
             int c;
-            for (c=0; c<10;c++)
+            for (c=0; c<MATRIX_COLS;c++)
             {
-                test_col_print_data_v2(c);
+                test_col_print_data_v2(CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(c));
             }
-            test_col_print_data_v2(15);
         #else
             test_col_print_data_v2(0);
             test_col_print_data_v2(2);
@@ -606,7 +605,7 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
         }
     }
     #endif
-    for (row=0;row<8;row++)
+    for (row=0;row<MATRIX_ROWS;row++)
     {
         current_matrix[row] = 0;
     }
