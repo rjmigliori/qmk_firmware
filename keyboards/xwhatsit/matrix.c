@@ -418,6 +418,30 @@ static uint16_t measure_middle(uint8_t col, uint8_t row, uint8_t time, uint8_t r
     return min;
 }
 
+static uint16_t measure_middle_settled(uint8_t col, uint8_t row, uint8_t reps)
+{
+    uint8_t reps_div2 = reps / 2;
+    uint16_t min = 0, max = 1023;
+    while (min < max)
+    {
+        uint16_t mid = (min + max) / 2;
+        dac_write_threshold(mid);
+        uint8_t sum = 0;
+        uint8_t i;
+        for (i=0;i<reps;i++)
+        {
+            sum += (read_rows() >> row) & 1;
+        }
+        if (sum < reps_div2)
+        {
+            max = mid - 1;
+        } else if (sum > reps_div2) {
+            min = mid + 1;
+        } else return mid;
+    }
+    return min;
+}
+
 void tracking_test(void)
 {
     int i;
@@ -438,7 +462,10 @@ void tracking_test(void)
         uint16_t key3 = measure_middle(TRACKING_KEY_3_COL, TRACKING_KEY_3_ROW, TRACKING_TEST_TIME, TRACKING_REPS);
         uint16_t key4 = measure_middle(TRACKING_KEY_4_COL, TRACKING_KEY_4_ROW, TRACKING_TEST_TIME, TRACKING_REPS);
         uint16_t key5 = measure_middle(TRACKING_KEY_5_COL, TRACKING_KEY_5_ROW, TRACKING_TEST_TIME, TRACKING_REPS);
-        uprintf("%5lu.%03u, %u, %u, %u, %u, %u\n", tt/1000, (uint16_t)(tt%1000), key1, key2, key3, key4, key5);
+        uint16_t sett = measure_middle_settled(TRACKING_KEY_2_COL, TRACKING_KEY_2_ROW, TRACKING_REPS);
+        uint16_t key1l = measure_middle(TRACKING_KEY_1_COL, TRACKING_KEY_1_ROW, TRACKING_TEST_TIME*2, TRACKING_REPS);
+        uint16_t key2l = measure_middle(TRACKING_KEY_2_COL, TRACKING_KEY_2_ROW, TRACKING_TEST_TIME*2, TRACKING_REPS);
+        uprintf("%5lu.%03u, %u, %u, %u, %u, %u, %u, %u, %u\n", tt/1000, (uint16_t)(tt%1000), key1, key2, key3, key4, key5, sett, key1l, key2l);
     }
 }
 
