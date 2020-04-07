@@ -39,9 +39,9 @@
     k_caps, k_lgui, k_lalt,         k_space,                 k_ralt                , k_numlock, k_rctrl     \
 ) \
 { \
+    { k_nonusbs,k_x,    k_d, k_g,     k_k, k_l,         k_forwardslash, k_rshift,     KC_NO},\
     { k_lgui,   k_z,    k_c, k_b,     k_n, k_period,    k_ralt,         k_fn,         KC_NO},\
     { k_lshift, k_s,    k_f, k_h,     k_j, k_semicolon, k_singlequote,  k_return,     KC_NO},\
-    { k_nonusbs,k_x,    k_d, k_g,     k_k, k_l,         k_forwardslash, k_rshift,     KC_NO},\
     { k_caps,   k_lalt, k_v, k_space, k_m, k_cm,        KC_NO,          k_numlock,    k_rctrl},\
     { k_esc,    k_q,    k_3, k_5,     k_7, k_9,         k_minus,        k_backslash,  KC_NO},\
     { k_tab,    k_w,    k_r, k_y,     k_i, k_p,         k_squarebrop,   k_squarebrcl, KC_NO},\
