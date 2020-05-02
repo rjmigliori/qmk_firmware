@@ -267,3 +267,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CAPSENSE_CAL_EACHKEY_REPS 16
 #define CAPSENSE_CAL_BINS 3
 #define CAPSENSE_CAL_THRESHOLD_OFFSET 12
+
+#if !CAPSENSE_CAL_ENABLED
+#define CAPSENSE_HARDCODED_THRESHOLD 142
+#endif

@@ -15,6 +15,8 @@
  */
 
 #include "quantum.h"
+#include "matrix_manipulate.h"
+#include <string.h>
 
 #if defined(CONTROLLER_IS_XWHATSIT_BEAMSPRING_REV_4)
 #define CAPSENSE_DAC_SCLK   B1
@@ -267,6 +269,7 @@ uint8_t test_single(uint8_t col, uint16_t time)
     return CAPSENSE_READ_ROWS_VALUE;
 }
 
+#ifndef NO_PRINT
 #define NRTIMES 64
 #define TESTATONCE 8
 #define REPS_V2 15
@@ -339,7 +342,9 @@ void test_col_print_data_v2(uint8_t col)
     }
     print("\n");
 }
+#endif
 
+#ifndef NO_PRINT
 void test_v2(void) {
     int i;
     for (i=7;i>0;i--) {
@@ -374,6 +379,7 @@ void test_v2(void) {
     uprintf("TEST DONE\n");
     while(1);
 }
+#endif
 
 #define TRACKING_TEST_TIME 4
 // Key 1 is the always non-pressed key under the space bar to the right.
@@ -394,7 +400,7 @@ void test_v2(void) {
 
 #define TRACKING_REPS 16
 
-static uint16_t measure_middle(uint8_t col, uint8_t row, uint8_t time, uint8_t reps)
+uint16_t measure_middle(uint8_t col, uint8_t row, uint8_t time, uint8_t reps)
 {
     uint8_t reps_div2 = reps / 2;
     uint16_t min = 0, max = 1023;
@@ -418,7 +424,7 @@ static uint16_t measure_middle(uint8_t col, uint8_t row, uint8_t time, uint8_t r
     return min;
 }
 
-static uint16_t measure_middle_settled(uint8_t col, uint8_t row, uint8_t reps)
+uint16_t measure_middle_settled(uint8_t col, uint8_t row, uint8_t reps)
 {
     uint8_t reps_div2 = reps / 2;
     uint16_t min = 0, max = 1023;
@@ -442,6 +448,7 @@ static uint16_t measure_middle_settled(uint8_t col, uint8_t row, uint8_t reps)
     return min;
 }
 
+#ifndef NO_PRINT
 void tracking_test(void)
 {
     int i;
@@ -468,6 +475,7 @@ void tracking_test(void)
         uprintf("%5lu.%03u, %u, %u, %u, %u, %u, %u, %u, %u\n", tt/1000, (uint16_t)(tt%1000), key1, key2, key3, key4, key5, sett, key1l, key2l);
     }
 }
+#endif
 
 uint16_t calibration_measure_all_valid_keys(uint8_t time, uint8_t reps, bool looking_for_all_zero)
 {
@@ -586,18 +594,24 @@ void calibration(void)
 
 void real_keyboard_init_basic(void)
 {
+    #ifndef NO_PRINT
     uprintf("shift_init()");
+    #endif
     shift_init();
+    #ifndef NO_PRINT
     uprintf(" DONE\n");
     uprintf("dac_init()");
+    #endif
     dac_init();
+    #ifndef NO_PRINT
     uprintf(" DONE\n");
+    #endif
     #if CAPSENSE_CAL_ENABLED
     calibration();
     #else
-    dac_write_threshold(142);
-    dac_write_threshold(142);
-    dac_write_threshold(142);
+    dac_write_threshold(CAPSENSE_HARDCODED_THRESHOLD);
+    dac_write_threshold(CAPSENSE_HARDCODED_THRESHOLD);
+    dac_write_threshold(CAPSENSE_HARDCODED_THRESHOLD);
     #endif
 }
 
@@ -608,12 +622,28 @@ void matrix_init_custom(void) {
 }
 
 matrix_row_t previous_matrix[MATRIX_ROWS];
+
+bool matrix_has_it_changed(const matrix_row_t current_matrix[]) {
+    uint8_t row;
+    bool changed = false;
+    for (row=0;row<MATRIX_ROWS;row++)
+    {
+        if (previous_matrix[row] != current_matrix[row]) changed = true;
+        previous_matrix[row] = current_matrix[row];
+    }
+    return changed;
+}
+
 #if CAPSENSE_CAL_ENABLED && CAPSENSE_CAL_DEBUG
 bool cal_stats_printed = false;
 #endif
 
-bool matrix_scan_custom(matrix_row_t current_matrix[]) {
-    uint8_t col, row, cal;
+bool keyboard_scan_enabled = 1;
+
+#ifndef NO_PRINT
+void matrix_print_stats(void)
+{
+    uint8_t row, cal;
     #if CAPSENSE_CAL_ENABLED && CAPSENSE_CAL_DEBUG
     if (!cal_stats_printed)
     {
@@ -632,10 +662,12 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
         }
     }
     #endif
-    for (row=0;row<MATRIX_ROWS;row++)
-    {
-        current_matrix[row] = 0;
-    }
+}
+#endif
+
+void matrix_scan_raw(matrix_row_t current_matrix[]) {
+    uint8_t col, row, cal;
+    memset(current_matrix, 0, sizeof(matrix_row_t) * MATRIX_ROWS);
     #if CAPSENSE_CAL_ENABLED
     for (cal=0;cal<CAPSENSE_CAL_BINS;cal++) {
         dac_write_threshold(cal_thresholds[cal]);
@@ -675,11 +707,16 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
         }
     }
     #endif
-    bool changed = false;
-    for (row=0;row<MATRIX_ROWS;row++)
-    {
-        if (previous_matrix[row] != current_matrix[row]) changed = true;
-        previous_matrix[row] = current_matrix[row];
+}
+
+bool matrix_scan_custom(matrix_row_t current_matrix[]) {
+#ifndef NO_PRINT
+    matrix_print_stats();
+#endif
+    if (keyboard_scan_enabled) {
+        matrix_scan_raw(current_matrix);
+    } else {
+        memset(current_matrix, 0, sizeof(matrix_row_t) * MATRIX_ROWS);
     }
-    return changed;
+    return matrix_has_it_changed(current_matrix);
 }

@@ -16,6 +16,8 @@
 
 #include "f62.h"
 
+const char *KEYBOARD_FILENAME = __FILE__; // used by util_comm
+
 void keyboard_post_init_kb(void)
 {
 //    debug_enable=true;
