@@ -39,9 +39,17 @@ HEADERS += \
     device.h \
     hidthread.h
 
-LIBS += -lhidapi-libusb
-#LIBS += -lhidapi-hidraw
-INCLUDEPATH += /usr/include/hidapi
+unix!macx {
+    LIBS += -lhidapi-libusb
+    #LIBS += -lhidapi-hidraw
+    INCLUDEPATH += /usr/include/hidapi
+}
+
+win32 {
+    # Note: at the moment this configuration is for cross-compiling only. I have not tested native windows compilation.
+    INCLUDEPATH += /mxe/usr/i686-w64-mingw32.static/include/hidapi
+    LIBS += -lhidapi -lsetupapi
+}
 
 FORMS += \
         mainwindow.ui \
