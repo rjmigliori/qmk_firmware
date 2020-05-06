@@ -39,7 +39,7 @@ HEADERS += \
     device.h \
     hidthread.h
 
-unix!macx {
+unix:!macx {
     LIBS += -lhidapi-libusb
     #LIBS += -lhidapi-hidraw
     INCLUDEPATH += /usr/include/hidapi
