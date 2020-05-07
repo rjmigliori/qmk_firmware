@@ -9,8 +9,8 @@
    LIBS += -lhidapi-libusb
    #LIBS += -lhidapi-hidraw
    ```
-4) ```qmake util.pro```
-5) ```make```
+4) ```qmake-qt5 util.pro```  (or ```qmake util.pro```. NOTE: you must run the QT5 version of qmake, if you have both QT4 and QT5 installed)
+5) ```make clean && make -j```
 6) Optionally: add the following rules to ```/etc/udev/rules.d/my_preferred_filename.rules```
    ```
    SUBSYSTEMS=="usb", ATTRS{idVendor}=="0481", ATTRS{idProduct}=="0002", MODE:="0666"
