@@ -1,6 +1,8 @@
 # Building
 
-## Option 1: Building on local system
+## Building on Linux for Linux
+
+### Option 1: Building on local system
 
 1) Install qt5 development packages
 2) Install hidapi development packages
@@ -18,7 +20,7 @@
    And then restart udev
 7) ```./util``` Or ```sudo ./util``` (if you have not set up udev)
 
-## Option 2: Build with docker
+### Option 2: Build with docker
 
 In case you have trouble with dependencies.
 
@@ -30,3 +32,21 @@ In case you have trouble with dependencies.
 3) ```docker run -it --rm  -e DISPLAY=$DISPLAY -v $HOME/.Xauthority:/root/.Xauthority --net=host -v `pwd`/../../:/xwhatsit -v /dev:/dev --privileged -w /xwhatsit/util/util utilbuilder ./util```
 
 (You can also try running directly on the local machine, if you have Qt and hidapi libraries installed)
+
+## Building on Linux for Windows
+
+Please see ../windows_crosscompile/README.md
+
+## Building on Windows for Windows
+
+This has not been tested yet. You may need to tweak util.pro for this to work. If you get it working please update this section.
+
+## Building on MacOS for MacOS
+
+1) Install Homebrew, see http://brew.sh
+2) ```brew install qt5```
+3) ```brew install hidapi```
+4) Probably Optional (but haven't tried without yet): ```brew cask install qt-creator```
+5) ```/usr/local/opt/qt5/bin/qmake util.pro```
+6) ```make```
+7) Run it: ```./util.app/Contents/MacOS/util```

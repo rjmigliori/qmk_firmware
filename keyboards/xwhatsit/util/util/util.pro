@@ -45,6 +45,11 @@ unix:!macx {
     INCLUDEPATH += /usr/include/hidapi
 }
 
+macx {
+    INCLUDEPATH += /usr/local/Cellar/hidapi/0.9.0/include/hidapi
+    LIBS += -L/usr/local/Cellar/hidapi/0.9.0/lib -lhidapi
+}
+
 win32 {
     # Note: at the moment this configuration is for cross-compiling only. I have not tested native windows compilation.
     INCLUDEPATH += /mxe/usr/i686-w64-mingw32.static/include/hidapi
