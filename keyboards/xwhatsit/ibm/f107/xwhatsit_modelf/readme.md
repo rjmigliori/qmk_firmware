@@ -5,7 +5,7 @@
 A short description of the keyboard/project
 
 * Keyboard Maintainer: [Purdea Andrei](https://github.com/purdeaandrei)
-* Hardware Supported: Supports the IBM Model F F107 keyboards, using the original Xwhatist model F rev. 1 or rev. 2 controller PCB.
+* Hardware Supported: Supports the IBM Model F F107 keyboards, using the original Xwhatsit model F rev. 1 or rev. 2 controller PCB.
 * Hardware Availability:
 
 Make example for this keyboard (after setting up your build environment):

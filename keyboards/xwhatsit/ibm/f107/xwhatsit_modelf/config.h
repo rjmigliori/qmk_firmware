@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PRODUCT_ID 0x0002
 #define DEVICE_VER 0x0001
 #define MANUFACTURER Tom Wong-Cornall/Purdea Andrei
-#define PRODUCT IBM 5251
-#define DESCRIPTION QMK firmware for the IBM 5251 keyboard using the original Xwhatsit beamspring rev. 4 controller PCB
+#define PRODUCT IBM 4704 F107
+#define DESCRIPTION QMK firmware for the IBM 4704 F107 keyboard using the original Xwhatsit model F controller PCB
 
 /* key matrix size */
 #define MATRIX_ROWS 8
