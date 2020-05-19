@@ -496,7 +496,7 @@ uint16_t calibration_measure_all_valid_keys(uint8_t time, uint8_t reps, bool loo
             {
                 if (pgm_read_byte(&keymaps[0][row][col]) != KC_NO)
                 {
-                    valid_physical_rows |= (1 << CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row)); // convert keymap row to physical row
+                    valid_physical_rows |= (((matrix_row_t)1) << CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row)); // convert keymap row to physical row
                 }
             }
             uint8_t physical_col = CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col);
@@ -569,7 +569,7 @@ void calibration(void)
                         besti = i;
                     }
                 }
-                assigned_to_threshold[besti][row] |= (1 << col);
+                assigned_to_threshold[besti][row] |= (((matrix_row_t)1) << col);
                 if ((cal_thresholds_max[besti] = 0xFFFFU) || (cal_thresholds_max[besti] < threshold)) cal_thresholds_max[besti] = threshold;
                 if ((cal_thresholds_min[besti] = 0xFFFFU) || (cal_thresholds_min[besti] > threshold)) cal_thresholds_min[besti] = threshold;
             }
@@ -676,7 +676,7 @@ void matrix_scan_raw(matrix_row_t current_matrix[]) {
             uint8_t d;
             uint8_t d_tested = 0;
             for (row=0;row<MATRIX_ROWS;row++) {
-                if (assigned_to_threshold[cal][row] & (1 << col))
+                if (assigned_to_threshold[cal][row] & (((matrix_row_t)1) << col))
                 {
                     if (!d_tested)
                     {
@@ -687,7 +687,7 @@ void matrix_scan_raw(matrix_row_t current_matrix[]) {
                         d_tested = 1;
                     }
                     uint8_t physical_row = CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row);
-                    current_matrix[row] |= ((d >> physical_row) & 1) << col;
+                    current_matrix[row] |= ((matrix_row_t)((d >> physical_row) & 1)) << col;
                 }
             }
         }
