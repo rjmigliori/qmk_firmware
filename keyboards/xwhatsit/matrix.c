@@ -702,7 +702,7 @@ void matrix_scan_raw(matrix_row_t current_matrix[]) {
         #endif
         for (row=0;row<MATRIX_ROWS;row++)
         {
-            current_matrix[CAPSENSE_PHYSICAL_ROW_TO_KEYMAP_ROW(row)] |= (((uint16_t)(d & 1)) << col);
+            current_matrix[CAPSENSE_PHYSICAL_ROW_TO_KEYMAP_ROW(row)] |= (((matrix_row_t)(d & 1)) << col);
             d >>= 1;
         }
     }
