@@ -271,4 +271,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CAPSENSE_HARDCODED_THRESHOLD 142
 #endif
 
-#define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) ((col > 10) ? (col + 5) : (col + 4))
+#define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) ((col) + 3)
