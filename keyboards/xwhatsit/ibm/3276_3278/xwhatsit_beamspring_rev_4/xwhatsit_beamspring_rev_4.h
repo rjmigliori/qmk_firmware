@@ -43,6 +43,5 @@
 
 // Note:
 // * columns 1, 2, 3 (1-based index) are not used, so the first column that QMK will see is column 4.
-// * column 15 is not in use (these are done using the CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL formula in config.h)
 // * column 7, row 4 (which is encoded as column 3, row 3 in qmk) is a calibration pad
-// * column 21, row 4 (which is encoded as column 16, row 3 in qmk) is a calibration pad
+// * column 20, row 4 (which is encoded as column 16, row 3 in qmk) is a calibration pad
