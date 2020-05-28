@@ -16,10 +16,13 @@
 
 #pragma once
 
-#include "config_common.h"
+// place overrides here
+#undef CAPSENSE_CAL_BINS
+#define CAPSENSE_CAL_BINS 15  // default was 3, trying to adjust to bigger differences in key groups/clusters
+
 
 #undef  PRODUCT
-#define PRODUCT      10t_f62
+#define PRODUCT      10t_5251
 
 #define FORCE_NKRO
 #define TAPPING_TERM 140                // default is 200 but is too slow for me to start activating space-fn
@@ -35,5 +38,6 @@
 
 /* Set 0 if debouncing isn't needed */ 
 //#define DEBOUNCE 5                     
+
 
 

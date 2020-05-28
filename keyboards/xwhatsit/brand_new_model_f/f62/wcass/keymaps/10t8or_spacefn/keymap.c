@@ -63,7 +63,7 @@ OSM(mod) - Momentarily hold down mod. You must use the MOD_* keycodes as shown i
 TG(layer) - toggles layer, activating it if it's inactive and vice versa
 */
 
-extern bool autoshift_enabled;
+//extern bool autoshift_enabled;
 // KC_ASTG is to enable autoshift (currently toggle with RGB+ESC)
 #define _V_V_V_ KC_TRNS
 #define LT_END  LT(_FN,   KC_END)
@@ -99,20 +99,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______, \
 		_______, _______, _V_V_V_,                   _______,                                              _______, _______, _______  \
 	),
-        /* FN additional layer */
+        /* Additional FN layer for reset, klock, backlight, media, etc. */
 	[_FN] = LAYOUT_ansi_hhkb_split_shift_regular_backspace(
 		RESET,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  _______, \
 		KC_NLCK, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
 		KC_CAPS, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          \
                 KC_SLCK, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          KC_VOLU, _V_V_V_, \
-		KC_ASTG, _______, _______,                   _______,                                              KC_MUTE, KC_VOLD, KC_MPLY  \
+		QMKOTH,  _______, _______,                   _______,                                              KC_MUTE, KC_VOLD, KC_MPLY  \
 	),
         /* Space-FN layer for quick access on 60% */
 	[_SFN] = LAYOUT_ansi_hhkb_split_shift_regular_backspace(
 		KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_INS,  \
 		KC_CALC, QMKBEST, _______, _______, _______, _______, _______, KC_HOME, KC_UP,   KC_END,  _______, KC_PSCR, KC_PAUS, KC_BSPC, \
 		_______, QMKURL,  _______, _______, _______, _______, KC_PGUP, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______, _______,          \
-                _______, QMKOTH,  _______, _______, _______, KC_SPC,  KC_PGDN, _______, _______, _______, _______,          KC_PGUP, _______, \
+                _______, _______, _______, _______, _______, KC_SPC,  KC_PGDN, _______, _______, _______, _______,          KC_PGUP, _______, \
 		_______, _______, _______,                   _V_V_V_,                                              KC_HOME, KC_PGDN, KC_END   \
 	)
 };
@@ -137,7 +137,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case QMKBEST:
       if (record->event.pressed) {
         // when keycode QMKBEST is pressed
-        SEND_STRING("autocmd filetype yaml setlocal ai ts=2 sw=2 et sts=2 cuc cul" SS_TAP(X_ENTER));
+        SEND_STRING("ä");
       } else {
         // when keycode QMKBEST is released
       }
@@ -145,14 +145,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case QMKURL:
       if (record->event.pressed) {
         // when keycode QMKURL is pressed
-        SEND_STRING("Hello World \n");
+        SEND_STRING("https://duckduckgo.com/?q=search\n");
       } else {
         // when keycode QMKURL is released
       }
       break;
     case QMKOTH:
       if (record->event.pressed) {
-        SEND_STRING(""); // templ
+        SEND_STRING("autocmd filetype yaml setlocal ai ts=2 sw=2 et sts=2 cuc cul" SS_TAP(X_ENTER)); // useful vim yaml mnemonic
       }
       break;
     case QMKJ2:
