@@ -87,12 +87,13 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
             }
             #else
             response[3] = 0;
-            response[4] = CAPSENSE_HARDCODED_THRESHOLD;
+            response[4] = (CAPSENSE_HARDCODED_THRESHOLD) & 0xff;
+            response[5] = ((CAPSENSE_HARDCODED_THRESHOLD) >> 8) & 0xff;
             #endif
             break;
         case UTIL_COMM_GET_KEYBOARD_FILENAME:
             {
-                response[2] = UTIL_COMM_GET_KEYBOARD_FILENAME;
+                response[2] = UTIL_COMM_RESPONSE_OK;
                 if (data[3] >= strlen(KEYBOARD_FILENAME) + 1)
                 {
                     response[3] = 0;
