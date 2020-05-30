@@ -30,7 +30,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    MonitorWindow mw;
     Communication &comm;
     HidThread thread;
 };

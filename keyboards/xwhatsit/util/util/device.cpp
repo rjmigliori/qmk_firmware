@@ -1,6 +1,7 @@
 #include "device.h"
 #include <stdexcept>
 #include <string.h>
+#include <stdio.h>
 #include "../../util_comm.h"
 
 const std::string XWHATSIT_ENDING_STRING = " (Running original xwhatsit firmware)";
@@ -61,11 +62,24 @@ Device::Device(std::string path, QMutex &mutex) :
             hid_close(device);
             throw std::runtime_error("hid_read did not return OK response");
         }
-        if (data[3] != UTIL_COMM_VERSION)
+        version = static_cast<uint32_t>(data[3]);
+        if (version < 1)
         {
             hid_close(device);
             throw std::runtime_error("Protocol version is wrong");
         }
+        if (version >= 2)
+        {
+            version = (static_cast<uint32_t>(data[3]) << 24) |
+                      (static_cast<uint32_t>(data[4]) << 16) |
+                      (static_cast<uint32_t>(data[5]) << 8 ) |
+                      (static_cast<uint32_t>(data[6]) << 0 );
+                                                        ;
+        } else {
+            version = static_cast<uint32_t>(data[3]) << 24;
+        }
+    } else {
+        version = 0;
     }
 }
 
@@ -109,4 +123,205 @@ void Device::enterBootloader()
         }
     }
     close();
+}
+
+void Device::enableKeyboard()
+{
+    QMutexLocker locker(&mutex);
+    if (xwhatsit_original_firmware)
+    {
+        throw std::runtime_error("This doesn't work with xwhatsit original firmware");
+    }
+    uint8_t data[33];
+    data[0] = 0;
+    memcpy(data + 1, magic, sizeof(magic));
+    data[2+1] = UTIL_COMM_ENABLE_KEYBOARD;
+    if (-1==hid_write(device, data, sizeof(data)))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_write failed to enable keyboard");
+    }
+    if ((sizeof(data)-1)!=hid_read_timeout(device, data, sizeof(data)-1, 1000))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_read failed while enabling keyboard");
+    }
+    if ((data[0] != magic[0]) || (data[1] != magic[1]))
+    {
+        throw std::runtime_error("hid_read failed while enabling keyboard -- no magic returned");
+    }
+    if (data[2] != UTIL_COMM_RESPONSE_OK)
+    {
+        throw std::runtime_error("hid_read failed while enabling keyboard -- response not okay");
+    }
+}
+
+void Device::disableKeyboard()
+{
+    QMutexLocker locker(&mutex);
+    if (xwhatsit_original_firmware)
+    {
+        throw std::runtime_error("This doesn't work with xwhatsit original firmware");
+    }
+    uint8_t data[33];
+    data[0] = 0;
+    memcpy(data + 1, magic, sizeof(magic));
+    data[2+1] = UTIL_COMM_DISABLE_KEYBOARD;
+    if (-1==hid_write(device, data, sizeof(data)))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_write failed to disable keyboard");
+    }
+    if ((sizeof(data)-1)!=hid_read_timeout(device, data, sizeof(data)-1, 1000))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_read failed while disabling keyboard");
+    }
+    if ((data[0] != magic[0]) || (data[1] != magic[1]))
+    {
+        throw std::runtime_error("hid_read failed while disabling keyboard -- no magic returned");
+    }
+    if (data[2] != UTIL_COMM_RESPONSE_OK)
+    {
+        throw std::runtime_error("hid_read failed while disabling keyboard -- response not okay");
+    }
+}
+
+std::vector<std::vector<uint8_t>> Device::getThresholds()
+{
+    QMutexLocker locker(&mutex);
+    std::vector<std::vector<uint8_t>> ret;
+    if (xwhatsit_original_firmware)
+    {
+        throw std::runtime_error("This doesn't work with xwhatsit original firmware");
+    }
+    uint8_t bins;
+    uint8_t current_bin = 0;
+    do {
+        uint8_t data[33];
+        data[0] = 0;
+        memcpy(data + 1, magic, sizeof(magic));
+        data[2+1] = UTIL_COMM_GET_THRESHOLDS;
+        data[3+1] = current_bin;
+        if (-1==hid_write(device, data, sizeof(data)))
+        {
+            printf("hid error: %ls\n", hid_error(device));
+            throw std::runtime_error("hid_write failed to disable keyboard");
+        }
+        if ((sizeof(data)-1)!=hid_read_timeout(device, data, sizeof(data)-1, 1000))
+        {
+            printf("hid error: %ls\n", hid_error(device));
+            throw std::runtime_error("hid_read failed while getting thresholds");
+        }
+        if ((data[0] != magic[0]) || (data[1] != magic[1]))
+        {
+            throw std::runtime_error("hid_read failed while getting thresholds -- no magic returned");
+        }
+        if (data[2] != UTIL_COMM_RESPONSE_OK)
+        {
+            throw std::runtime_error("hid_read failed while getting thresholds -- response not okay");
+        }
+        std::vector<uint8_t> trdata(&data[3], &data[33]);
+        ret.push_back(trdata);
+        bins = data[3];
+        current_bin ++;
+    } while (current_bin < bins);
+    return ret;
+}
+
+std::vector<uint8_t> Device::getKeyState()
+{
+    QMutexLocker locker(&mutex);
+    if (xwhatsit_original_firmware)
+    {
+        throw std::runtime_error("This doesn't work with xwhatsit original firmware");
+    }
+    uint8_t data[33];
+    data[0] = 0;
+    memcpy(data + 1, magic, sizeof(magic));
+    data[2+1] = UTIL_COMM_GET_KEYSTATE;
+    if (-1==hid_write(device, data, sizeof(data)))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_write failed to get keystate");
+    }
+    if ((sizeof(data)-1)!=hid_read_timeout(device, data, sizeof(data)-1, 1000))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_read failed while getting keystate");
+    }
+    if ((data[0] != magic[0]) || (data[1] != magic[1]))
+    {
+        throw std::runtime_error("hid_read failed while getting keystate -- no magic returned");
+    }
+    if (data[2] != UTIL_COMM_RESPONSE_OK)
+    {
+        throw std::runtime_error("hid_read failed while getting keystate -- response not okay");
+    }
+    std::vector<uint8_t> ret(&data[3], &data[33]);
+    return ret;
+}
+
+uint32_t Device::getVersion()
+{
+    return version;
+}
+
+bool Device::isVersionAtLeast(uint8_t major, uint8_t mid, uint16_t minor)
+{
+    if ((version >> 24) > major) return true;
+    if ((version >> 24) < major) return false;
+    if (((version >> 16) & 0xff) > mid) return true;
+    if (((version >> 16) & 0xff) < mid) return false;
+    if ((version & 0xffff) >= minor) return true;
+    return false;
+}
+
+void Device::assertVersionIsAtLeast(uint8_t major, uint8_t mid, uint16_t minor)
+{
+    if (!isVersionAtLeast(major, mid, minor))
+        throw std::runtime_error("Version of communication protocl is too old. Please update your firmware.");
+}
+
+std::string Device::getKeyboardFilename()
+{
+    QMutexLocker locker(&mutex);
+    if (xwhatsit_original_firmware)
+    {
+        throw std::runtime_error("This doesn't work with xwhatsit original firmware");
+    }
+    int start = 0;
+    std::string s;
+    std::string piece;
+    do
+    {
+        uint8_t data[33];
+        data[0] = 0;
+        memcpy(data + 1, magic, sizeof(magic));
+        data[2+1] = UTIL_COMM_GET_KEYBOARD_FILENAME;
+        data[4] = static_cast<uint8_t>(start);
+        if (-1==hid_write(device, data, sizeof(data)))
+        {
+            printf("hid error: %ls\n", hid_error(device));
+            throw std::runtime_error("hid_write failed to get keyboard firmware");
+        }
+        if ((sizeof(data)-1)!=hid_read_timeout(device, data, sizeof(data)-1, 1000))
+        {
+            printf("hid error: %ls\n", hid_error(device));
+            throw std::runtime_error("hid_read failed to get keyboard firmware");
+        }
+        if ((data[0] != magic[0]) || (data[1] != magic[1]))
+        {
+            throw std::runtime_error("hid_read failed to get keyboard firmware -- no magic returned");
+        }
+        if (data[2] != UTIL_COMM_RESPONSE_OK)
+        {
+            throw std::runtime_error("hid_read failed to get keyboard firmware -- response not okay");
+        }
+        data[32] = 0;
+        piece = std::string(reinterpret_cast<const char *>(data + 3));
+        s += piece;
+        start += piece.size();
+    } while ((piece.length() >= 32 - 3) && (start < 256));
+    return s;
 }

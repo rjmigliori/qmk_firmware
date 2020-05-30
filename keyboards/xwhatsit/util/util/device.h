@@ -16,10 +16,19 @@ public:
     virtual ~Device();
     void close();
     void enterBootloader();
+    void disableKeyboard();
+    void enableKeyboard();
+    uint32_t getVersion();
+    bool isVersionAtLeast(uint8_t major, uint8_t mid, uint16_t minor);
+    void assertVersionIsAtLeast(uint8_t major, uint8_t mid, uint16_t minor);
+    std::vector<std::vector<uint8_t>> getThresholds();
+    std::vector<uint8_t> getKeyState();
+    std::string getKeyboardFilename();
 private:
     hid_device *device = NULL;
     QMutex &mutex;
     bool xwhatsit_original_firmware;
+    uint32_t version;
 };
 
 #endif // DEVICE_H

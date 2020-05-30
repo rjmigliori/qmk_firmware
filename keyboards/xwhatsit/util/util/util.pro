@@ -30,14 +30,16 @@ SOURCES += \
     monitorwindow.cpp \
     communication.cpp \
     device.cpp \
-    hidthread.cpp
+    hidthread.cpp \
+    kbd_defs.cpp
 
 HEADERS += \
         mainwindow.h \
     monitorwindow.h \
     communication.h \
     device.h \
-    hidthread.h
+    hidthread.h \
+    kbd_defs.h
 
 unix:!macx {
     LIBS += -lhidapi-libusb

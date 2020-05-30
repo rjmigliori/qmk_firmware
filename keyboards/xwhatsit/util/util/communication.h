@@ -12,7 +12,7 @@ public:
     Communication();
     virtual ~Communication();
     std::vector<std::string> scan();
-    Device open(std::string path);
+    Device *open(std::string path);
 private:
     QMutex mutex;
 };

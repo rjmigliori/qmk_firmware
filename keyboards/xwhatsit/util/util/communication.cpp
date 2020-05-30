@@ -49,7 +49,7 @@ std::vector<std::string> Communication::scan()
     return ret;
 }
 
-Device Communication::open(std::string path)
+Device *Communication::open(std::string path)
 {
-    return Device(path, mutex);
+    return new Device(path, mutex);
 }

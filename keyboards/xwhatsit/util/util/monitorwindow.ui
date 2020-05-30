@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>494</width>
-    <height>127</height>
+    <height>129</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -20,22 +20,23 @@
    <string>Keypress Monitor (Simple)</string>
   </property>
   <widget class="QComboBox" name="layoutSel">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
+     <y>30</y>
      <width>471</width>
      <height>25</height>
     </rect>
    </property>
+   <property name="currentText">
+    <string>LOADING...</string>
+   </property>
    <item>
     <property name="text">
-     <string>LAYOUT_??</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>LAYOUT_????</string>
+     <string>LOADING...</string>
     </property>
    </item>
   </widget>
@@ -43,7 +44,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>40</y>
+     <y>60</y>
      <width>471</width>
      <height>17</height>
     </rect>
@@ -56,7 +57,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>60</y>
+     <y>80</y>
      <width>471</width>
      <height>17</height>
     </rect>
@@ -69,7 +70,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>80</y>
+     <y>100</y>
      <width>121</width>
      <height>17</height>
     </rect>
@@ -82,7 +83,7 @@
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>80</y>
+     <y>100</y>
      <width>131</width>
      <height>17</height>
     </rect>
@@ -104,7 +105,7 @@
    <property name="geometry">
     <rect>
      <x>260</x>
-     <y>80</y>
+     <y>100</y>
      <width>101</width>
      <height>17</height>
     </rect>
@@ -123,7 +124,7 @@
    <property name="geometry">
     <rect>
      <x>370</x>
-     <y>80</y>
+     <y>100</y>
      <width>111</width>
      <height>17</height>
     </rect>
@@ -136,6 +137,19 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_keyboardname">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>471</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Keyboard: LOADING...</string>
    </property>
   </widget>
  </widget>

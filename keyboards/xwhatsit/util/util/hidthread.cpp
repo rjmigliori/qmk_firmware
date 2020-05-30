@@ -1,5 +1,6 @@
 #include "hidthread.h"
 #include <stdio.h>
+#include <iostream>
 
 HidThread::HidThread(Communication &comm, QObject *parent) : QThread(parent), comm(comm)
 {
@@ -7,6 +8,7 @@ HidThread::HidThread(Communication &comm, QObject *parent) : QThread(parent), co
     abort = false;
     enter_bootloader_path = "";
     autoenter_mode = false;
+    close_monitored_device = false;
 }
 
 HidThread::~HidThread()
@@ -42,20 +44,43 @@ void HidThread::enterBootloader(std::string path)
      condition.wakeOne();
 }
 
+void HidThread::monitor(std::string path)
+{
+    QMutexLocker locker(&mutex);
+    this->monitor_path = path;
+    condition.wakeOne();
+}
+
+void HidThread::closeMonitoredDevice()
+{
+    QMutexLocker locker(&mutex);
+    this->close_monitored_device = true;
+    condition.wakeOne();
+}
+
 void HidThread::run()
 {
+    Device *monitoredDevice = nullptr;
     forever {
         mutex.lock();
-        bool l_keep_scanning, l_abort, nothing_to_do, l_autoenter_mode;
+        bool l_keep_scanning, l_abort, nothing_to_do, l_autoenter_mode, l_close_monitored_device;
         std::string l_enter_bootloader_path;
+        std::string l_monitor_path;
         do {
             l_keep_scanning = this->keep_scanning;
             l_enter_bootloader_path = this->enter_bootloader_path;
+            l_monitor_path = this->monitor_path;
             l_autoenter_mode = this->autoenter_mode;
+            l_close_monitored_device = this->close_monitored_device;
             l_abort = this->abort;
-            nothing_to_do = (!l_keep_scanning) && (!l_abort) && (l_enter_bootloader_path.size()==0) && (!l_autoenter_mode);
+            nothing_to_do = (!l_keep_scanning) &&
+                            (!l_abort) &&
+                            (l_enter_bootloader_path.size()==0) &&
+                            (l_monitor_path.size()==0) &&
+                            (!l_autoenter_mode) &&
+                            (monitoredDevice == nullptr) &&
+                            (!l_close_monitored_device);
             if (nothing_to_do) {
-                printf("Sleeping\n");
                 condition.wait(&mutex);
             }
         } while (nothing_to_do);
@@ -65,14 +90,47 @@ void HidThread::run()
         if (l_enter_bootloader_path.size() != 0)
         {
             try {
-                Device dev = comm.open(l_enter_bootloader_path);
-                dev.enterBootloader();
+                QScopedPointer<Device> dev(comm.open(l_enter_bootloader_path));
+                dev.data()->enterBootloader();
             } catch (const std::runtime_error &e1) {
                 emit reportError(e1.what());
             }
             mutex.lock();
             this->enter_bootloader_path = "";
             mutex.unlock();
+        }
+        if (l_monitor_path.size() != 0)
+        {
+            try {
+                QScopedPointer<Device> dev(comm.open(l_monitor_path));
+                dev.data()->assertVersionIsAtLeast(2, 0, 0);
+                std::string name = dev.data()->getKeyboardFilename();
+                emit keyboardName(name);
+                emit thresholds(dev.data()->getThresholds());
+                dev.data()->disableKeyboard();
+                monitoredDevice = dev.take();
+            } catch (const std::runtime_error &e1) {
+                emit reportMonitorError(e1.what());
+            }
+            mutex.lock();
+            this->monitor_path = "";
+            mutex.unlock();
+        }
+        if (l_close_monitored_device)
+        {
+            if (monitoredDevice != nullptr)
+            {
+                monitoredDevice->enableKeyboard();
+                delete monitoredDevice;
+                monitoredDevice = nullptr;
+            }
+            mutex.lock();
+            this->close_monitored_device = false;
+            mutex.unlock();
+        }
+        if (monitoredDevice != nullptr)
+        {
+            emit keystate(monitoredDevice->getKeyState());
         }
         if (l_keep_scanning)
         {
@@ -84,8 +142,8 @@ void HidThread::run()
                 for(auto value : devices)
                 {
                     try {
-                        Device dev = comm.open(value);
-                        dev.enterBootloader();
+                        QScopedPointer<Device> dev(comm.open(value));
+                        dev.data()->enterBootloader();
                     } catch (...)
                     {
                         // Ignore errors

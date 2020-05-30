@@ -8,6 +8,8 @@
 
 Q_DECLARE_METATYPE(std::vector<std::string>)
 Q_DECLARE_METATYPE(std::string)
+Q_DECLARE_METATYPE(std::vector<std::vector<uint8_t> >)
+Q_DECLARE_METATYPE(std::vector<uint8_t>)
 
 MainWindow::MainWindow(Communication &comm, QWidget *parent) :
     QMainWindow(parent),
@@ -17,8 +19,10 @@ MainWindow::MainWindow(Communication &comm, QWidget *parent) :
 {
     ui->setupUi(this);
     qRegisterMetaType<std::vector<std::string>>("vector_of_strings");
-    connect(&thread, &HidThread::scannedDevices, this, &MainWindow::on_updateScannedDevices);
     qRegisterMetaType<std::string>("std_string");
+    qRegisterMetaType<std::vector<std::vector<uint8_t>>>("vector_of_vector_of_uint8t");
+    qRegisterMetaType<std::vector<uint8_t>>("vector_of_uint8t");
+    connect(&thread, &HidThread::scannedDevices, this, &MainWindow::on_updateScannedDevices);
     connect(&thread, &HidThread::reportError, this, &MainWindow::on_reportError);
     thread.start();
     thread.setScanning(true);
@@ -78,7 +82,7 @@ void MainWindow::on_listWidget_itemSelectionChanged()
     }
     bool enabled = !!ui->listWidget->currentItem();
     ui->enterBootloaderPushbutton->setEnabled(enabled);
-    //ui->keypressMinotorPushButton->setEnabled(enabled && !is_xwhatsit);
+    ui->keypressMinotorPushButton->setEnabled(enabled && !is_xwhatsit);
     Q_UNUSED(is_xwhatsit);
 }
 
@@ -94,10 +98,13 @@ void MainWindow::on_reportError(std::string error_message)
 
 void MainWindow::on_keypressMinotorPushButton_clicked()
 {
-    mw.loadLayout("../../brand_new_model_f_keyboards/f62/info.json");
+    MonitorWindow *mw = new MonitorWindow(thread, this);
+    mw->setAttribute(Qt::WA_DeleteOnClose);
+    //mw->setWindowModality(Qt::WindowModal);
+    thread.monitor(ui->listWidget->currentItem()->text().toStdString());
     bool previousScanning = thread.setScanning(false);
     ui->listWidget->setEnabled(false);
-    mw.exec();
+    mw->exec();
     ui->listWidget->setEnabled(true);
     thread.setScanning(previousScanning);
 }
