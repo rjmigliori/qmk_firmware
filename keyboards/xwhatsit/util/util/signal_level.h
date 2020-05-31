@@ -29,6 +29,7 @@ private slots:
     void on_reportMonitorError(std::string error_message);
 
     void on_SignalLevelMonitorWindow_finished(int result);
+    void ShowContextMenu(const QPoint &pos);
 
 private:
     Ui::SignalLevelMonitorWindow *ui;

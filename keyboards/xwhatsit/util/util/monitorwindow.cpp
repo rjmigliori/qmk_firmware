@@ -3,6 +3,8 @@
 #include <QGraphicsView>
 #include <QPainter>
 #include <QFile>
+#include <QMenu>
+#include <QAction>
 #include <QMessageBox>
 #include <iostream>
 #include "kbd_defs.h"
@@ -18,6 +20,18 @@ MonitorWindow::MonitorWindow(HidThread &thread, QWidget *parent) :
     connect(&thread, &HidThread::reportMonitorError, this, &MonitorWindow::on_reportMonitorError);
     connect(&thread, &HidThread::thresholds, this, &MonitorWindow::on_thresholds);
     connect(&thread, &HidThread::keystate, this, &MonitorWindow::on_keystate);
+    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
+            this, SLOT(ShowContextMenu(const QPoint &)));
+}
+
+void MonitorWindow::ShowContextMenu(const QPoint &pos)
+{
+    QMenu contextMenu(tr("Context menu"), this);
+    QAction action1("Close", this);
+    connect(&action1, SIGNAL(triggered()), this, SLOT(close()));
+    contextMenu.addAction(&action1);
+    contextMenu.exec(mapToGlobal(pos));
 }
 
 MonitorWindow::~MonitorWindow()

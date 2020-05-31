@@ -3,6 +3,8 @@
 #include <QGraphicsView>
 #include <QPainter>
 #include <QFile>
+#include <QMenu>
+#include <QAction>
 #include <QMessageBox>
 #include <iostream>
 #include "kbd_defs.h"
@@ -17,6 +19,18 @@ SignalLevelMonitorWindow::SignalLevelMonitorWindow(HidThread &thread, QWidget *p
     connect(&thread, &HidThread::keyboardName, this, &SignalLevelMonitorWindow::on_keyboardName);
     connect(&thread, &HidThread::reportMonitorError, this, &SignalLevelMonitorWindow::on_reportMonitorError);
     connect(&thread, &HidThread::reportSignalLevel, this, &SignalLevelMonitorWindow::on_signallevel);
+    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
+            this, SLOT(ShowContextMenu(const QPoint &)));
+}
+
+void SignalLevelMonitorWindow::ShowContextMenu(const QPoint &pos)
+{
+    QMenu contextMenu(tr("Context menu"), this);
+    QAction action1("Close", this);
+    connect(&action1, SIGNAL(triggered()), this, SLOT(close()));
+    contextMenu.addAction(&action1);
+    contextMenu.exec(mapToGlobal(pos));
 }
 
 SignalLevelMonitorWindow::~SignalLevelMonitorWindow()
