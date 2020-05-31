@@ -19,6 +19,7 @@
 #include "util_comm.h"
 #include "matrix_manipulate.h"
 #include <string.h>
+#include <tmk_core/common/eeprom.h>
 
 #if defined(KEYBOARD_SHARED_EP) && defined(RAW_ENABLE)
 #error "Enabling the KEYBOARD_SHARED_EP will make the util be unable to communicate with the firmware, because due to hidapi limiations, the util can't figure out which interface to talk to, so it hardcodes interface zero."
@@ -107,6 +108,15 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
                     memcpy(&response[3], substring, substring_length);
                 }
                 break;
+            }
+        case UTIL_COMM_ERASE_EEPROM:
+            {
+                response[2] = UTIL_COMM_RESPONSE_OK;
+                uint16_t addr;
+                for (addr=0; addr<E2END; addr += 1)
+                {
+                    eeprom_update_byte((uint8_t*)addr, 0xff);
+                }
             }
         default:
             break;
