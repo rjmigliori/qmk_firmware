@@ -63,7 +63,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>*NOTE2: The numbers inside each key show the current signal level.</string>
+    <string>*NOTE2: The numbers in the keys show the max/curr/min signal level.</string>
    </property>
   </widget>
   <widget class="QLabel" name="last_label">

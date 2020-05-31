@@ -37,11 +37,14 @@ private:
     const struct kbd_def *keyboard;
     HidThread &thread;
     std::vector<std::vector<uint16_t>> signal_level;
+    std::vector<std::vector<uint16_t>> min_signal_level;
+    std::vector<std::vector<uint16_t>> max_signal_level;
+    QColor getColor(uint16_t value, uint16_t mins, uint16_t maxs);
 
     int keyboard_width_uis;
     int keyboard_height_uis;
     static constexpr double MIN_HORIZONTAL_SCALE = 32;
-    static constexpr double MIN_VERTICAL_SCALE = 32;
+    static constexpr double MIN_VERTICAL_SCALE = 42;
     static const int HORIZONTAL_MARGIN = 10;
     static const int VERTICAL_MARGIN = 10;
 };

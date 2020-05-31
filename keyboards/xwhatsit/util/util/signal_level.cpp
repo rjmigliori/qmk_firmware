@@ -74,6 +74,17 @@ void SignalLevelMonitorWindow::loadLayout(QString name)
                          ui->last_label->geometry().y() + ui->last_label->geometry().height() +
                              static_cast<int>(keyboard_height_uis * MIN_VERTICAL_SCALE + 2 * VERTICAL_MARGIN));
     this->signal_level = std::vector<std::vector<uint16_t>>(static_cast<unsigned long>(keyboard->rows), std::vector<uint16_t>(static_cast<unsigned long>(keyboard->cols), 0xFFFFU));
+    this->max_signal_level = std::vector<std::vector<uint16_t>>(static_cast<unsigned long>(keyboard->rows), std::vector<uint16_t>(static_cast<unsigned long>(keyboard->cols), 0xFFFFU));
+    this->min_signal_level = std::vector<std::vector<uint16_t>>(static_cast<unsigned long>(keyboard->rows), std::vector<uint16_t>(static_cast<unsigned long>(keyboard->cols), 0xFFFFU));
+}
+
+QColor SignalLevelMonitorWindow::getColor(uint16_t value, uint16_t mins, uint16_t maxs)
+{
+    double scale = (value - mins + 0.0) / (maxs - mins);
+    uint8_t red = static_cast<uint8_t>(0xff * (1 - scale) + 0xc0 * scale);
+    uint8_t green = static_cast<uint8_t>(0xff * scale + 0xc0 * (1 - scale));
+    uint8_t blue = 0xc0;
+    return QColor(red, green, blue);
 }
 
 void SignalLevelMonitorWindow::paintEvent(QPaintEvent *event)
@@ -87,8 +98,6 @@ void SignalLevelMonitorWindow::paintEvent(QPaintEvent *event)
     int maxx = 0;
     double scale_x = (1. * this->width() - 2 * HORIZONTAL_MARGIN) / (keyboard_width_uis);
     double scale_y = (1. * this->height() - VERTICAL_MARGIN - yadd) / keyboard_height_uis;
-    painter.setBrush(QBrush(QColor("#FFFFFF")));
-    painter.setPen(QPen(Qt::black));
     int i;
     for (i=0;i<keyboard->n_layouts;i++)
     {
@@ -103,13 +112,13 @@ void SignalLevelMonitorWindow::paintEvent(QPaintEvent *event)
                 unsigned int row = layout->keys[j].row;
                 if (signal_level[row][col]!=0xffffu)
                 {
-                    if ((mins == 0xffffu) || (mins > signal_level[row][col]))
+                    if ((mins == 0xffffu) || (mins > min_signal_level[row][col]))
                     {
-                        mins = signal_level[row][col];
+                        mins = min_signal_level[row][col];
                     }
-                    if ((maxs == 0xffffu) || (maxs < signal_level[row][col]))
+                    if ((maxs == 0xffffu) || (maxs < max_signal_level[row][col]))
                     {
-                        maxs = signal_level[row][col];
+                        maxs = max_signal_level[row][col];
                     }
 
                 }
@@ -128,16 +137,8 @@ void SignalLevelMonitorWindow::paintEvent(QPaintEvent *event)
                 int h = static_cast<int>(scale_y * (y_ + h_) / 8 + 0.5) - y;
                 y += yadd;
                 x += xadd;
-                if ((signal_level[row][col]==0xffffu) || (maxs == mins))
-                {
-                    painter.setBrush(QBrush(QColor("#FFFFFF")));
-                } else {
-                    double scale = (signal_level[row][col] - mins + 0.0) / (maxs - mins);
-                    uint8_t red = static_cast<uint8_t>(0xff * (1 - scale) + 0xc0 * scale);
-                    uint8_t green = static_cast<uint8_t>(0xff * scale + 0xc0 * (1 - scale));
-                    uint8_t blue = 0xc0;
-                    painter.setBrush(QBrush(QColor(red, green, blue)));
-                }
+                painter.setPen(QPen(Qt::black));
+                painter.setBrush(Qt::NoBrush);
                 QRectF rect(x, y, w, h);
                 painter.drawRect(rect);
                 if (y+h > maxy)
@@ -148,8 +149,38 @@ void SignalLevelMonitorWindow::paintEvent(QPaintEvent *event)
                 {
                     maxx = x + w;
                 }
-                if (signal_level[row][col]!=0xffffu)
-                    painter.drawText(rect, Qt::AlignCenter, QString::number(signal_level[row][col]));
+                if ((signal_level[row][col]!=0xffffu) && (mins!=maxs))
+                {
+                    painter.setPen(Qt::NoPen);
+                    QString maxstring = QString::number(max_signal_level[row][col]);
+                    QString currstring = QString::number(signal_level[row][col]);
+                    QString minstring = QString::number(min_signal_level[row][col]);
+                    painter.setBrush(QBrush(getColor(max_signal_level[row][col], mins, maxs)));
+                    QRectF recti_max(x+1, y+1, w-1, (h-1) / 3);
+                    painter.drawRect(recti_max);
+                    painter.setBrush(QBrush(getColor(signal_level[row][col], mins, maxs)));
+                    QRectF recti_curr(x+1, y+1 + (h-1) / 3, w-1, (h-1) / 3);
+                    painter.drawRect(recti_curr);
+                    painter.setBrush(QBrush(getColor(min_signal_level[row][col], mins, maxs)));
+                    QRectF recti_min(x+1, y+1 + (h-1) / 3 *2, w-1, h-1 - ((h-1) / 3) * 2);
+                    painter.drawRect(recti_min);
+                    painter.setPen(Qt::black);
+                    painter.drawText(recti_max, Qt::AlignCenter, maxstring);
+                    painter.drawText(recti_curr, Qt::AlignCenter, currstring);
+                    painter.drawText(recti_min, Qt::AlignCenter, minstring);
+
+                } else {
+                    painter.setPen(Qt::NoPen);
+                    painter.setBrush(QBrush(QColor("#FFFFFF")));
+                    QRectF recti(x+1, y+1, w-1, h-1);
+                    painter.drawRect(recti);
+                    if (signal_level[row][col]!=0xffffu)
+                    {
+                        painter.setPen(Qt::black);
+                        QString currstring = QString::number(signal_level[row][col]);
+                        painter.drawText(recti, Qt::AlignCenter, currstring);
+                    }
+                }
             }
             break;
         }
@@ -181,6 +212,14 @@ void SignalLevelMonitorWindow::on_signallevel(std::vector<uint16_t> data)
             different = true;
         }
         signal_level[row][col] = data[i];
+        if ((min_signal_level[row][col]==0xffffu) || (data[i] < min_signal_level[row][col]))
+        {
+            min_signal_level[row][col] = data[i];
+        }
+        if ((max_signal_level[row][col]==0xffffu) || (data[i] > max_signal_level[row][col]))
+        {
+            max_signal_level[row][col] = data[i];
+        }
         col += 1;
         if (col >= keyboard->cols)
         {
