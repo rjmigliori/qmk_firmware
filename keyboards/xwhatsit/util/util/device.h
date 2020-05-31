@@ -24,6 +24,8 @@ public:
     void eraseEeprom();
     std::vector<std::vector<uint8_t>> getThresholds();
     std::vector<uint8_t> getKeyState();
+    std::vector<uint8_t> getKeyboardDetails();
+    std::vector<uint16_t> getSignalValue(uint8_t col, uint8_t row);
     std::string getKeyboardFilename();
 private:
     hid_device *device = NULL;

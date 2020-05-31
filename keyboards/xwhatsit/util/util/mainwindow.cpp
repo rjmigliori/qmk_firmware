@@ -10,6 +10,7 @@ Q_DECLARE_METATYPE(std::vector<std::string>)
 Q_DECLARE_METATYPE(std::string)
 Q_DECLARE_METATYPE(std::vector<std::vector<uint8_t> >)
 Q_DECLARE_METATYPE(std::vector<uint8_t>)
+Q_DECLARE_METATYPE(std::vector<uint16_t>)
 
 MainWindow::MainWindow(Communication &comm, QWidget *parent) :
     QMainWindow(parent),
@@ -22,6 +23,7 @@ MainWindow::MainWindow(Communication &comm, QWidget *parent) :
     qRegisterMetaType<std::string>("std_string");
     qRegisterMetaType<std::vector<std::vector<uint8_t>>>("vector_of_vector_of_uint8t");
     qRegisterMetaType<std::vector<uint8_t>>("vector_of_uint8t");
+    qRegisterMetaType<std::vector<uint16_t>>("vector_of_uint16t");
     connect(&thread, &HidThread::scannedDevices, this, &MainWindow::on_updateScannedDevices);
     connect(&thread, &HidThread::reportError, this, &MainWindow::on_reportError);
     connect(&thread, &HidThread::reportInfo, this, &MainWindow::on_reportInfo);
@@ -85,6 +87,7 @@ void MainWindow::on_listWidget_itemSelectionChanged()
     ui->enterBootloaderPushbutton->setEnabled(enabled);
     ui->keypressMinotorPushButton->setEnabled(enabled && !is_xwhatsit);
     ui->eraseEepromPushButton->setEnabled(enabled && !is_xwhatsit);
+    ui->signalLevelPushButton->setEnabled(enabled && !is_xwhatsit);
     Q_UNUSED(is_xwhatsit);
 }
 
@@ -124,4 +127,17 @@ void MainWindow::on_autoEnterModeCheckBox_stateChanged(int arg1)
 void MainWindow::on_eraseEepromPushButton_clicked()
 {
     thread.eraseEeprom(ui->listWidget->currentItem()->text().toStdString());
+}
+
+void MainWindow::on_signalLevelPushButton_clicked()
+{
+    SignalLevelMonitorWindow *mw = new SignalLevelMonitorWindow(thread, this);
+    mw->setAttribute(Qt::WA_DeleteOnClose);
+    //mw->setWindowModality(Qt::WindowModal);
+    thread.signalLevel(ui->listWidget->currentItem()->text().toStdString());
+    bool previousScanning = thread.setScanning(false);
+    ui->listWidget->setEnabled(false);
+    mw->exec();
+    ui->listWidget->setEnabled(true);
+    thread.setScanning(previousScanning);
 }

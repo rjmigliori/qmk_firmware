@@ -51,6 +51,13 @@ void HidThread::monitor(std::string path)
     condition.wakeOne();
 }
 
+void HidThread::signalLevel(std::string path)
+{
+    QMutexLocker locker(&mutex);
+    this->signal_level_path = path;
+    condition.wakeOne();
+}
+
 void HidThread::eraseEeprom(std::string path)
 {
     QMutexLocker locker(&mutex);
@@ -68,14 +75,17 @@ void HidThread::closeMonitoredDevice()
 void HidThread::run()
 {
     Device *monitoredDevice = nullptr;
+    Device *signalLevelDevice = nullptr;
+    uint8_t cols=0, rows=0, current_col=0, current_row=0;
     forever {
         mutex.lock();
         bool l_keep_scanning, l_abort, nothing_to_do, l_autoenter_mode, l_close_monitored_device;
-        std::string l_enter_bootloader_path, l_monitor_path, l_erase_eeprom_path;
+        std::string l_enter_bootloader_path, l_monitor_path, l_erase_eeprom_path, l_signal_level_path;
         do {
             l_keep_scanning = this->keep_scanning;
             l_enter_bootloader_path = this->enter_bootloader_path;
             l_monitor_path = this->monitor_path;
+            l_signal_level_path = this->signal_level_path;
             l_autoenter_mode = this->autoenter_mode;
             l_close_monitored_device = this->close_monitored_device;
             l_abort = this->abort;
@@ -87,7 +97,9 @@ void HidThread::run()
                             (!l_autoenter_mode) &&
                             (monitoredDevice == nullptr) &&
                             (!l_close_monitored_device) &&
-                            (l_erase_eeprom_path.size() == 0);
+                            (l_erase_eeprom_path.size() == 0) &&
+                            (l_signal_level_path.size() == 0) &&
+                            (signalLevelDevice == nullptr);
             if (nothing_to_do) {
                 condition.wait(&mutex);
             }
@@ -138,6 +150,26 @@ void HidThread::run()
             this->monitor_path = "";
             mutex.unlock();
         }
+        if (l_signal_level_path.size() != 0)
+        {
+            try {
+                QScopedPointer<Device> dev(comm.open(l_signal_level_path));
+                dev.data()->assertVersionIsAtLeast(2, 0, 2);
+                std::string name = dev.data()->getKeyboardFilename();
+                emit keyboardName(name);
+                dev.data()->disableKeyboard();
+                std::vector<uint8_t> details = dev.data()->getKeyboardDetails();
+                cols = details[0];
+                rows = details[1];
+                current_col = current_row = 0;
+                signalLevelDevice = dev.take();
+            } catch (const std::runtime_error &e1) {
+                emit reportMonitorError(e1.what());
+            }
+            mutex.lock();
+            this->signal_level_path = "";
+            mutex.unlock();
+        }
         if (l_close_monitored_device)
         {
             if (monitoredDevice != nullptr)
@@ -146,6 +178,12 @@ void HidThread::run()
                 delete monitoredDevice;
                 monitoredDevice = nullptr;
             }
+            if (signalLevelDevice != nullptr)
+            {
+                signalLevelDevice->enableKeyboard();
+                delete signalLevelDevice;
+                signalLevelDevice = nullptr;
+            }
             mutex.lock();
             this->close_monitored_device = false;
             mutex.unlock();
@@ -153,6 +191,24 @@ void HidThread::run()
         if (monitoredDevice != nullptr)
         {
             emit keystate(monitoredDevice->getKeyState());
+        }
+        if (signalLevelDevice != nullptr)
+        {
+            std::vector<uint16_t> signal_levels = signalLevelDevice->getSignalValue(current_col, current_row);
+            unsigned long cnt = signal_levels.size();
+            signal_levels.insert(signal_levels.begin(), current_row);
+            signal_levels.insert(signal_levels.begin(), current_col);
+            current_col += cnt;
+            while (current_col >= cols) {
+                current_col -= cols;
+                current_row += 1;
+            }
+            if (current_row >= rows)
+            {
+                current_row = 0;
+                current_col = 0;
+            }
+            emit reportSignalLevel(signal_levels);
         }
         if (l_keep_scanning)
         {

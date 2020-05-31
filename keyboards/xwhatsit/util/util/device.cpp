@@ -252,7 +252,7 @@ std::vector<std::vector<uint8_t>> Device::getThresholds()
         {
             throw std::runtime_error("hid_read failed while getting thresholds -- response not okay");
         }
-        std::vector<uint8_t> trdata(&data[3], &data[33]);
+        std::vector<uint8_t> trdata(&data[3], &data[32]);
         ret.push_back(trdata);
         bins = data[3];
         current_bin ++;
@@ -289,7 +289,84 @@ std::vector<uint8_t> Device::getKeyState()
     {
         throw std::runtime_error("hid_read failed while getting keystate -- response not okay");
     }
-    std::vector<uint8_t> ret(&data[3], &data[33]);
+    std::vector<uint8_t> ret(&data[3], &data[32]);
+    return ret;
+}
+
+
+std::vector<uint8_t> Device::getKeyboardDetails()
+{
+    QMutexLocker locker(&mutex);
+    if (xwhatsit_original_firmware)
+    {
+        throw std::runtime_error("This doesn't work with xwhatsit original firmware");
+    }
+    uint8_t data[33];
+    data[0] = 0;
+    memcpy(data + 1, magic, sizeof(magic));
+    data[2+1] = UTIL_COMM_GET_KEYBOARD_DETAILS;
+    if (-1==hid_write(device, data, sizeof(data)))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_write failed to get keyboard details");
+    }
+    if ((sizeof(data)-1)!=hid_read_timeout(device, data, sizeof(data)-1, 1000))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_read failed while getting keyboard details");
+    }
+    if ((data[0] != magic[0]) || (data[1] != magic[1]))
+    {
+        throw std::runtime_error("hid_read failed while getting keyboard details -- no magic returned");
+    }
+    if (data[2] != UTIL_COMM_RESPONSE_OK)
+    {
+        throw std::runtime_error("hid_read failed while getting keyboard details -- response not okay");
+    }
+    std::vector<uint8_t> ret(&data[3], &data[32]);
+    return ret;
+}
+
+std::vector<uint16_t> Device::getSignalValue(uint8_t col, uint8_t row)
+{
+    QMutexLocker locker(&mutex);
+    if (xwhatsit_original_firmware)
+    {
+        throw std::runtime_error("This doesn't work with xwhatsit original firmware");
+    }
+    uint8_t data[33];
+    data[0] = 0;
+    memcpy(data + 1, magic, sizeof(magic));
+    data[2+1] = UTIL_COMM_GET_SIGNAL_VALUE;
+    data[3+1] = col;
+    data[4+1] = row;
+    uint8_t count = 14;
+    data[5+1] = count;
+    if (-1==hid_write(device, data, sizeof(data)))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_write failed to get signal value");
+    }
+    if ((sizeof(data)-1)!=hid_read_timeout(device, data, sizeof(data)-1, 1000))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_read failed while getting signal value");
+    }
+    if ((data[0] != magic[0]) || (data[1] != magic[1]))
+    {
+        throw std::runtime_error("hid_read failed while getting signal value -- no magic returned");
+    }
+    if (data[2] != UTIL_COMM_RESPONSE_OK)
+    {
+        throw std::runtime_error("hid_read failed while getting signal value -- response not okay");
+    }
+    uint8_t i;
+    std::vector<uint16_t> ret;
+    for (i=0;i<count;i++)
+    {
+        uint16_t value = data[3+i*2] | static_cast<uint16_t>(data[3+i*2+1] << 8);
+        ret.push_back(value);
+    }
     return ret;
 }
 

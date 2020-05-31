@@ -20,6 +20,7 @@ public:
     bool setAutoEnter(bool enabled);
     void enterBootloader(std::string path);
     void monitor(std::string path);
+    void signalLevel(std::string path);
     void eraseEeprom(std::string path);
     void closeMonitoredDevice();
     Device *connectToDevice(std::string path);
@@ -31,6 +32,7 @@ signals:
     void thresholds(std::vector<std::vector<uint8_t>>);
     void keystate(std::vector<uint8_t>);
     void reportMonitorError(std::string error_message);
+    void reportSignalLevel(std::vector<uint16_t>);
 
 protected:
     void run() override;
@@ -42,6 +44,7 @@ private:
     bool close_monitored_device;
     std::string enter_bootloader_path;
     std::string monitor_path;
+    std::string signal_level_path;
     std::string erase_eeprom_path;
     QMutex mutex;
     QWaitCondition condition;

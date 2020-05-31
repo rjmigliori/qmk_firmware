@@ -62,7 +62,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Keypress Monitor (simple)</string>
+     <string>Keypress Monitor</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
@@ -81,7 +81,7 @@
      <string>Collect Test Data</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="signalLevelPushButton">
     <property name="enabled">
      <bool>false</bool>
     </property>
@@ -94,7 +94,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Keypress Monitor (advanced)</string>
+     <string>Signal Level Monitor</string>
     </property>
    </widget>
    <widget class="QPushButton" name="eraseEepromPushButton">

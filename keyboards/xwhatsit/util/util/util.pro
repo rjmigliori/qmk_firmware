@@ -31,7 +31,8 @@ SOURCES += \
     communication.cpp \
     device.cpp \
     hidthread.cpp \
-    kbd_defs.cpp
+    kbd_defs.cpp \
+    signal_level.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -39,7 +40,8 @@ HEADERS += \
     communication.h \
     device.h \
     hidthread.h \
-    kbd_defs.h
+    kbd_defs.h \
+    signal_level.h
 
 unix:!macx {
     LIBS += -lhidapi-libusb
@@ -60,7 +62,8 @@ win32 {
 
 FORMS += \
         mainwindow.ui \
-    monitorwindow.ui
+    monitorwindow.ui \
+    signal_level.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

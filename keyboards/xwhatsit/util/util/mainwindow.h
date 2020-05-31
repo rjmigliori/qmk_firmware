@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTimer>
 #include "monitorwindow.h"
+#include "signal_level.h"
 #include "communication.h"
 #include "hidthread.h"
 
@@ -30,6 +31,8 @@ private slots:
     void on_autoEnterModeCheckBox_stateChanged(int arg1);
 
     void on_eraseEepromPushButton_clicked();
+
+    void on_signalLevelPushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
