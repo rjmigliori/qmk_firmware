@@ -117,10 +117,52 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
                 {
                     eeprom_update_byte((uint8_t*)addr, 0xff);
                 }
+                break;
+            }
+        case UTIL_COMM_GET_SIGNAL_VALUE:
+            {
+                response[2] = UTIL_COMM_RESPONSE_OK;
+                uint8_t col = data[3];
+                uint8_t row = data[4];
+                uint8_t count = data[5];
+                int i;
+                for (i=0;i<count;i++)
+                {
+                    uint16_t value = measure_middle(col, row, CAPSENSE_HARDCODED_SAMPLE_TIME, 16);
+                    response[3+i*2] = value & 0xff;
+                    response[3+i*2+1] = (value >> 8) & 0xff;
+                    col += 1;
+                    if (col >= MATRIX_COLS) {
+                        col -= MATRIX_COLS;
+                        row += 1;
+                    }
+                    if (row >= MATRIX_ROWS)
+                    {
+                        break;
+                    }
+                }
+                break;
+            }
+        case UTIL_COMM_GET_KEYBOARD_DETAILS:
+            {
+                response[2] = UTIL_COMM_RESPONSE_OK;
+                response[3] = MATRIX_COLS;
+                response[4] = MATRIX_ROWS;
+                #if defined(CONTROLLER_IS_XWHATSIT_BEAMSPRING_REV_4)
+                response[5] = 1;
+                #elif defined(CONTROLLER_IS_XWHATSIT_MODEL_F_OR_WCASS_MODEL_F)
+                response[5] = 2;
+                #else
+                response[5] = 0;
+                #endif
+                response[6] = CAPSENSE_KEYBOARD_SETTLE_TIME_US;
+                response[7] = CAPSENSE_DAC_SETTLE_TIME_US;
+                response[8] = CAPSENSE_HARDCODED_SAMPLE_TIME;
+                response[9] = CAPSENSE_CAL_ENABLED;
+                break;
             }
         default:
             break;
     }
     raw_hid_send(response, sizeof(response));
 }
-
