@@ -5,6 +5,8 @@
 #include <string>
 #include <QMessageBox>
 #include <QMetaType>
+#include <QMenu>
+#include <QAction>
 
 Q_DECLARE_METATYPE(std::vector<std::string>)
 Q_DECLARE_METATYPE(std::string)
@@ -27,8 +29,20 @@ MainWindow::MainWindow(Communication &comm, QWidget *parent) :
     connect(&thread, &HidThread::scannedDevices, this, &MainWindow::on_updateScannedDevices);
     connect(&thread, &HidThread::reportError, this, &MainWindow::on_reportError);
     connect(&thread, &HidThread::reportInfo, this, &MainWindow::on_reportInfo);
+    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
+            this, SLOT(ShowContextMenu(const QPoint &)));
     thread.start();
     thread.setScanning(true);
+}
+
+void MainWindow::ShowContextMenu(const QPoint &pos)
+{
+    QMenu contextMenu(tr("Context menu"), this);
+    QAction action1("Close", this);
+    connect(&action1, SIGNAL(triggered()), this, SLOT(close()));
+    contextMenu.addAction(&action1);
+    contextMenu.exec(mapToGlobal(pos));
 }
 
 void MainWindow::on_updateScannedDevices(std::vector<std::string> devices)

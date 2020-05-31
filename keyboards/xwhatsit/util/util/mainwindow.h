@@ -33,6 +33,7 @@ private slots:
     void on_eraseEepromPushButton_clicked();
 
     void on_signalLevelPushButton_clicked();
+    void ShowContextMenu(const QPoint &pos);
 
 private:
     Ui::MainWindow *ui;
