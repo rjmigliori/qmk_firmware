@@ -197,7 +197,7 @@ void MonitorWindow::on_keystate(std::vector<uint8_t> data)
     {
         for (row=0; row < keyboard->rows; row++)
         {
-            uint8_t pressed = (data[col / 8 + row * bytes_per_row] >> (col % 8)) >> 1;
+            uint8_t pressed = (data[col / 8 + row * bytes_per_row] >> (col % 8)) & 1;
             int new_is_was_key_pressed = is_was_key_pressed[row][col];
             if (pressed) new_is_was_key_pressed |= 3;
             else new_is_was_key_pressed &= ~1;
