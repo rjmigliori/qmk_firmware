@@ -128,7 +128,7 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
                 int i;
                 for (i=0;i<count;i++)
                 {
-                    uint16_t value = measure_middle(col, row, CAPSENSE_HARDCODED_SAMPLE_TIME, 16);
+                    uint16_t value = measure_middle_keymap_coords(col, row, CAPSENSE_HARDCODED_SAMPLE_TIME, 16);
                     response[3+i*2] = value & 0xff;
                     response[3+i*2+1] = (value >> 8) & 0xff;
                     col += 1;

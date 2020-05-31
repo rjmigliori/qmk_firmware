@@ -10,7 +10,7 @@ extern bool keyboard_scan_enabled;
 void matrix_scan_raw(matrix_row_t current_matrix[]);
 extern uint16_t cal_thresholds[CAPSENSE_CAL_BINS];
 extern matrix_row_t assigned_to_threshold[CAPSENSE_CAL_BINS][MATRIX_ROWS];
-uint16_t measure_middle(uint8_t col, uint8_t row, uint8_t time, uint8_t reps);
+uint16_t measure_middle_keymap_coords(uint8_t col, uint8_t row, uint8_t time, uint8_t reps);
 
 #endif
 

@@ -424,6 +424,11 @@ uint16_t measure_middle(uint8_t col, uint8_t row, uint8_t time, uint8_t reps)
     return min;
 }
 
+uint16_t measure_middle_keymap_coords(uint8_t col, uint8_t row, uint8_t time, uint8_t reps)
+{
+    return measure_middle(CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col), CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row), time, reps);
+}
+
 uint16_t measure_middle_settled(uint8_t col, uint8_t row, uint8_t reps)
 {
     uint8_t reps_div2 = reps / 2;
