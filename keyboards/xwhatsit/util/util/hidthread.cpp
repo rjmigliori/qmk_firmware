@@ -125,7 +125,7 @@ void HidThread::run()
                 QScopedPointer<Device> dev(comm.open(l_erase_eeprom_path));
                 dev.data()->assertVersionIsAtLeast(2, 0, 1);
                 dev.data()->eraseEeprom();
-                emit reportInfo("EEEPROM Erase DONE!");
+                emit reportInfo("EEPROM Erase DONE!");
             } catch (const std::runtime_error &e1) {
                 emit reportError(e1.what());
             }
