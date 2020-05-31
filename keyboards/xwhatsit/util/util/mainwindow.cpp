@@ -24,6 +24,7 @@ MainWindow::MainWindow(Communication &comm, QWidget *parent) :
     qRegisterMetaType<std::vector<uint8_t>>("vector_of_uint8t");
     connect(&thread, &HidThread::scannedDevices, this, &MainWindow::on_updateScannedDevices);
     connect(&thread, &HidThread::reportError, this, &MainWindow::on_reportError);
+    connect(&thread, &HidThread::reportInfo, this, &MainWindow::on_reportInfo);
     thread.start();
     thread.setScanning(true);
 }
@@ -83,6 +84,7 @@ void MainWindow::on_listWidget_itemSelectionChanged()
     bool enabled = !!ui->listWidget->currentItem();
     ui->enterBootloaderPushbutton->setEnabled(enabled);
     ui->keypressMinotorPushButton->setEnabled(enabled && !is_xwhatsit);
+    ui->eraseEepromPushButton->setEnabled(enabled && !is_xwhatsit);
     Q_UNUSED(is_xwhatsit);
 }
 
@@ -94,6 +96,11 @@ void MainWindow::on_enterBootloaderPushbutton_clicked()
 void MainWindow::on_reportError(std::string error_message)
 {
     QMessageBox::critical(this, "Error", error_message.c_str());
+}
+
+void MainWindow::on_reportInfo(std::string info_message)
+{
+    QMessageBox::information(this, "Info", info_message.c_str());
 }
 
 void MainWindow::on_keypressMinotorPushButton_clicked()
@@ -112,4 +119,9 @@ void MainWindow::on_keypressMinotorPushButton_clicked()
 void MainWindow::on_autoEnterModeCheckBox_stateChanged(int arg1)
 {
     thread.setAutoEnter(arg1);
+}
+
+void MainWindow::on_eraseEepromPushButton_clicked()
+{
+    thread.eraseEeprom(ui->listWidget->currentItem()->text().toStdString());
 }

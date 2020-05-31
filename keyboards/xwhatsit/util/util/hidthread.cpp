@@ -51,6 +51,13 @@ void HidThread::monitor(std::string path)
     condition.wakeOne();
 }
 
+void HidThread::eraseEeprom(std::string path)
+{
+    QMutexLocker locker(&mutex);
+    this->erase_eeprom_path = path;
+    condition.wakeOne();
+}
+
 void HidThread::closeMonitoredDevice()
 {
     QMutexLocker locker(&mutex);
@@ -64,8 +71,7 @@ void HidThread::run()
     forever {
         mutex.lock();
         bool l_keep_scanning, l_abort, nothing_to_do, l_autoenter_mode, l_close_monitored_device;
-        std::string l_enter_bootloader_path;
-        std::string l_monitor_path;
+        std::string l_enter_bootloader_path, l_monitor_path, l_erase_eeprom_path;
         do {
             l_keep_scanning = this->keep_scanning;
             l_enter_bootloader_path = this->enter_bootloader_path;
@@ -73,13 +79,15 @@ void HidThread::run()
             l_autoenter_mode = this->autoenter_mode;
             l_close_monitored_device = this->close_monitored_device;
             l_abort = this->abort;
+            l_erase_eeprom_path = this->erase_eeprom_path;
             nothing_to_do = (!l_keep_scanning) &&
                             (!l_abort) &&
                             (l_enter_bootloader_path.size()==0) &&
                             (l_monitor_path.size()==0) &&
                             (!l_autoenter_mode) &&
                             (monitoredDevice == nullptr) &&
-                            (!l_close_monitored_device);
+                            (!l_close_monitored_device) &&
+                            (l_erase_eeprom_path.size() == 0);
             if (nothing_to_do) {
                 condition.wait(&mutex);
             }
@@ -97,6 +105,20 @@ void HidThread::run()
             }
             mutex.lock();
             this->enter_bootloader_path = "";
+            mutex.unlock();
+        }
+        if (l_erase_eeprom_path.size() != 0)
+        {
+            try {
+                QScopedPointer<Device> dev(comm.open(l_erase_eeprom_path));
+                dev.data()->assertVersionIsAtLeast(2, 0, 1);
+                dev.data()->eraseEeprom();
+                emit reportInfo("EEEPROM Erase DONE!");
+            } catch (const std::runtime_error &e1) {
+                emit reportError(e1.what());
+            }
+            mutex.lock();
+            this->erase_eeprom_path = "";
             mutex.unlock();
         }
         if (l_monitor_path.size() != 0)

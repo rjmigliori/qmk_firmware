@@ -22,11 +22,14 @@ public:
 private slots:
     void on_updateScannedDevices(std::vector<std::string> devices);
     void on_reportError(std::string error_message);
+    void on_reportInfo(std::string info_message);
     void on_listWidget_itemSelectionChanged();
     void on_enterBootloaderPushbutton_clicked();
     void on_keypressMinotorPushButton_clicked();
 
     void on_autoEnterModeCheckBox_stateChanged(int arg1);
+
+    void on_eraseEepromPushButton_clicked();
 
 private:
     Ui::MainWindow *ui;

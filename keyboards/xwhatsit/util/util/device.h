@@ -21,6 +21,7 @@ public:
     uint32_t getVersion();
     bool isVersionAtLeast(uint8_t major, uint8_t mid, uint16_t minor);
     void assertVersionIsAtLeast(uint8_t major, uint8_t mid, uint16_t minor);
+    void eraseEeprom();
     std::vector<std::vector<uint8_t>> getThresholds();
     std::vector<uint8_t> getKeyState();
     std::string getKeyboardFilename();

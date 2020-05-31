@@ -20,11 +20,13 @@ public:
     bool setAutoEnter(bool enabled);
     void enterBootloader(std::string path);
     void monitor(std::string path);
+    void eraseEeprom(std::string path);
     void closeMonitoredDevice();
     Device *connectToDevice(std::string path);
 signals:
     void scannedDevices(std::vector<std::string> devices);
     void reportError(std::string error_message);
+    void reportInfo(std::string error_message);
     void keyboardName(std::string name);
     void thresholds(std::vector<std::vector<uint8_t>>);
     void keystate(std::vector<uint8_t>);
@@ -40,6 +42,7 @@ private:
     bool close_monitored_device;
     std::string enter_bootloader_path;
     std::string monitor_path;
+    std::string erase_eeprom_path;
     QMutex mutex;
     QWaitCondition condition;
     Communication &comm;

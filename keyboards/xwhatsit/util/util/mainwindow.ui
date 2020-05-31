@@ -110,7 +110,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Erase EEPROM, and reboot</string>
+     <string>Erase EEPROM</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_6">

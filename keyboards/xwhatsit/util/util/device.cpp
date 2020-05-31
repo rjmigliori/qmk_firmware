@@ -156,6 +156,37 @@ void Device::enableKeyboard()
     }
 }
 
+void Device::eraseEeprom()
+{
+    QMutexLocker locker(&mutex);
+    if (xwhatsit_original_firmware)
+    {
+        throw std::runtime_error("This doesn't work with xwhatsit original firmware");
+    }
+    uint8_t data[33];
+    data[0] = 0;
+    memcpy(data + 1, magic, sizeof(magic));
+    data[2+1] = UTIL_COMM_ERASE_EEPROM;
+    if (-1==hid_write(device, data, sizeof(data)))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_write failed to erase eeprom");
+    }
+    if ((sizeof(data)-1)!=hid_read_timeout(device, data, sizeof(data)-1, 1000))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_read failed while erasing eeprom");
+    }
+    if ((data[0] != magic[0]) || (data[1] != magic[1]))
+    {
+        throw std::runtime_error("hid_read failed while erasing eeprom -- no magic returned");
+    }
+    if (data[2] != UTIL_COMM_RESPONSE_OK)
+    {
+        throw std::runtime_error("hid_read failed while erasing eeprom -- response not okay");
+    }
+}
+
 void Device::disableKeyboard()
 {
     QMutexLocker locker(&mutex);
