@@ -43,7 +43,10 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
     {
         case UTIL_COMM_GET_VERSION:
             response[2] = UTIL_COMM_RESPONSE_OK;
-            response[3] = UTIL_COMM_VERSION;
+            response[3] = UTIL_COMM_VERSION_MAJOR;
+            response[4] = UTIL_COMM_VERSION_MID;
+            response[5] = (UTIL_COMM_VERSION_MINOR >> 8) & 0xff;
+            response[6] = (UTIL_COMM_VERSION_MINOR >> 0) & 0xff;
             break;
         case UTIL_COMM_DISABLE_KEYBOARD:
             response[2] = UTIL_COMM_RESPONSE_OK;

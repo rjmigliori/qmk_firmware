@@ -1,7 +1,11 @@
 #ifndef UTIL_COMM_H
 #define UTIL_COMM_H
 
-#define UTIL_COMM_VERSION 1
+#define UTIL_COMM_VERSION_MAJOR 2
+#define UTIL_COMM_VERSION_MID 0
+#define UTIL_COMM_VERSION_MINOR 0
+
+
 #define UTIL_COMM_MAGIC { 0x55, 0xAA }
 
 enum command {
