@@ -171,11 +171,19 @@ void MonitorWindow::on_keystate(std::vector<uint8_t> data)
     unsigned int col, row;
     int different = 0;
     if (!keyboard) return;
+    unsigned int bytes_per_row = 1;
+    if (keyboard->cols > 16)
+    {
+        bytes_per_row = 4;
+    } else if (keyboard->cols > 8)
+    {
+        bytes_per_row = 2;
+    }
     for (col=0; col < keyboard->cols; col++)
     {
         for (row=0; row < keyboard->rows; row++)
         {
-            uint8_t pressed = (data[col / 8 + row * ((keyboard->cols + 7) / 8)] >> (col % 8)) >> 1;
+            uint8_t pressed = (data[col / 8 + row * bytes_per_row] >> (col % 8)) >> 1;
             int new_is_was_key_pressed = is_was_key_pressed[row][col];
             if (pressed) new_is_was_key_pressed |= 3;
             else new_is_was_key_pressed &= ~1;
@@ -190,9 +198,17 @@ uint16_t MonitorWindow::get_threshold(unsigned int col, unsigned int row)
 {
     if (thresholds[0][0] == 0) return static_cast<uint16_t>((thresholds[0][1] | (thresholds[0][2] << 8)));
     unsigned int i;
+    unsigned int bytes_per_row = 1;
+    if (keyboard->cols > 16)
+    {
+        bytes_per_row = 4;
+    } else if (keyboard->cols > 8)
+    {
+        bytes_per_row = 2;
+    }
     for (i=0;i<thresholds[0][0]; i++)
     {
-        if ((thresholds[i][3 + col / 8 + row * ((keyboard->cols + 7) / 8)] >> (col % 8)) & 1)
+        if ((thresholds[i][3 + col / 8 + row * bytes_per_row] >> (col % 8)) & 1)
         {
             return static_cast<uint16_t>(thresholds[i][1] | (thresholds[i][2] << 8));
         }
