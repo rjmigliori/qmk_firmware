@@ -70,7 +70,11 @@ void MonitorWindow::loadLayout(QString name)
     if (lastslash > 0) name_simp = name_simp.left(lastslash);
     ui->label_keyboardname->setText(QString("Keyboard: ") + name_simp);
     ui->layoutSel->setEnabled(true);
-    if (!keyboard) on_reportMonitorError("Unknown keyboard (you may need to update the util version)!");
+    if (!keyboard) {
+        on_reportMonitorError("Unknown keyboard (you may need to update the util version)!");
+        this->close();
+        return;
+    }
     keyboard_width_uis = 0;
     keyboard_height_uis = 0;
     for (i=0;i<keyboard->n_layouts;i++)
