@@ -125,7 +125,7 @@ void MonitorWindow::paintEvent(QPaintEvent *event)
                 x += xadd;
                 QPen textColor(Qt::black);
                 painter.setPen(QPen(Qt::black));
-                switch (is_was_key_pressed[row][col])
+                switch (is_was_key_pressed.at(row).at(col))
                 {
                     case 1:
                     case 3:
@@ -197,12 +197,12 @@ void MonitorWindow::on_keystate(std::vector<uint8_t> data)
     {
         for (row=0; row < keyboard->rows; row++)
         {
-            uint8_t pressed = (data[col / 8 + row * bytes_per_row] >> (col % 8)) & 1;
-            int new_is_was_key_pressed = is_was_key_pressed[row][col];
+            uint8_t pressed = (data.at(col / 8 + row * bytes_per_row) >> (col % 8)) & 1;
+            int new_is_was_key_pressed = is_was_key_pressed.at(row).at(col);
             if (pressed) new_is_was_key_pressed |= 3;
             else new_is_was_key_pressed &= ~1;
-            if (is_was_key_pressed[row][col] != new_is_was_key_pressed) different = 1;
-            is_was_key_pressed[row][col]= new_is_was_key_pressed;
+            if (is_was_key_pressed.at(row).at(col) != new_is_was_key_pressed) different = 1;
+            is_was_key_pressed.at(row).at(col) = new_is_was_key_pressed;
         }
     }
     if (different) this->repaint();
@@ -210,7 +210,7 @@ void MonitorWindow::on_keystate(std::vector<uint8_t> data)
 
 uint16_t MonitorWindow::get_threshold(unsigned int col, unsigned int row)
 {
-    if (thresholds[0][0] == 0) return static_cast<uint16_t>((thresholds[0][1] | (thresholds[0][2] << 8)));
+    if (thresholds.at(0).at(0) == 0) return static_cast<uint16_t>((thresholds.at(0).at(1) | (thresholds.at(0).at(2) << 8)));
     unsigned int i;
     unsigned int bytes_per_row = 1;
     if (keyboard->cols > 16)
@@ -220,11 +220,11 @@ uint16_t MonitorWindow::get_threshold(unsigned int col, unsigned int row)
     {
         bytes_per_row = 2;
     }
-    for (i=0;i<thresholds[0][0]; i++)
+    for (i=0;i<thresholds.at(0).at(0); i++)
     {
-        if ((thresholds[i][3 + col / 8 + row * bytes_per_row] >> (col % 8)) & 1)
+        if ((thresholds.at(i).at(3 + col / 8 + row * bytes_per_row) >> (col % 8)) & 1)
         {
-            return static_cast<uint16_t>(thresholds[i][1] | (thresholds[i][2] << 8));
+            return static_cast<uint16_t>(thresholds.at(i).at(1) | (thresholds.at(i).at(2) << 8));
         }
     }
     return 0;
