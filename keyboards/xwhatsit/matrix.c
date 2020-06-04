@@ -45,7 +45,9 @@
 #define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (col)
 #endif
 #define CAPSENSE_CONDUCTIVE_PLASTIC_IS_PULLED_UP_ON_KEYPRESS
+
 #elif defined(CONTROLLER_IS_XWHATSIT_MODEL_F_OR_WCASS_MODEL_F)
+
 #define CAPSENSE_DAC_SCLK   B1
 #define CAPSENSE_DAC_DIN    B2
 #define CAPSENSE_DAC_SYNC_N B0
@@ -71,7 +73,48 @@
 #define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (col)
 #endif
 #define CAPSENSE_CONDUCTIVE_PLASTIC_IS_PUSHED_DOWN_ON_KEYPRESS
+
+#elif defined(CONTROLLER_IS_THROUGHT_HOLE_BEAMSPRING)
+
+#define CAPSENSE_DAC_MCP4921
+#define CAPSENSE_DAC_NCS F6
+#define CAPSENSE_DAC_SCK B1
+#define CAPSENSE_DAC_SDI F2
+
+#define CAPSENSE_SHIFT_DIN  B2
+#define CAPSENSE_SHIFT_OE   B6
+#define CAPSENSE_SHIFT_SHCP B1
+#define CAPSENSE_SHIFT_STCP F7
+#define CAPSENSE_SHIFT_STCP_IO _SFR_IO_ADDR(PORTF)
+#define CAPSENSE_SHIFT_STCP_BIT 7
+
+
+// TODO
+// Rows:
+// Physical position from left to right: (only the right-most are used for beamspring)
+// 1    2    3    4    5    6    7    8
+// TH schematic numbering (sense/row lines)
+// 8    6    7    5    4    3    2    1
+// F5,  B5,  F4,  B4,  D4,  C6,  D1,  D0
+#define CAPSENSE_READ_ROWS_PIN_1 _SFR_IO_ADDR(PINC)
+#define CAPSENSE_READ_ROWS_PIN_2 _SFR_IO_ADDR(PIND)
+#define CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS "in %[dest_row_1], %[ioreg_row_1]\n\tin %[dest_row_2], %[ioreg_row_2]"
+#define CAPSENSE_READ_ROWS_OUTPUT_CONSTRAINTS [dest_row_1] "=&r" (dest_row_1), [dest_row_2] "=&r" (dest_row_2)
+#define CAPSENSE_READ_ROWS_INPUT_CONSTRAINTS [ioreg_row_1] "I" (CAPSENSE_READ_ROWS_PIN_1), [ioreg_row_2] "I" (CAPSENSE_READ_ROWS_PIN_2)
+#define CAPSENSE_READ_ROWS_LOCAL_VARS uint8_t dest_row_1, dest_row_2
+#define CAPSENSE_READ_ROWS_VALUE (((dest_row_1 >> 4) & 0x04) | (dest_row_2 & 0x03) | ((dest_row_2 >> 1) & 0x08))
+
+#define CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row) (3-(row))
+#define CAPSENSE_PHYSICAL_ROW_TO_KEYMAP_ROW(row) (3-(row))
+#ifndef CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL
+#define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (col)
+#endif
+//#define CAPSENSE_CONDUCTIVE_PLASTIC_IS_PUSHED_DOWN_ON_KEYPRESS
+#define CAPSENSE_CONDUCTIVE_PLASTIC_IS_PULLED_UP_ON_KEYPRESS
+// TODO END
+
 #else
+
 #ifndef CAPSENSE_DAC_SCLK
 #error "Please select controller type in config.h, or please define each macro that is defined when selecting a particular macro type in matrix.c"
 #endif
@@ -117,6 +160,46 @@ static inline uint8_t read_rows(void)
     return CAPSENSE_READ_ROWS_VALUE;
 }
 
+#if defined(CAPSENSE_DAC_MCP4921)
+
+void dac_init(void)
+{
+    writePin(CAPSENSE_DAC_NCS, 1);
+    setPinOutput(CAPSENSE_DAC_NCS);
+    setPinOutput(CAPSENSE_DAC_SCK);
+    setPinOutput(CAPSENSE_DAC_SDI);
+    writePin(CAPSENSE_DAC_NCS, 1);
+    writePin(CAPSENSE_DAC_SCK, 0);
+    writePin(CAPSENSE_DAC_SDI, 0);
+}
+
+void dac_write_threshold(uint16_t value)
+{
+    const uint16_t buffered = 0;
+    #define nSHDN_BIT 12
+    value |= 1 << nSHDN_BIT; // nSHDN = 0 -- make sure output is not floating.
+    #define MCP_DAC_GAIN_2X 0
+    #define MCP_DAC_GAIN_1X 1
+    #define nGA_BIT 13
+    value |= MCP_DAC_GAIN_1X << nGA_BIT;
+    #define BUF_BIT 14;
+    value |= buffered << BUF_BIT;
+
+    writePin(CAPSENSE_DAC_NCS, 0);
+    int i;
+    for (i=0;i<16;i++)
+    {
+        writePin(CAPSENSE_DAC_SDI, (value >> 15) & 1);
+        value <<= 1;
+        writePin(CAPSENSE_DAC_SCK, 1);
+        writePin(CAPSENSE_DAC_SCK, 0);
+    }
+    writePin(CAPSENSE_DAC_NCS, 1);
+    wait_us(CAPSENSE_DAC_SETTLE_TIME_US);
+}
+
+#else
+
 void dac_init(void)
 {
     setPinOutput(CAPSENSE_DAC_SCLK);
@@ -145,6 +228,8 @@ void dac_write_threshold(uint16_t value)
     writePin(CAPSENSE_DAC_SCLK, 0);
     wait_us(CAPSENSE_DAC_SETTLE_TIME_US);
 }
+
+#endif
 
 #define SHIFT_BITS ((MATRIX_COLS > 16) ? 24 : 16)
 
