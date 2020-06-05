@@ -761,9 +761,10 @@ void matrix_print_stats(void)
 #endif
 
 void matrix_scan_raw(matrix_row_t current_matrix[]) {
-    uint8_t col, row, cal;
+    uint8_t col, row;
     memset(current_matrix, 0, sizeof(matrix_row_t) * MATRIX_ROWS);
     #if CAPSENSE_CAL_ENABLED
+    uint8_t cal;
     for (cal=0;cal<CAPSENSE_CAL_BINS;cal++) {
         dac_write_threshold(cal_thresholds[cal]);
         for (col=0;col<MATRIX_COLS;col++) {
