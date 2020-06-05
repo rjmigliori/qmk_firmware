@@ -55,6 +55,9 @@ void SignalLevelMonitorWindow::loadLayout(QString name)
         if (name.compare(QString(keyboards[i].kbd_name))==0)
         {
             keyboard = &keyboards[i];
+            this->signal_level = std::vector<std::vector<uint16_t>>(static_cast<unsigned long>(keyboard->rows), std::vector<uint16_t>(static_cast<unsigned long>(keyboard->cols), 0xFFFFU));
+            this->max_signal_level = std::vector<std::vector<uint16_t>>(static_cast<unsigned long>(keyboard->rows), std::vector<uint16_t>(static_cast<unsigned long>(keyboard->cols), 0xFFFFU));
+            this->min_signal_level = std::vector<std::vector<uint16_t>>(static_cast<unsigned long>(keyboard->rows), std::vector<uint16_t>(static_cast<unsigned long>(keyboard->cols), 0xFFFFU));
             int j;
             for (j=0;j<keyboard->n_layouts;j++)
             {
@@ -92,9 +95,6 @@ void SignalLevelMonitorWindow::loadLayout(QString name)
     this->setMinimumSize(static_cast<int>(keyboard_width_uis * MIN_HORIZONTAL_SCALE + 2 * HORIZONTAL_MARGIN),
                          ui->last_label->geometry().y() + ui->last_label->geometry().height() +
                              static_cast<int>(keyboard_height_uis * MIN_VERTICAL_SCALE + 2 * VERTICAL_MARGIN));
-    this->signal_level = std::vector<std::vector<uint16_t>>(static_cast<unsigned long>(keyboard->rows), std::vector<uint16_t>(static_cast<unsigned long>(keyboard->cols), 0xFFFFU));
-    this->max_signal_level = std::vector<std::vector<uint16_t>>(static_cast<unsigned long>(keyboard->rows), std::vector<uint16_t>(static_cast<unsigned long>(keyboard->cols), 0xFFFFU));
-    this->min_signal_level = std::vector<std::vector<uint16_t>>(static_cast<unsigned long>(keyboard->rows), std::vector<uint16_t>(static_cast<unsigned long>(keyboard->cols), 0xFFFFU));
 }
 
 QColor SignalLevelMonitorWindow::getColor(uint16_t value, uint16_t mins, uint16_t maxs)
