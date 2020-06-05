@@ -80,6 +80,7 @@ void MonitorWindow::loadLayout(QString name)
         if (name.compare(QString(keyboards[i].kbd_name))==0)
         {
             keyboard = &keyboards[i];
+            is_was_key_pressed = std::vector<std::vector<int>>(static_cast<unsigned long>(keyboard->rows), std::vector<int>(static_cast<unsigned long>(keyboard->cols), 0));
             int j;
             for (j=0;j<keyboard->n_layouts;j++)
             {
@@ -116,7 +117,6 @@ void MonitorWindow::loadLayout(QString name)
     this->setMinimumSize(static_cast<int>(keyboard_width_uis * MIN_HORIZONTAL_SCALE + 2 * HORIZONTAL_MARGIN),
                          ui->last_label->geometry().y() + ui->last_label->geometry().height() +
                              static_cast<int>(keyboard_height_uis * MIN_VERTICAL_SCALE + 2 * VERTICAL_MARGIN));
-    is_was_key_pressed = std::vector<std::vector<int>>(static_cast<unsigned long>(keyboard->rows), std::vector<int>(static_cast<unsigned long>(keyboard->cols), 0));
 }
 
 void MonitorWindow::paintEvent(QPaintEvent *event)
