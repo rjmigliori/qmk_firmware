@@ -9,6 +9,30 @@
 #include <iostream>
 #include "kbd_defs.h"
 
+#include <vector>
+#include <algorithm>
+#include <iterator>
+
+std::ostream & operator<<(std::ostream & os, uint8_t data)
+{
+    os << +data;
+    return os;
+}
+
+
+template<typename T>
+std::ostream & operator<<(std::ostream & os, std::vector<T> vec)
+{
+    os<<"{ ";
+    for (T i: vec)
+    {
+        os << i;
+        os << ", ";
+    }
+    os << "}" << std::endl;
+    return os;
+}
+
 MonitorWindow::MonitorWindow(HidThread &thread, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MonitorWindow),
@@ -98,7 +122,10 @@ void MonitorWindow::loadLayout(QString name)
 void MonitorWindow::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
+    std::cout << "paint" << std::endl;
+    
     if (!keyboard) return;
+    std::cout << keyboard->kbd_name << std::endl;
     QPainter painter(this);
     int xadd = HORIZONTAL_MARGIN;
     int yadd = ui->last_label->geometry().y() + ui->last_label->geometry().height() + VERTICAL_MARGIN;
@@ -107,6 +134,7 @@ void MonitorWindow::paintEvent(QPaintEvent *event)
     double scale_x = (1. * this->width() - 2 * HORIZONTAL_MARGIN) / (keyboard_width_uis);
     double scale_y = (1. * this->height() - VERTICAL_MARGIN - yadd) / keyboard_height_uis;
     int i;
+    std::cout << "is_was_key_pressed" << std::endl << is_was_key_pressed << std::endl;
     for (i=0;i<keyboard->n_layouts;i++)
     {
         if (ui->layoutSel->currentText().compare(QString(keyboard->layouts[i].lay_name))==0)
@@ -129,6 +157,7 @@ void MonitorWindow::paintEvent(QPaintEvent *event)
                 x += xadd;
                 QPen textColor(Qt::black);
                 painter.setPen(QPen(Qt::black));
+                std::cout << col << " " << row << " " << j << " " << i << std::endl;
                 switch (is_was_key_pressed.at(row).at(col))
                 {
                     case 1:
@@ -156,6 +185,7 @@ void MonitorWindow::paintEvent(QPaintEvent *event)
                 }
                 if (thresholds.size())
                 {
+                    std::cout << "thresholds" << std::endl << thresholds << std::endl;
                     uint16_t threshold = get_threshold(col, row);
                     painter.setPen(textColor);
                     painter.drawText(rect, Qt::AlignCenter, QString::number(threshold));
@@ -180,6 +210,7 @@ void MonitorWindow::on_keyboardName(std::string name)
 
 void MonitorWindow::on_thresholds(std::vector<std::vector<uint8_t>> thresholds)
 {
+    std::cout << "ON_THRESHOLDS" << std::endl;
     this->thresholds = thresholds;
     this->repaint();
 }
@@ -209,7 +240,11 @@ void MonitorWindow::on_keystate(std::vector<uint8_t> data)
             is_was_key_pressed.at(row).at(col) = new_is_was_key_pressed;
         }
     }
-    if (different) this->repaint();
+    if (different)
+    {
+    std::cout << "ON_KEYSTATE_DIFFERENT" << std::endl;
+     this->repaint();
+    }
 }
 
 uint16_t MonitorWindow::get_threshold(unsigned int col, unsigned int row)
