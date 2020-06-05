@@ -22,6 +22,7 @@
 #define CAPSENSE_DAC_SCLK   B1
 #define CAPSENSE_DAC_DIN    B2
 #define CAPSENSE_DAC_SYNC_N B0
+#define CAPSENSE_DAC_MAX    1023
 
 #define CAPSENSE_SHIFT_DIN  C4
 #define CAPSENSE_SHIFT_OE   C6
@@ -51,6 +52,7 @@
 #define CAPSENSE_DAC_SCLK   B1
 #define CAPSENSE_DAC_DIN    B2
 #define CAPSENSE_DAC_SYNC_N B0
+#define CAPSENSE_DAC_MAX    1023
 
 #define CAPSENSE_SHIFT_DIN  D4
 #define CAPSENSE_SHIFT_OE   D5
@@ -79,7 +81,8 @@
 #define CAPSENSE_DAC_MCP4921
 #define CAPSENSE_DAC_NCS F6
 #define CAPSENSE_DAC_SCK B1
-#define CAPSENSE_DAC_SDI F2
+#define CAPSENSE_DAC_SDI B2
+#define CAPSENSE_DAC_MAX 4095
 
 #define CAPSENSE_SHIFT_DIN  B2
 #define CAPSENSE_SHIFT_OE   B6
@@ -488,7 +491,7 @@ void test_v2(void) {
 uint16_t measure_middle(uint8_t col, uint8_t row, uint8_t time, uint8_t reps)
 {
     uint8_t reps_div2 = reps / 2;
-    uint16_t min = 0, max = 1023;
+    uint16_t min = 0, max = CAPSENSE_DAC_MAX;
     while (min < max)
     {
         uint16_t mid = (min + max) / 2;
@@ -517,7 +520,7 @@ uint16_t measure_middle_keymap_coords(uint8_t col, uint8_t row, uint8_t time, ui
 uint16_t measure_middle_settled(uint8_t col, uint8_t row, uint8_t reps)
 {
     uint8_t reps_div2 = reps / 2;
-    uint16_t min = 0, max = 1023;
+    uint16_t min = 0, max = CAPSENSE_DAC_MAX;
     while (min < max)
     {
         uint16_t mid = (min + max) / 2;
@@ -569,7 +572,7 @@ void tracking_test(void)
 
 uint16_t calibration_measure_all_valid_keys(uint8_t time, uint8_t reps, bool looking_for_all_zero)
 {
-    uint16_t min = 0, max = 1023;
+    uint16_t min = 0, max = CAPSENSE_DAC_MAX;
     while (min < max)
     {
         uint16_t mid = (min + max) / 2;
