@@ -2,5 +2,5 @@
 
 * build with:
 ~~~
-sudo make xwhatsit/ibm/3276_3278/through_hole:10t8or_spacefn:dfu 
+sudo make xwhatsit/ibm/3276_3278/through_hole:10t8or_spacefn:avrdude
 ~~~
