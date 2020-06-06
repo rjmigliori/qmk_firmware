@@ -671,19 +671,27 @@ void calibration(void)
         }
     }
     for (i=0;i<CAPSENSE_CAL_BINS;i++) {
+        uint16_t bin_signal_level;
         if ((cal_thresholds_max[i] == 0xFFFFU) || (cal_thresholds_min[i] == 0xFFFFU)) {
-            #ifdef CAPSENSE_CONDUCTIVE_PLASTIC_IS_PUSHED_DOWN_ON_KEYPRESS
-            cal_thresholds[i] += CAPSENSE_CAL_THRESHOLD_OFFSET;
-            #else
-            cal_thresholds[i] -= CAPSENSE_CAL_THRESHOLD_OFFSET;
-            #endif
+            bin_signal_level = cal_thresholds[i];
         } else {
-            #ifdef CAPSENSE_CONDUCTIVE_PLASTIC_IS_PUSHED_DOWN_ON_KEYPRESS
-            cal_thresholds[i] = (cal_thresholds_max[i] + cal_thresholds_min[i]) / 2 + CAPSENSE_CAL_THRESHOLD_OFFSET;
-            #else
-            cal_thresholds[i] = (cal_thresholds_max[i] + cal_thresholds_min[i]) / 2 - CAPSENSE_CAL_THRESHOLD_OFFSET;
-            #endif
+            bin_signal_level = (cal_thresholds_max[i] + cal_thresholds_min[i]) / 2;
         }
+        #ifdef CAPSENSE_CONDUCTIVE_PLASTIC_IS_PUSHED_DOWN_ON_KEYPRESS
+        if ((bin_signal_level + CAPSENSE_CAL_THRESHOLD_OFFSET) > CAPSENSE_DAC_MAX)
+        {
+            cal_thresholds[i] = CAPSENSE_DAC_MAX;
+        } else {
+            cal_thresholds[i] = bin_signal_level + CAPSENSE_CAL_THRESHOLD_OFFSET;
+        }
+        #else
+        if (bin_signal_level < CAPSENSE_CAL_THRESHOLD_OFFSET)
+        {
+            cal_thresholds[i] = 0;
+        } else {
+            cal_thresholds[i] = bin_signal_level - CAPSENSE_CAL_THRESHOLD_OFFSET;
+        }
+        #endif
     }
 }
 
