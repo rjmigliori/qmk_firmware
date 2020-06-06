@@ -41,14 +41,6 @@ SignalLevelMonitorWindow::~SignalLevelMonitorWindow()
 void SignalLevelMonitorWindow::loadLayout(QString name)
 {
     int i;
-    if (name.compare(QString("keyboards/xwhatsit/brand_new_model_f_keyboards/f62/f62.c")) == 0)
-    {
-        name = QString("keyboards/xwhatsit/brand_new_model_f/f62/wcass/wcass.c");
-    }
-    if (name.compare(QString("keyboards/xwhatsit/brand_new_model_f_keyboards/f77/f77.c")) == 0)
-    {
-        name = QString("keyboards/xwhatsit/brand_new_model_f/f77/wcass/wcass.c");
-    }
     ui->layoutSel->clear();
     for (i=0;i<n_keyboards;i++)
     {
