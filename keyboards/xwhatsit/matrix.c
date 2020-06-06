@@ -708,6 +708,13 @@ void real_keyboard_init_basic(void)
     dac_write_threshold(CAPSENSE_HARDCODED_THRESHOLD);
     dac_write_threshold(CAPSENSE_HARDCODED_THRESHOLD);
     #endif
+    #if defined(CONTROLLER_IS_THROUGHT_HOLE_BEAMSPRING)
+        // Disable on-board leds.
+        setPinOutput(D5);
+        writePin(D5, 1);
+        setPinOutput(B0);
+        writePin(B0, 1);
+    #endif
 }
 
 void matrix_init_custom(void) {
