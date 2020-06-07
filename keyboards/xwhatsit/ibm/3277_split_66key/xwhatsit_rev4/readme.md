@@ -1,6 +1,6 @@
 # xwhatsit/ibm/3277_split_66key/xwhatsit_rev4
 
-![xwhatsit/ibm/3277_split_66key/xwhatsit_rev4](https://i.imgur.com/juemGB1.jpg)
+![xwhatsit/ibm/3277_split_66key/xwhatsit_rev4](https://i.imgur.com/CzZI5In.jpg)
 
 A short description of the keyboard/project
 

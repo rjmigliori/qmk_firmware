@@ -1,6 +1,6 @@
 # xwhatsit/ibm/3277_78key/xwhatsit_rev4
 
-![xwhatsit/ibm/3277_78key/xwhatsit_rev4](https://i.imgur.com/juemGB1.jpg)
+![xwhatsit/ibm/3277_78key/xwhatsit_rev4](https://deskthority.net/wiki/images/a/a0/3277.jpg)
 
 A short description of the keyboard/project
 

@@ -1,6 +1,6 @@
 # xwhatsit/ibm/3101_3727_3278_87key/xwhatsit_rev4
 
-![xwhatsit/ibm/3101_3727_3278_87key/xwhatsit_rev4](https://i.imgur.com/juemGB1.jpg)
+![xwhatsit/ibm/3101_3727_3278_87key/xwhatsit_rev4](https://deskthority.net/wiki/images/b/b9/IBM_3101.jpeg)
 
 A short description of the keyboard/project
 
