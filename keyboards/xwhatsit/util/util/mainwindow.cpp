@@ -129,9 +129,10 @@ void MainWindow::on_keypressMinotorPushButton_clicked()
     //mw->setWindowModality(Qt::WindowModal);
     thread.monitor(ui->listWidget->currentItem()->text().toStdString());
     bool previousScanning = thread.setScanning(false);
-    ui->listWidget->setEnabled(false);
+    this->setEnabled(false);
+    mw->setEnabled(true);
     mw->exec();
-    ui->listWidget->setEnabled(true);
+    this->setEnabled(true);
     thread.setScanning(previousScanning);
 }
 
@@ -152,9 +153,10 @@ void MainWindow::on_signalLevelPushButton_clicked()
     //mw->setWindowModality(Qt::WindowModal);
     thread.signalLevel(ui->listWidget->currentItem()->text().toStdString());
     bool previousScanning = thread.setScanning(false);
-    ui->listWidget->setEnabled(false);
+    this->setEnabled(false);
+    mw->setEnabled(true);
     mw->exec();
-    ui->listWidget->setEnabled(true);
+    this->setEnabled(true);
     thread.setScanning(previousScanning);
 }
 
@@ -163,10 +165,11 @@ void MainWindow::on_columnTesterButton_clicked()
     ColumnTester *ctw = new ColumnTester(thread, ui->listWidget->currentItem()->text().toStdString(), this);
     ctw->setAttribute(Qt::WA_DeleteOnClose);
     bool previousScanning = thread.setScanning(false);
-    ui->listWidget->setEnabled(false);
     thread.shiftData(ui->listWidget->currentItem()->text().toStdString(), 0);
+    this->setEnabled(false);
+    ctw->setEnabled(true);
     ctw->exec();
-    ui->listWidget->setEnabled(true);
     thread.shiftData(ui->listWidget->currentItem()->text().toStdString(), 0);
+    this->setEnabled(true);
     thread.setScanning(previousScanning);
 }
