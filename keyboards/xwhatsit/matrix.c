@@ -249,6 +249,20 @@ void shift_select_nothing(void)
     writePin(CAPSENSE_SHIFT_STCP, 0);
 }
 
+void shift_data(uint32_t data)
+{
+    int i;
+    for (i=SHIFT_BITS-1; i>=0; i--)
+    {
+        writePin(CAPSENSE_SHIFT_DIN, (data >> (SHIFT_BITS - 1)) & 1);
+        writePin(CAPSENSE_SHIFT_SHCP, 1);
+        writePin(CAPSENSE_SHIFT_SHCP, 0);
+        data <<= 1;
+    }
+    writePin(CAPSENSE_SHIFT_STCP, 1);
+    writePin(CAPSENSE_SHIFT_STCP, 0);
+}
+
 void shift_select_col_no_strobe(uint8_t col)
 {
     int i;

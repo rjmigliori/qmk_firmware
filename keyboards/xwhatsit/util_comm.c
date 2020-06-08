@@ -161,6 +161,15 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
                 response[9] = CAPSENSE_CAL_ENABLED;
                 break;
             }
+        case UTIL_COMM_SHIFT_DATA:
+            {
+                response[2] = UTIL_COMM_RESPONSE_OK;
+                uint32_t shdata = (((uint32_t)(data[3])) << 0) |
+                                (((uint32_t)(data[4])) << 8) |
+                                (((uint32_t)(data[5])) << 16) |
+                                (((uint32_t)(data[6])) << 24);
+                shift_data(shdata);
+            }
         default:
             break;
     }
