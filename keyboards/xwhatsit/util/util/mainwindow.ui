@@ -65,13 +65,13 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QPushButton" name="pushButton_3">
+        <item row="2" column="0">
+         <widget class="QPushButton" name="columnTesterButton">
           <property name="enabled">
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>Collect Test Data</string>
+           <string>Column Tester</string>
           </property>
          </widget>
         </item>
@@ -92,26 +92,6 @@
           </property>
           <property name="text">
            <string>Enter Bootloader</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QPushButton" name="columnTesterButton">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Column Tester</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QPushButton" name="pushButton_6">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Inspect Keymap</string>
           </property>
          </widget>
         </item>
