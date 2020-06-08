@@ -35,6 +35,8 @@ private slots:
     void on_signalLevelPushButton_clicked();
     void ShowContextMenu(const QPoint &pos);
 
+    void on_columnTesterButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     Communication &comm;

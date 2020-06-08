@@ -9,6 +9,7 @@ HidThread::HidThread(Communication &comm, QObject *parent) : QThread(parent), co
     enter_bootloader_path = "";
     autoenter_mode = false;
     close_monitored_device = false;
+    shift_data_path = "";
 }
 
 HidThread::~HidThread()
@@ -72,6 +73,14 @@ void HidThread::closeMonitoredDevice()
     condition.wakeOne();
 }
 
+void HidThread::shiftData(std::string path, uint32_t shdata)
+{
+    QMutexLocker locker(&mutex);
+    this->shift_data = shdata;
+    this->shift_data_path = path;
+    condition.wakeOne();
+}
+
 void HidThread::run()
 {
     Device *monitoredDevice = nullptr;
@@ -80,7 +89,8 @@ void HidThread::run()
     forever {
         mutex.lock();
         bool l_keep_scanning, l_abort, nothing_to_do, l_autoenter_mode, l_close_monitored_device;
-        std::string l_enter_bootloader_path, l_monitor_path, l_erase_eeprom_path, l_signal_level_path;
+        uint32_t l_shift_data;
+        std::string l_enter_bootloader_path, l_monitor_path, l_erase_eeprom_path, l_signal_level_path, l_shift_data_path;
         do {
             l_keep_scanning = this->keep_scanning;
             l_enter_bootloader_path = this->enter_bootloader_path;
@@ -90,6 +100,8 @@ void HidThread::run()
             l_close_monitored_device = this->close_monitored_device;
             l_abort = this->abort;
             l_erase_eeprom_path = this->erase_eeprom_path;
+            l_shift_data_path = shift_data_path;
+            l_shift_data = shift_data;
             nothing_to_do = (!l_keep_scanning) &&
                             (!l_abort) &&
                             (l_enter_bootloader_path.size()==0) &&
@@ -99,7 +111,8 @@ void HidThread::run()
                             (!l_close_monitored_device) &&
                             (l_erase_eeprom_path.size() == 0) &&
                             (l_signal_level_path.size() == 0) &&
-                            (signalLevelDevice == nullptr);
+                            (signalLevelDevice == nullptr) &&
+                            (l_shift_data_path.size() == 0);
             if (nothing_to_do) {
                 condition.wait(&mutex);
             }
@@ -117,6 +130,19 @@ void HidThread::run()
             }
             mutex.lock();
             this->enter_bootloader_path = "";
+            mutex.unlock();
+        }
+        if (l_shift_data_path.size() != 0)
+        {
+            try {
+                QScopedPointer<Device> dev(comm.open(l_shift_data_path));
+                dev.data()->assertVersionIsAtLeast(2, 0, 3);
+                dev.data()->shiftData(l_shift_data);
+            } catch (const std::runtime_error &e1) {
+                emit reportError(e1.what());
+            }
+            mutex.lock();
+            this->shift_data_path = "";
             mutex.unlock();
         }
         if (l_erase_eeprom_path.size() != 0)

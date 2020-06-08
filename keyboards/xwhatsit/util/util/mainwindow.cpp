@@ -7,6 +7,7 @@
 #include <QMetaType>
 #include <QMenu>
 #include <QAction>
+#include "columntester.h"
 
 Q_DECLARE_METATYPE(std::vector<std::string>)
 Q_DECLARE_METATYPE(std::string)
@@ -102,6 +103,7 @@ void MainWindow::on_listWidget_itemSelectionChanged()
     ui->keypressMinotorPushButton->setEnabled(enabled && !is_xwhatsit);
     ui->eraseEepromPushButton->setEnabled(enabled && !is_xwhatsit);
     ui->signalLevelPushButton->setEnabled(enabled && !is_xwhatsit);
+    ui->columnTesterButton->setEnabled(enabled && !is_xwhatsit);
     Q_UNUSED(is_xwhatsit);
 }
 
@@ -153,5 +155,18 @@ void MainWindow::on_signalLevelPushButton_clicked()
     ui->listWidget->setEnabled(false);
     mw->exec();
     ui->listWidget->setEnabled(true);
+    thread.setScanning(previousScanning);
+}
+
+void MainWindow::on_columnTesterButton_clicked()
+{
+    ColumnTester *ctw = new ColumnTester(thread, ui->listWidget->currentItem()->text().toStdString(), this);
+    ctw->setAttribute(Qt::WA_DeleteOnClose);
+    bool previousScanning = thread.setScanning(false);
+    ui->listWidget->setEnabled(false);
+    thread.shiftData(ui->listWidget->currentItem()->text().toStdString(), 0);
+    ctw->exec();
+    ui->listWidget->setEnabled(true);
+    thread.shiftData(ui->listWidget->currentItem()->text().toStdString(), 0);
     thread.setScanning(previousScanning);
 }

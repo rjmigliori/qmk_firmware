@@ -23,6 +23,7 @@ public:
     void signalLevel(std::string path);
     void eraseEeprom(std::string path);
     void closeMonitoredDevice();
+    void shiftData(std::string path, uint32_t shdata);
     Device *connectToDevice(std::string path);
 signals:
     void scannedDevices(std::vector<std::string> devices);
@@ -42,6 +43,8 @@ private:
     bool keep_scanning;
     bool autoenter_mode;
     bool close_monitored_device;
+    uint32_t shift_data;
+    std::string shift_data_path;
     std::string enter_bootloader_path;
     std::string monitor_path;
     std::string signal_level_path;
