@@ -36,14 +36,18 @@ private:
     QGraphicsScene scene;
     QJsonDocument doc;
     const struct kbd_def *keyboard;
+    const struct lay_def *current_layout;
     HidThread &thread;
     std::vector<std::vector<uint16_t>> signal_level;
     std::vector<std::vector<uint16_t>> min_signal_level;
     std::vector<std::vector<uint16_t>> max_signal_level;
     QColor getColor(uint16_t value, uint16_t mins, uint16_t maxs);
+    void displaySquare(int x, int y, int w, int h, unsigned int col, unsigned int row, uint16_t mins, uint16_t maxs, QPainter &painter);
+    void updateCurrentLayout();
+    void setMinimumSizeUnits(unsigned int width_units, unsigned int height_units);
 
-    int keyboard_width_uis;
-    int keyboard_height_uis;
+    unsigned int keyboard_width_uis;
+    unsigned int keyboard_height_uis;
     static constexpr double MIN_HORIZONTAL_SCALE = 32;
     static constexpr double MIN_VERTICAL_SCALE = 42;
     static const int HORIZONTAL_MARGIN = 10;

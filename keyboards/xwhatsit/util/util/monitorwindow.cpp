@@ -7,6 +7,7 @@
 #include <QAction>
 #include <QMessageBox>
 #include <iostream>
+#include <algorithm>
 #include "kbd_defs.h"
 
 MonitorWindow::MonitorWindow(HidThread &thread, QWidget *parent) :
@@ -16,6 +17,7 @@ MonitorWindow::MonitorWindow(HidThread &thread, QWidget *parent) :
 {
     ui->setupUi(this);
     keyboard = nullptr;
+    current_layout = nullptr;
     connect(&thread, &HidThread::keyboardName, this, &MonitorWindow::on_keyboardName);
     connect(&thread, &HidThread::reportMonitorError, this, &MonitorWindow::on_reportMonitorError);
     connect(&thread, &HidThread::thresholds, this, &MonitorWindow::on_thresholds);
@@ -39,6 +41,14 @@ MonitorWindow::~MonitorWindow()
     delete ui;
 }
 
+void MonitorWindow::setMinimumSizeUnits(unsigned int width_units, unsigned int height_units)
+{
+    this->setMinimumSize(std::max(ui->layoutSel->width() + ui->layoutSel->x() * 2,
+                                  static_cast<int>(width_units * MIN_HORIZONTAL_SCALE + 2 * HORIZONTAL_MARGIN)),
+                         ui->last_label->geometry().y() + ui->last_label->geometry().height() +
+                             static_cast<int>(height_units * MIN_VERTICAL_SCALE + 2 * VERTICAL_MARGIN));
+}
+
 void MonitorWindow::loadLayout(QString name)
 {
     int i;
@@ -57,13 +67,15 @@ void MonitorWindow::loadLayout(QString name)
             break;
         }
     }
+    ui->layoutSel->addItem(QString("Matrix (without showing skipped columns/rows)"));
     QString name_simp = name;
     if (name.startsWith("keyboards/")) name_simp = name.mid(strlen("keyboards/"));
     int lastslash = name_simp.lastIndexOf("/");
     if (lastslash > 0) name_simp = name_simp.left(lastslash);
     ui->label_keyboardname->setText(QString("Keyboard: ") + name_simp);
     ui->layoutSel->setEnabled(true);
-    if (!keyboard) {
+    if (!keyboard)
+    {
         on_reportMonitorError("Unknown keyboard (you may need to update the util version)!");
         this->close();
         return;
@@ -76,15 +88,55 @@ void MonitorWindow::loadLayout(QString name)
         int j;
         for (j=0;j<layout->n_keys;j++)
         {
-            int w = static_cast<int>(layout->keys[j].x + layout->keys[j].w + 0.5);
-            int h = static_cast<int>(layout->keys[j].y + layout->keys[j].h + 0.5);
+            unsigned int w = static_cast<unsigned int>(layout->keys[j].x + layout->keys[j].w + 0.5);
+            unsigned int h = static_cast<unsigned int>(layout->keys[j].y + layout->keys[j].h + 0.5);
             if (w > keyboard_width_uis) keyboard_width_uis = w;
             if (h > keyboard_height_uis) keyboard_height_uis = h;
         }
     }
-    this->setMinimumSize(static_cast<int>(keyboard_width_uis * MIN_HORIZONTAL_SCALE + 2 * HORIZONTAL_MARGIN),
-                         ui->last_label->geometry().y() + ui->last_label->geometry().height() +
-                             static_cast<int>(keyboard_height_uis * MIN_VERTICAL_SCALE + 2 * VERTICAL_MARGIN));
+    setMinimumSizeUnits(keyboard_width_uis, keyboard_height_uis);
+}
+
+void MonitorWindow::displaySquare(int x, int y, int w, int h, unsigned int col, unsigned int row, QPainter &painter)
+{
+    QPen textColor(Qt::black);
+    painter.setPen(QPen(Qt::black));
+    switch (is_was_key_pressed.at(row).at(col))
+    {
+        case 1:
+        case 3:
+            textColor = QPen(Qt::white);
+            painter.setBrush(QBrush(QColor("#008000")));
+            break;
+        case 2:
+            painter.setBrush(QBrush(QColor("#00FF00")));
+            break;
+        default:
+            painter.setBrush(QBrush(QColor("#FFFFFF")));
+            break;
+    }
+    QRectF rect(x, y, w, h);
+    painter.drawRect(rect);
+    if (thresholds.size())
+    {
+        uint16_t threshold = get_threshold(col, row);
+        painter.setPen(textColor);
+        painter.drawText(rect, Qt::AlignCenter, QString::number(threshold));
+    }
+}
+
+void MonitorWindow::updateCurrentLayout()
+{
+    int i;
+    this->current_layout = nullptr;
+    for (i=0;i<keyboard->n_layouts;i++)
+    {
+        if (ui->layoutSel->currentText().compare(QString(keyboard->layouts[i].lay_name))==0)
+        {
+            this->current_layout = &keyboard->layouts[i];
+            return;
+        }
+    }
 }
 
 void MonitorWindow::paintEvent(QPaintEvent *event)
@@ -94,66 +146,45 @@ void MonitorWindow::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     int xadd = HORIZONTAL_MARGIN;
     int yadd = ui->last_label->geometry().y() + ui->last_label->geometry().height() + VERTICAL_MARGIN;
-    int maxy = 0;
-    int maxx = 0;
-    double scale_x = (1. * this->width() - 2 * HORIZONTAL_MARGIN) / (keyboard_width_uis);
-    double scale_y = (1. * this->height() - VERTICAL_MARGIN - yadd) / keyboard_height_uis;
-    int i;
-    for (i=0;i<keyboard->n_layouts;i++)
+    updateCurrentLayout();
+    const struct lay_def *layout = this->current_layout;
+    if (layout)
     {
-        if (ui->layoutSel->currentText().compare(QString(keyboard->layouts[i].lay_name))==0)
+        double scale_x = (1. * this->width() - 2 * HORIZONTAL_MARGIN) / keyboard_width_uis;
+        double scale_y = (1. * this->height() - VERTICAL_MARGIN - yadd) / keyboard_height_uis;
+        int j;
+        for (j=0;j<layout->n_keys;j++)
         {
-            const struct lay_def *layout = &keyboard->layouts[i];
-            int j;
-            for (j=0;j<layout->n_keys;j++)
+            const unsigned int col = layout->keys[j].col;
+            const unsigned int row = layout->keys[j].row;
+            const int x_ = static_cast<int>(layout->keys[j].x * 8 + 0.5);
+            const int y_ = static_cast<int>(layout->keys[j].y * 8 + 0.5);
+            const int w_ = static_cast<int>(layout->keys[j].w * 8 + 0.5);
+            const int h_ = static_cast<int>(layout->keys[j].h * 8 + 0.5);
+            const int x__ = static_cast<int>(scale_x * x_ / 8 + 0.5);
+            const int y__ = static_cast<int>(scale_y * y_ / 8 + 0.5);
+            const int w = static_cast<int>(scale_x * (x_ + w_) / 8 + 0.5) - x__;
+            const int h = static_cast<int>(scale_y * (y_ + h_) / 8 + 0.5) - y__;
+            const int x = x__ + xadd;
+            const int y = y__ + yadd;
+            displaySquare(x, y, w, h, col, row, painter);
+        }
+    } else {
+        unsigned int col, row;
+        double scale_x = (1. * this->width() - 2 * HORIZONTAL_MARGIN) / keyboard->cols;
+        double scale_y = (1. * this->height() - VERTICAL_MARGIN - yadd) / keyboard->rows;
+        for (row = 0; row < keyboard->rows; row++)
+        {
+            for (col = 0; col < keyboard->cols; col++)
             {
-                unsigned int col = layout->keys[j].col;
-                unsigned int row = layout->keys[j].row;
-                int x_ = static_cast<int>(layout->keys[j].x * 8 + 0.5);
-                int y_ = static_cast<int>(layout->keys[j].y * 8 + 0.5);
-                int w_ = static_cast<int>(layout->keys[j].w * 8 + 0.5);
-                int h_ = static_cast<int>(layout->keys[j].h * 8 + 0.5);
-                int x = static_cast<int>(scale_x * x_ / 8 + 0.5);
-                int y = static_cast<int>(scale_y * y_ / 8 + 0.5);
-                int w = static_cast<int>(scale_x * (x_ + w_) / 8 + 0.5) - x;
-                int h = static_cast<int>(scale_y * (y_ + h_) / 8 + 0.5) - y;
-                y += yadd;
-                x += xadd;
-                QPen textColor(Qt::black);
-                painter.setPen(QPen(Qt::black));
-                switch (is_was_key_pressed.at(row).at(col))
-                {
-                    case 1:
-                    case 3:
-                        textColor = QPen(Qt::white);
-                        painter.setBrush(QBrush(QColor("#008000")));
-                        break;
-                    case 2:
-                        painter.setBrush(QBrush(QColor("#00FF00")));
-                        break;
-                    default:
-                        painter.setBrush(QBrush(QColor("#FFFFFF")));
-                        break;
-                }
-
-                QRectF rect(x, y, w, h);
-                painter.drawRect(rect);
-                if (y+h > maxy)
-                {
-                    maxy = y + h;
-                }
-                if (x+w > maxx)
-                {
-                    maxx = x + w;
-                }
-                if (thresholds.size())
-                {
-                    uint16_t threshold = get_threshold(col, row);
-                    painter.setPen(textColor);
-                    painter.drawText(rect, Qt::AlignCenter, QString::number(threshold));
-                }
+                const int x__ = static_cast<int>(scale_x * col + 0.5);
+                const int y__ = static_cast<int>(scale_y * row + 0.5);
+                const int w = static_cast<int>(scale_x * (col + 1) + 0.5) - x__;
+                const int h = static_cast<int>(scale_y * (row + 1) + 0.5) - y__;
+                const int x = x__ + xadd;
+                const int y = y__ + yadd;
+                displaySquare(x, y, w, h, col, row, painter);
             }
-            break;
         }
     }
 }
@@ -161,6 +192,13 @@ void MonitorWindow::paintEvent(QPaintEvent *event)
 void MonitorWindow::on_layoutSel_activated(const QString &arg1)
 {
     Q_UNUSED(arg1);
+    updateCurrentLayout();
+    if (this->current_layout)
+    {
+        setMinimumSizeUnits(this->keyboard_width_uis, this->keyboard_height_uis);
+    } else {
+        setMinimumSizeUnits(this->keyboard->cols, this->keyboard->rows);
+    }
     this->repaint();
 }
 

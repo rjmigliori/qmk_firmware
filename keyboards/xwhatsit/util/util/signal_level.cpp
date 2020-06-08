@@ -7,6 +7,7 @@
 #include <QAction>
 #include <QMessageBox>
 #include <iostream>
+#include <algorithm>
 #include "kbd_defs.h"
 
 SignalLevelMonitorWindow::SignalLevelMonitorWindow(HidThread &thread, QWidget *parent) :
@@ -16,6 +17,7 @@ SignalLevelMonitorWindow::SignalLevelMonitorWindow(HidThread &thread, QWidget *p
 {
     ui->setupUi(this);
     keyboard = nullptr;
+    current_layout = nullptr;
     connect(&thread, &HidThread::keyboardName, this, &SignalLevelMonitorWindow::on_keyboardName);
     connect(&thread, &HidThread::reportMonitorError, this, &SignalLevelMonitorWindow::on_reportMonitorError);
     connect(&thread, &HidThread::reportSignalLevel, this, &SignalLevelMonitorWindow::on_signallevel);
@@ -38,6 +40,14 @@ SignalLevelMonitorWindow::~SignalLevelMonitorWindow()
     delete ui;
 }
 
+void SignalLevelMonitorWindow::setMinimumSizeUnits(unsigned int width_units, unsigned int height_units)
+{
+    this->setMinimumSize(std::max(ui->layoutSel->width() + ui->layoutSel->x() * 2,
+                                  static_cast<int>(width_units * MIN_HORIZONTAL_SCALE + 2 * HORIZONTAL_MARGIN)),
+                         ui->last_label->geometry().y() + ui->last_label->geometry().height() +
+                             static_cast<int>(height_units * MIN_VERTICAL_SCALE + 2 * VERTICAL_MARGIN));
+}
+
 void SignalLevelMonitorWindow::loadLayout(QString name)
 {
     int i;
@@ -58,6 +68,7 @@ void SignalLevelMonitorWindow::loadLayout(QString name)
             break;
         }
     }
+    ui->layoutSel->addItem(QString("Matrix (without showing skipped columns/rows)"));
     QString name_simp = name;
     if (name.startsWith("keyboards/")) name_simp = name.mid(strlen("keyboards/"));
     int lastslash = name_simp.lastIndexOf("/");
@@ -78,15 +89,13 @@ void SignalLevelMonitorWindow::loadLayout(QString name)
         int j;
         for (j=0;j<layout->n_keys;j++)
         {
-            int w = static_cast<int>(layout->keys[j].x + layout->keys[j].w + 0.5);
-            int h = static_cast<int>(layout->keys[j].y + layout->keys[j].h + 0.5);
+            unsigned int w = static_cast<unsigned int>(layout->keys[j].x + layout->keys[j].w + 0.5);
+            unsigned int h = static_cast<unsigned int>(layout->keys[j].y + layout->keys[j].h + 0.5);
             if (w > keyboard_width_uis) keyboard_width_uis = w;
             if (h > keyboard_height_uis) keyboard_height_uis = h;
         }
     }
-    this->setMinimumSize(static_cast<int>(keyboard_width_uis * MIN_HORIZONTAL_SCALE + 2 * HORIZONTAL_MARGIN),
-                         ui->last_label->geometry().y() + ui->last_label->geometry().height() +
-                             static_cast<int>(keyboard_height_uis * MIN_VERTICAL_SCALE + 2 * VERTICAL_MARGIN));
+    setMinimumSizeUnits(keyboard_width_uis, keyboard_height_uis);
 }
 
 QColor SignalLevelMonitorWindow::getColor(uint16_t value, uint16_t mins, uint16_t maxs)
@@ -98,6 +107,60 @@ QColor SignalLevelMonitorWindow::getColor(uint16_t value, uint16_t mins, uint16_
     return QColor(red, green, blue);
 }
 
+void SignalLevelMonitorWindow::displaySquare(int x, int y, int w, int h, unsigned int col, unsigned int row, uint16_t mins, uint16_t maxs, QPainter &painter)
+{
+    painter.setPen(QPen(Qt::black));
+    painter.setBrush(Qt::NoBrush);
+    QRectF rect(x, y, w, h);
+    painter.drawRect(rect);
+    if ((signal_level.at(row).at(col)!=0xffffu) && (mins!=maxs))
+    {
+        painter.setPen(Qt::NoPen);
+        QString maxstring = QString::number(max_signal_level.at(row).at(col));
+        QString currstring = QString::number(signal_level.at(row).at(col));
+        QString minstring = QString::number(min_signal_level.at(row).at(col));
+        painter.setBrush(QBrush(getColor(max_signal_level.at(row).at(col), mins, maxs)));
+        QRectF recti_max(x+1, y+1, w-1, (h-1) / 3);
+        painter.drawRect(recti_max);
+        painter.setBrush(QBrush(getColor(signal_level.at(row).at(col), mins, maxs)));
+        QRectF recti_curr(x+1, y+1 + (h-1) / 3, w-1, (h-1) / 3);
+        painter.drawRect(recti_curr);
+        painter.setBrush(QBrush(getColor(min_signal_level.at(row).at(col), mins, maxs)));
+        QRectF recti_min(x+1, y+1 + (h-1) / 3 *2, w-1, h-1 - ((h-1) / 3) * 2);
+        painter.drawRect(recti_min);
+        painter.setPen(Qt::black);
+        painter.drawText(recti_max, Qt::AlignCenter, maxstring);
+        painter.drawText(recti_curr, Qt::AlignCenter, currstring);
+        painter.drawText(recti_min, Qt::AlignCenter, minstring);
+
+    } else {
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(QBrush(QColor("#FFFFFF")));
+        QRectF recti(x+1, y+1, w-1, h-1);
+        painter.drawRect(recti);
+        if (signal_level.at(row).at(col)!=0xffffu)
+        {
+            painter.setPen(Qt::black);
+            QString currstring = QString::number(signal_level.at(row).at(col));
+            painter.drawText(recti, Qt::AlignCenter, currstring);
+        }
+    }
+}
+
+void SignalLevelMonitorWindow::updateCurrentLayout()
+{
+    int i;
+    this->current_layout = nullptr;
+    for (i=0;i<keyboard->n_layouts;i++)
+    {
+        if (ui->layoutSel->currentText().compare(QString(keyboard->layouts[i].lay_name))==0)
+        {
+            this->current_layout = &keyboard->layouts[i];
+            return;
+        }
+    }
+}
+
 void SignalLevelMonitorWindow::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
@@ -105,22 +168,55 @@ void SignalLevelMonitorWindow::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     int xadd = HORIZONTAL_MARGIN;
     int yadd = ui->last_label->geometry().y() + ui->last_label->geometry().height() + VERTICAL_MARGIN;
-    int maxy = 0;
-    int maxx = 0;
-    double scale_x = (1. * this->width() - 2 * HORIZONTAL_MARGIN) / (keyboard_width_uis);
-    double scale_y = (1. * this->height() - VERTICAL_MARGIN - yadd) / keyboard_height_uis;
-    int i;
-    for (i=0;i<keyboard->n_layouts;i++)
+    updateCurrentLayout();
+    const struct lay_def *layout = this->current_layout;
+    if (layout)
     {
-        if (ui->layoutSel->currentText().compare(QString(keyboard->layouts[i].lay_name))==0)
+        double scale_x = (1. * this->width() - 2 * HORIZONTAL_MARGIN) / keyboard_width_uis;
+        double scale_y = (1. * this->height() - VERTICAL_MARGIN - yadd) / keyboard_height_uis;
+        int j;
+        uint16_t mins = 0xffffu, maxs = 0xffffu;
+        for (j=0;j<layout->n_keys;j++)
         {
-            const struct lay_def *layout = &keyboard->layouts[i];
-            int j;
-            uint16_t mins = 0xffffu, maxs = 0xffffu;
-            for (j=0;j<layout->n_keys;j++)
+            const unsigned int col = layout->keys[j].col;
+            const unsigned int row = layout->keys[j].row;
+            if (signal_level.at(row).at(col)!=0xffffu)
             {
-                unsigned int col = layout->keys[j].col;
-                unsigned int row = layout->keys[j].row;
+                if ((mins == 0xffffu) || (mins > min_signal_level.at(row).at(col)))
+                {
+                    mins = min_signal_level.at(row).at(col);
+                }
+                if ((maxs == 0xffffu) || (maxs < max_signal_level.at(row).at(col)))
+                {
+                    maxs = max_signal_level.at(row).at(col);
+                }
+            }
+        }
+        for (j=0;j<layout->n_keys;j++)
+        {
+            const unsigned int col = layout->keys[j].col;
+            const unsigned int row = layout->keys[j].row;
+            const int x_ = static_cast<int>(layout->keys[j].x * 8 + 0.5);
+            const int y_ = static_cast<int>(layout->keys[j].y * 8 + 0.5);
+            const int w_ = static_cast<int>(layout->keys[j].w * 8 + 0.5);
+            const int h_ = static_cast<int>(layout->keys[j].h * 8 + 0.5);
+            const int x__ = static_cast<int>(scale_x * x_ / 8 + 0.5);
+            const int y__ = static_cast<int>(scale_y * y_ / 8 + 0.5);
+            const int w = static_cast<int>(scale_x * (x_ + w_) / 8 + 0.5) - x__;
+            const int h = static_cast<int>(scale_y * (y_ + h_) / 8 + 0.5) - y__;
+            const int x = x__ + xadd;
+            const int y = y__ + yadd;
+            displaySquare(x, y, w, h, col, row, mins, maxs, painter);
+        }
+    } else {
+        unsigned int col, row;
+        double scale_x = (1. * this->width() - 2 * HORIZONTAL_MARGIN) / keyboard->cols;
+        double scale_y = (1. * this->height() - VERTICAL_MARGIN - yadd) / keyboard->rows;
+        uint16_t mins = 0xffffu, maxs = 0xffffu;
+        for (row = 0; row < keyboard->rows; row++)
+        {
+            for (col = 0; col < keyboard->cols; col++)
+            {
                 if (signal_level.at(row).at(col)!=0xffffu)
                 {
                     if ((mins == 0xffffu) || (mins > min_signal_level.at(row).at(col)))
@@ -131,69 +227,21 @@ void SignalLevelMonitorWindow::paintEvent(QPaintEvent *event)
                     {
                         maxs = max_signal_level.at(row).at(col);
                     }
-
                 }
             }
-            for (j=0;j<layout->n_keys;j++)
+        }
+        for (row = 0; row < keyboard->rows; row++)
+        {
+            for (col = 0; col < keyboard->cols; col++)
             {
-                unsigned int col = layout->keys[j].col;
-                unsigned int row = layout->keys[j].row;
-                int x_ = static_cast<int>(layout->keys[j].x * 8 + 0.5);
-                int y_ = static_cast<int>(layout->keys[j].y * 8 + 0.5);
-                int w_ = static_cast<int>(layout->keys[j].w * 8 + 0.5);
-                int h_ = static_cast<int>(layout->keys[j].h * 8 + 0.5);
-                int x = static_cast<int>(scale_x * x_ / 8 + 0.5);
-                int y = static_cast<int>(scale_y * y_ / 8 + 0.5);
-                int w = static_cast<int>(scale_x * (x_ + w_) / 8 + 0.5) - x;
-                int h = static_cast<int>(scale_y * (y_ + h_) / 8 + 0.5) - y;
-                y += yadd;
-                x += xadd;
-                painter.setPen(QPen(Qt::black));
-                painter.setBrush(Qt::NoBrush);
-                QRectF rect(x, y, w, h);
-                painter.drawRect(rect);
-                if (y+h > maxy)
-                {
-                    maxy = y + h;
-                }
-                if (x+w > maxx)
-                {
-                    maxx = x + w;
-                }
-                if ((signal_level.at(row).at(col)!=0xffffu) && (mins!=maxs))
-                {
-                    painter.setPen(Qt::NoPen);
-                    QString maxstring = QString::number(max_signal_level.at(row).at(col));
-                    QString currstring = QString::number(signal_level.at(row).at(col));
-                    QString minstring = QString::number(min_signal_level.at(row).at(col));
-                    painter.setBrush(QBrush(getColor(max_signal_level.at(row).at(col), mins, maxs)));
-                    QRectF recti_max(x+1, y+1, w-1, (h-1) / 3);
-                    painter.drawRect(recti_max);
-                    painter.setBrush(QBrush(getColor(signal_level.at(row).at(col), mins, maxs)));
-                    QRectF recti_curr(x+1, y+1 + (h-1) / 3, w-1, (h-1) / 3);
-                    painter.drawRect(recti_curr);
-                    painter.setBrush(QBrush(getColor(min_signal_level.at(row).at(col), mins, maxs)));
-                    QRectF recti_min(x+1, y+1 + (h-1) / 3 *2, w-1, h-1 - ((h-1) / 3) * 2);
-                    painter.drawRect(recti_min);
-                    painter.setPen(Qt::black);
-                    painter.drawText(recti_max, Qt::AlignCenter, maxstring);
-                    painter.drawText(recti_curr, Qt::AlignCenter, currstring);
-                    painter.drawText(recti_min, Qt::AlignCenter, minstring);
-
-                } else {
-                    painter.setPen(Qt::NoPen);
-                    painter.setBrush(QBrush(QColor("#FFFFFF")));
-                    QRectF recti(x+1, y+1, w-1, h-1);
-                    painter.drawRect(recti);
-                    if (signal_level.at(row).at(col)!=0xffffu)
-                    {
-                        painter.setPen(Qt::black);
-                        QString currstring = QString::number(signal_level.at(row).at(col));
-                        painter.drawText(recti, Qt::AlignCenter, currstring);
-                    }
-                }
+                const int x__ = static_cast<int>(scale_x * col + 0.5);
+                const int y__ = static_cast<int>(scale_y * row + 0.5);
+                const int w = static_cast<int>(scale_x * (col + 1) + 0.5) - x__;
+                const int h = static_cast<int>(scale_y * (row + 1) + 0.5) - y__;
+                const int x = x__ + xadd;
+                const int y = y__ + yadd;
+                displaySquare(x, y, w, h, col, row, mins, maxs, painter);
             }
-            break;
         }
     }
 }
@@ -201,6 +249,13 @@ void SignalLevelMonitorWindow::paintEvent(QPaintEvent *event)
 void SignalLevelMonitorWindow::on_layoutSel_activated(const QString &arg1)
 {
     Q_UNUSED(arg1);
+    updateCurrentLayout();
+    if (this->current_layout)
+    {
+        setMinimumSizeUnits(this->keyboard_width_uis, this->keyboard_height_uis);
+    } else {
+        setMinimumSizeUnits(this->keyboard->cols, this->keyboard->rows);
+    }
     this->repaint();
 }
 
