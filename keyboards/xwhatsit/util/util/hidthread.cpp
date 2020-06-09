@@ -81,6 +81,13 @@ void HidThread::shiftData(std::string path, uint32_t shdata)
     condition.wakeOne();
 }
 
+void HidThread::enableKeyboard(std::string path)
+{
+    QMutexLocker locker(&mutex);
+    this->enable_keyboard_path = path;
+    condition.wakeOne();
+}
+
 void HidThread::run()
 {
     Device *monitoredDevice = nullptr;
@@ -90,7 +97,7 @@ void HidThread::run()
         mutex.lock();
         bool l_keep_scanning, l_abort, nothing_to_do, l_autoenter_mode, l_close_monitored_device;
         uint32_t l_shift_data;
-        std::string l_enter_bootloader_path, l_monitor_path, l_erase_eeprom_path, l_signal_level_path, l_shift_data_path;
+        std::string l_enter_bootloader_path, l_monitor_path, l_erase_eeprom_path, l_signal_level_path, l_shift_data_path, l_enable_keyboard_path;
         do {
             l_keep_scanning = this->keep_scanning;
             l_enter_bootloader_path = this->enter_bootloader_path;
@@ -102,6 +109,7 @@ void HidThread::run()
             l_erase_eeprom_path = this->erase_eeprom_path;
             l_shift_data_path = shift_data_path;
             l_shift_data = shift_data;
+            l_enable_keyboard_path = enable_keyboard_path;
             nothing_to_do = (!l_keep_scanning) &&
                             (!l_abort) &&
                             (l_enter_bootloader_path.size()==0) &&
@@ -112,7 +120,8 @@ void HidThread::run()
                             (l_erase_eeprom_path.size() == 0) &&
                             (l_signal_level_path.size() == 0) &&
                             (signalLevelDevice == nullptr) &&
-                            (l_shift_data_path.size() == 0);
+                            (l_shift_data_path.size() == 0) &&
+                            (l_enable_keyboard_path.size() == 0);
             if (nothing_to_do) {
                 condition.wait(&mutex);
             }
@@ -136,6 +145,7 @@ void HidThread::run()
         {
             try {
                 QScopedPointer<Device> dev(comm.open(l_shift_data_path));
+                dev.data()->disableKeyboard();
                 dev.data()->assertVersionIsAtLeast(2, 0, 3);
                 dev.data()->shiftData(l_shift_data);
             } catch (const std::runtime_error &e1) {
@@ -143,6 +153,18 @@ void HidThread::run()
             }
             mutex.lock();
             this->shift_data_path = "";
+            mutex.unlock();
+        }
+        if (l_enable_keyboard_path.size() != 0)
+        {
+            try {
+                QScopedPointer<Device> dev(comm.open(l_enable_keyboard_path));
+                dev.data()->enableKeyboard();
+            } catch (const std::runtime_error &e1) {
+                emit reportError(e1.what());
+            }
+            mutex.lock();
+            this->enable_keyboard_path = "";
             mutex.unlock();
         }
         if (l_erase_eeprom_path.size() != 0)

@@ -24,6 +24,7 @@ public:
     void eraseEeprom(std::string path);
     void closeMonitoredDevice();
     void shiftData(std::string path, uint32_t shdata);
+    void enableKeyboard(std::string path);
     Device *connectToDevice(std::string path);
 signals:
     void scannedDevices(std::vector<std::string> devices);
@@ -49,6 +50,7 @@ private:
     std::string monitor_path;
     std::string signal_level_path;
     std::string erase_eeprom_path;
+    std::string enable_keyboard_path;
     QMutex mutex;
     QWaitCondition condition;
     Communication &comm;
