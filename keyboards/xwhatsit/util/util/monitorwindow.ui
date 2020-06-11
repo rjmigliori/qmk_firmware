@@ -111,7 +111,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: #00FF00</string>
+    <string notr="true">background-color: #00FF00; color: #000000</string>
    </property>
    <property name="text">
     <string>Was Pressed</string>
@@ -130,7 +130,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: #FFFFFF</string>
+    <string notr="true">background-color: #FFFFFF; color: #000000</string>
    </property>
    <property name="text">
     <string>Never Pressed</string>
