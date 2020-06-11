@@ -44,10 +44,10 @@ private:
     QColor getColor(uint16_t value, uint16_t mins, uint16_t maxs);
     void displaySquare(int x, int y, int w, int h, unsigned int col, unsigned int row, uint16_t mins, uint16_t maxs, QPainter &painter);
     void updateCurrentLayout();
-    void setMinimumSizeUnits(unsigned int width_units, unsigned int height_units);
+    void setMinimumSizeUnits(unsigned int width_units_times_8, unsigned int height_units_times_8);
 
-    unsigned int keyboard_width_uis;
-    unsigned int keyboard_height_uis;
+    unsigned int keyboard_width_uis_times_8;
+    unsigned int keyboard_height_uis_times_8;
     static constexpr double MIN_HORIZONTAL_SCALE = 32;
     static constexpr double MIN_VERTICAL_SCALE = 42;
     static const int HORIZONTAL_MARGIN = 10;

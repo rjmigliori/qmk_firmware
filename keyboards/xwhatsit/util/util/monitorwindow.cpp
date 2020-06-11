@@ -41,12 +41,12 @@ MonitorWindow::~MonitorWindow()
     delete ui;
 }
 
-void MonitorWindow::setMinimumSizeUnits(unsigned int width_units, unsigned int height_units)
+void MonitorWindow::setMinimumSizeUnits(unsigned int width_units_times_8, unsigned int height_units_times_8)
 {
     this->setMinimumSize(std::max(ui->layoutSel->width() + ui->layoutSel->x() * 2,
-                                  static_cast<int>(width_units * MIN_HORIZONTAL_SCALE + 2 * HORIZONTAL_MARGIN)),
+                                  static_cast<int>(width_units_times_8 * MIN_HORIZONTAL_SCALE / 8 + 2 * HORIZONTAL_MARGIN)),
                          ui->last_label->geometry().y() + ui->last_label->geometry().height() +
-                             static_cast<int>(height_units * MIN_VERTICAL_SCALE + 2 * VERTICAL_MARGIN));
+                             static_cast<int>(height_units_times_8 * MIN_VERTICAL_SCALE / 8 + 2 * VERTICAL_MARGIN));
 }
 
 void MonitorWindow::loadLayout(QString name)
@@ -80,21 +80,21 @@ void MonitorWindow::loadLayout(QString name)
         this->close();
         return;
     }
-    keyboard_width_uis = 0;
-    keyboard_height_uis = 0;
+    keyboard_width_uis_times_8 = 0;
+    keyboard_height_uis_times_8 = 0;
     for (i=0;i<keyboard->n_layouts;i++)
     {
         const struct lay_def *layout = &keyboard->layouts[i];
         int j;
         for (j=0;j<layout->n_keys;j++)
         {
-            unsigned int w = static_cast<unsigned int>(layout->keys[j].x + layout->keys[j].w + 0.5);
-            unsigned int h = static_cast<unsigned int>(layout->keys[j].y + layout->keys[j].h + 0.5);
-            if (w > keyboard_width_uis) keyboard_width_uis = w;
-            if (h > keyboard_height_uis) keyboard_height_uis = h;
+            const unsigned int w8 = static_cast<unsigned int>((layout->keys[j].x + layout->keys[j].w)*8 + 0.5);
+            const unsigned int h8 = static_cast<unsigned int>((layout->keys[j].y + layout->keys[j].h)*8 + 0.5);
+            if (w8 > keyboard_width_uis_times_8) keyboard_width_uis_times_8 = w8;
+            if (h8 > keyboard_height_uis_times_8) keyboard_height_uis_times_8 = h8;
         }
     }
-    setMinimumSizeUnits(keyboard_width_uis, keyboard_height_uis);
+    setMinimumSizeUnits(keyboard_width_uis_times_8, keyboard_height_uis_times_8);
 }
 
 void MonitorWindow::displaySquare(int x, int y, int w, int h, unsigned int col, unsigned int row, QPainter &painter)
@@ -150,8 +150,8 @@ void MonitorWindow::paintEvent(QPaintEvent *event)
     const struct lay_def *layout = this->current_layout;
     if (layout)
     {
-        double scale_x = (1. * this->width() - 2 * HORIZONTAL_MARGIN) / keyboard_width_uis;
-        double scale_y = (1. * this->height() - VERTICAL_MARGIN - yadd) / keyboard_height_uis;
+        double scale_x = (1. * this->width() - 1 - 2 * HORIZONTAL_MARGIN) * 8 / keyboard_width_uis_times_8;
+        double scale_y = (1. * this->height() - 1 - VERTICAL_MARGIN - yadd) * 8 / keyboard_height_uis_times_8;
         int j;
         for (j=0;j<layout->n_keys;j++)
         {
@@ -195,9 +195,9 @@ void MonitorWindow::on_layoutSel_activated(const QString &arg1)
     updateCurrentLayout();
     if (this->current_layout)
     {
-        setMinimumSizeUnits(this->keyboard_width_uis, this->keyboard_height_uis);
+        setMinimumSizeUnits(this->keyboard_width_uis_times_8, this->keyboard_height_uis_times_8);
     } else {
-        setMinimumSizeUnits(this->keyboard->cols, this->keyboard->rows);
+        setMinimumSizeUnits(this->keyboard->cols * 8, this->keyboard->rows * 8);
     }
     this->repaint();
 }

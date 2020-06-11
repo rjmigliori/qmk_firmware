@@ -43,11 +43,11 @@ private:
     uint16_t get_threshold(unsigned int col, unsigned int row);
     void updateCurrentLayout();
     void displaySquare(int x, int y, int w, int h, unsigned int col, unsigned int row, QPainter &painter);
-    void setMinimumSizeUnits(unsigned int width_units, unsigned int height_units);
+    void setMinimumSizeUnits(unsigned int width_units_times_8, unsigned int height_units_times_8);
     std::vector<std::vector<int>> is_was_key_pressed;
 
-    unsigned int keyboard_width_uis;
-    unsigned int keyboard_height_uis;
+    unsigned int keyboard_width_uis_times_8;
+    unsigned int keyboard_height_uis_times_8;
     static constexpr double MIN_HORIZONTAL_SCALE = 32;
     static constexpr double MIN_VERTICAL_SCALE = 32;
     static const int HORIZONTAL_MARGIN = 10;
