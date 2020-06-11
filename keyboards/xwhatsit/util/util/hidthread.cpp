@@ -88,6 +88,26 @@ void HidThread::enableKeyboard(std::string path)
     condition.wakeOne();
 }
 
+void HidThread::nameTranslation(std::string &name)
+{
+    if (name.compare("keyboards/xwhatsit/brand_new_model_f_keyboards/f62/f62.c") == 0)
+        name = "keyboards/xwhatsit/brand_new_model_f/f62/wcass/wcass.c";
+    if (name.compare("keyboards/xwhatsit/brand_new_model_f_keyboards/f77/f77.c") == 0)
+        name = "keyboards/xwhatsit/brand_new_model_f/f77/wcass/wcass.c";
+    if (name.compare("keyboards/xwhatsit/ibm/f62/xwhatsit_modelf/xwhatsit_modelf.c") == 0)
+        name = "keyboards/xwhatsit/ibm/f62/xwhatsit/xwhatsit.c";
+    if (name.compare("keyboards/xwhatsit/ibm/f50/xwhatsit_modelf/xwhatsit_modelf.c") == 0)
+        name = "keyboards/xwhatsit/ibm/f50/xwhatsit/xwhatsit.c";
+    if (name.compare("keyboards/xwhatsit/ibm/f107/xwhatsit_modelf/xwhatsit_modelf.c") == 0)
+        name = "keyboards/xwhatsit/ibm/f107/xwhatsit/xwhatsit.c";
+    if (name.compare("keyboards/xwhatsit/ibm/5251/xwhatsit_beamspring_rev_4/xwhatsit_beamspring_rev_4.c") == 0)
+        name = "keyboards/xwhatsit/ibm/5251/xwhatsit_rev4/xwhatsit_rev4.c";
+    if (name.compare("keyboards/xwhatsit/ibm/3276_3278/xwhatsit_beamspring_rev_4/xwhatsit_beamspring_rev_4.c") == 0)
+        name = "keyboards/xwhatsit/ibm/3276_3278_75key/xwhatsit_rev4/xwhatsit_rev4.c";
+    if (name.compare("keyboards/xwhatsit/ibm/3276_3278/through_hole/through_hole.c") == 0)
+        name = "keyboards/xwhatsit/ibm/3276_3278_75key/through_hole/through_hole.c";
+}
+
 void HidThread::run()
 {
     Device *monitoredDevice = nullptr;
@@ -187,23 +207,7 @@ void HidThread::run()
                 QScopedPointer<Device> dev(comm.open(l_monitor_path));
                 dev.data()->assertVersionIsAtLeast(2, 0, 0);
                 std::string name = dev.data()->getKeyboardFilename();
-                if (name.compare("keyboards/xwhatsit/brand_new_model_f_keyboards/f62/f62.c") == 0)
-                    name = "keyboards/xwhatsit/brand_new_model_f/f62/wcass/wcass.c";
-                if (name.compare("keyboards/xwhatsit/brand_new_model_f_keyboards/f77/f77.c") == 0)
-                    name = "keyboards/xwhatsit/brand_new_model_f/f77/wcass/wcass.c";
-                if (name.compare("keyboards/xwhatsit/ibm/f62/xwhatsit_modelf/xwhatsit_modelf.c") == 0)
-                    name = "keyboards/xwhatsit/ibm/f62/xwhatsit/xwhatsit.c";
-                if (name.compare("keyboards/xwhatsit/ibm/f50/xwhatsit_modelf/xwhatsit_modelf.c") == 0)
-                    name = "keyboards/xwhatsit/ibm/f50/xwhatsit/xwhatsit.c";
-                if (name.compare("keyboards/xwhatsit/ibm/f107/xwhatsit_modelf/xwhatsit_modelf.c") == 0)
-                    name = "keyboards/xwhatsit/ibm/f107/xwhatsit/xwhatsit.c";
-                if (name.compare("keyboards/xwhatsit/ibm/5251/xwhatsit_beamspring_rev_4/xwhatsit_beamspring_rev_4.c") == 0)
-                    name = "keyboards/xwhatsit/ibm/5251/xwhatsit_rev4/xwhatsit_rev4.c";
-                if (name.compare("keyboards/xwhatsit/ibm/3276_3278/xwhatsit_beamspring_rev_4/xwhatsit_beamspring_rev_4.c") == 0)
-                    name = "keyboards/xwhatsit/ibm/3276_3278_75key/xwhatsit_rev4/xwhatsit_rev4.c";
-                if (name.compare("keyboards/xwhatsit/ibm/3276_3278/through_hole/through_hole.c") == 0)
-                    name = "keyboards/xwhatsit/ibm/3276_3278_75key/through_hole/through_hole.c";
-
+                nameTranslation(name);
                 emit keyboardName(name);
                 emit thresholds(dev.data()->getThresholds());
                 dev.data()->disableKeyboard();
@@ -221,6 +225,7 @@ void HidThread::run()
                 QScopedPointer<Device> dev(comm.open(l_signal_level_path));
                 dev.data()->assertVersionIsAtLeast(2, 0, 2);
                 std::string name = dev.data()->getKeyboardFilename();
+                nameTranslation(name);
                 emit keyboardName(name);
                 dev.data()->disableKeyboard();
                 std::vector<uint8_t> details = dev.data()->getKeyboardDetails();

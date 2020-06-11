@@ -54,6 +54,7 @@ private:
     QMutex mutex;
     QWaitCondition condition;
     Communication &comm;
+    void nameTranslation(std::string &name);
 };
 
 #endif // HIDTHREAD_H
