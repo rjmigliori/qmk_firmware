@@ -271,3 +271,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #if !CAPSENSE_CAL_ENABLED
 #define CAPSENSE_HARDCODED_THRESHOLD 142
 #endif
+
+#define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (((col) == 10)?15:(col))
