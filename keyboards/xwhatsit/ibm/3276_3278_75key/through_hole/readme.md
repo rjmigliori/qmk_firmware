@@ -5,7 +5,7 @@
 A short description of the keyboard/project
 
 * Keyboard Maintainer: [Purdea Andrei](https://github.com/purdeaandrei)
-* Hardware Supported: Supports the IBM 3276 or 3278 75-key (numpadless) beamspring keyboards, using the through hole universal xwhatist controller PCB.
+* Hardware Supported: Supports the IBM 3276 or 3278 75-key (numpadless) beamspring keyboards, using the through hole universal xwhatsit controller PCB.
 * Hardware Availability: Rare collector's item
 
 Make example for this keyboard (after setting up your build environment):
