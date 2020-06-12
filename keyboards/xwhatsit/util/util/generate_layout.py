@@ -64,7 +64,7 @@ def handle_layouts(layouth_fn, layoutc_fn, infojson_fn, config_fn):
         print("};")
         laynames.append((layname, lname))
     print("struct lay_def " + keybname + "_lays[] = {")
-    for layname, lname in laynames:
+    for layname, lname in sorted(laynames):
         print("    {")
         print("        .lay_name = \"" + lname + "\",")
         print("        .n_keys = sizeof(" + layname + "_keys) / sizeof(" + layname + "_keys[0]),")
@@ -90,7 +90,7 @@ def find_layouts(starting_dir):
                     keybname, cols, rows = handle_layouts(layouth_fn, layoutc_fn, infojson_fn, config_fn)
                     keebs.append((keybname, layoutc_fn, cols, rows))
     print("struct kbd_def keyboards[] = {")
-    for keybname, layoutc_fn, cols, rows in keebs:
+    for keybname, layoutc_fn, cols, rows in sorted(keebs):
         print("    {")
         print("        .kbd_name = \"" + layoutc_fn + "\",")
         print("        .n_layouts = sizeof(" + keybname + "_lays)/sizeof(" + keybname + "_lays[0]),")
