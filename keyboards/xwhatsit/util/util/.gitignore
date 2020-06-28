@@ -3,3 +3,7 @@ util.pro.user
 .qmake.stash
 moc_*
 ui_*.h
+util_plugin_import.cpp
+release
+Makefile
+Makefile.*
