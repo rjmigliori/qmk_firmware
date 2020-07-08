@@ -601,7 +601,7 @@ uint16_t calibration_measure_all_valid_keys(uint8_t time, uint8_t reps, bool loo
             uint8_t row;
             for (row=0; row < MATRIX_ROWS; row++)
             {
-                if (pgm_read_byte(&keymaps[0][row][col]) != KC_NO)
+                if (pgm_read_word(&keymaps[0][row][col]) != KC_NO)
                 {
                     valid_physical_rows |= (((matrix_row_t)1) << CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row)); // convert keymap row to physical row
                 }
@@ -666,7 +666,7 @@ void calibration(void)
         uint8_t physical_col = CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col);
         uint8_t row;
         for (row = 0; row < MATRIX_ROWS; row++) {
-            if (pgm_read_byte(&keymaps[0][row][col]) != KC_NO) {
+            if (pgm_read_word(&keymaps[0][row][col]) != KC_NO) {
                 uint16_t threshold = measure_middle(physical_col, CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row), CAPSENSE_HARDCODED_SAMPLE_TIME, CAPSENSE_CAL_EACHKEY_REPS);
                 uint8_t besti = 0;
                 uint16_t best_diff = (uint16_t)abs(threshold - cal_thresholds[besti]);
