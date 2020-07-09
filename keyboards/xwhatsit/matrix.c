@@ -31,13 +31,22 @@
 #define CAPSENSE_SHIFT_STCP_IO _SFR_IO_ADDR(PORTC)
 #define CAPSENSE_SHIFT_STCP_BIT 7
 
+#define CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE 2
 #define CAPSENSE_READ_ROWS_PIN_1 _SFR_IO_ADDR(PIND)
 #define CAPSENSE_READ_ROWS_PIN_2 _SFR_IO_ADDR(PIND)
 #define CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS "in %[dest_row_1], %[ioreg_row_1]\n\tin %[dest_row_2], %[ioreg_row_2]"
+#define CAPSENSE_READ_ROWS_STORE_TO_ARRAY_INSTRUCTIONS \
+    "st %a[arr]+, %[dest_row_1]"       "\n\t" \
+    "st %a[arr]+, %[dest_row_2]"
+#define CAPSENSE_READ_ROWS_STORE_TO_ARRAY_INSTRUCTIONS_FAKE \
+    "st %a[arr], %[dest_row_1]"       "\n\t" \
+    "st %a[arr], %[dest_row_2]"
 #define CAPSENSE_READ_ROWS_OUTPUT_CONSTRAINTS [dest_row_1] "=&r" (dest_row_1), [dest_row_2] "=&r" (dest_row_2)
 #define CAPSENSE_READ_ROWS_INPUT_CONSTRAINTS [ioreg_row_1] "I" (CAPSENSE_READ_ROWS_PIN_1), [ioreg_row_2] "I" (CAPSENSE_READ_ROWS_PIN_2)
 #define CAPSENSE_READ_ROWS_LOCAL_VARS uint8_t dest_row_1, dest_row_2
 #define CAPSENSE_READ_ROWS_VALUE (dest_row_1 & 0xf)
+#define CAPSENSE_READ_ROWS_EXTRACT_FROM_ARRAY do { dest_row_1 = array[p0++]; dest_row_2 = array[p0++]; } while (0)
+
 // Note: for now Beamspring reads PIND twice to match model F timings. We might change that in the future
 
 #define CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row) (row)
@@ -45,6 +54,7 @@
 #ifndef CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL
 #define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (col)
 #endif
+
 #define CAPSENSE_CONDUCTIVE_PLASTIC_IS_PULLED_UP_ON_KEYPRESS
 
 #elif defined(CONTROLLER_IS_XWHATSIT_MODEL_F_OR_WCASS_MODEL_F)
@@ -61,22 +71,31 @@
 #define CAPSENSE_SHIFT_STCP_IO _SFR_IO_ADDR(PORTD)
 #define CAPSENSE_SHIFT_STCP_BIT 6
 
+#define CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE 2
 #define CAPSENSE_READ_ROWS_PIN_1 _SFR_IO_ADDR(PINC)
 #define CAPSENSE_READ_ROWS_PIN_2 _SFR_IO_ADDR(PIND)
 #define CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS "in %[dest_row_1], %[ioreg_row_1]\n\tin %[dest_row_2], %[ioreg_row_2]"
+#define CAPSENSE_READ_ROWS_STORE_TO_ARRAY_INSTRUCTIONS \
+    "st %a[arr]+, %[dest_row_1]"       "\n\t" \
+    "st %a[arr]+, %[dest_row_2]"
+#define CAPSENSE_READ_ROWS_STORE_TO_ARRAY_INSTRUCTIONS_FAKE \
+    "st %a[arr], %[dest_row_1]"       "\n\t" \
+    "st %a[arr], %[dest_row_2]"
 #define CAPSENSE_READ_ROWS_OUTPUT_CONSTRAINTS [dest_row_1] "=&r" (dest_row_1), [dest_row_2] "=&r" (dest_row_2)
 #define CAPSENSE_READ_ROWS_INPUT_CONSTRAINTS [ioreg_row_1] "I" (CAPSENSE_READ_ROWS_PIN_1), [ioreg_row_2] "I" (CAPSENSE_READ_ROWS_PIN_2)
 #define CAPSENSE_READ_ROWS_LOCAL_VARS uint8_t dest_row_1, dest_row_2
 #define CAPSENSE_READ_ROWS_VALUE ((dest_row_1 >> 4) | (dest_row_2 << 4))
+#define CAPSENSE_READ_ROWS_EXTRACT_FROM_ARRAY do { dest_row_1 = array[p0++]; dest_row_2 = array[p0++]; } while (0)
 
 #define CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row) (7-(row))
 #define CAPSENSE_PHYSICAL_ROW_TO_KEYMAP_ROW(row) (7-(row))
 #ifndef CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL
 #define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (col)
 #endif
+
 #define CAPSENSE_CONDUCTIVE_PLASTIC_IS_PUSHED_DOWN_ON_KEYPRESS
 
-#elif defined(CONTROLLER_IS_THROUGHT_HOLE_BEAMSPRING)
+#elif defined(CONTROLLER_IS_THROUGHT_HOLE_BEAMSPRING) || defined(CONTROLLER_IS_THROUGHT_HOLE_MODEL_F)
 
 #define CAPSENSE_DAC_MCP4921
 #define CAPSENSE_DAC_NCS F6
@@ -91,30 +110,64 @@
 #define CAPSENSE_SHIFT_STCP_IO _SFR_IO_ADDR(PORTF)
 #define CAPSENSE_SHIFT_STCP_BIT 7
 
-
-// TODO
 // Rows:
 // Physical position from left to right: (only the right-most are used for beamspring)
 // 1    2    3    4    5    6    7    8
 // TH schematic numbering (sense/row lines)
 // 8    6    7    5    4    3    2    1
 // F5,  B5,  F4,  B4,  D4,  C6,  D1,  D0
+
+#if MATRIX_ROWS <= 4
+#define CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE 2
 #define CAPSENSE_READ_ROWS_PIN_1 _SFR_IO_ADDR(PINC)
 #define CAPSENSE_READ_ROWS_PIN_2 _SFR_IO_ADDR(PIND)
 #define CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS "in %[dest_row_1], %[ioreg_row_1]\n\tin %[dest_row_2], %[ioreg_row_2]"
+#define CAPSENSE_READ_ROWS_STORE_TO_ARRAY_INSTRUCTIONS \
+    "st %a[arr]+, %[dest_row_1]"       "\n\t" \
+    "st %a[arr]+, %[dest_row_2]"
+#define CAPSENSE_READ_ROWS_STORE_TO_ARRAY_INSTRUCTIONS_FAKE \
+    "st %a[arr], %[dest_row_1]"       "\n\t" \
+    "st %a[arr], %[dest_row_2]"
 #define CAPSENSE_READ_ROWS_OUTPUT_CONSTRAINTS [dest_row_1] "=&r" (dest_row_1), [dest_row_2] "=&r" (dest_row_2)
 #define CAPSENSE_READ_ROWS_INPUT_CONSTRAINTS [ioreg_row_1] "I" (CAPSENSE_READ_ROWS_PIN_1), [ioreg_row_2] "I" (CAPSENSE_READ_ROWS_PIN_2)
 #define CAPSENSE_READ_ROWS_LOCAL_VARS uint8_t dest_row_1, dest_row_2
 #define CAPSENSE_READ_ROWS_VALUE (((dest_row_1 >> 4) & 0x04) | (dest_row_2 & 0x03) | ((dest_row_2 >> 1) & 0x08))
+#define CAPSENSE_READ_ROWS_EXTRACT_FROM_ARRAY do { dest_row_1 = array[p0++]; dest_row_2 = array[p0++]; } while (0)
+#else
+#define CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE 4
+#define CAPSENSE_READ_ROWS_PIN_1 _SFR_IO_ADDR(PINC)
+#define CAPSENSE_READ_ROWS_PIN_2 _SFR_IO_ADDR(PIND)
+#define CAPSENSE_READ_ROWS_PIN_3 _SFR_IO_ADDR(PINB)
+#define CAPSENSE_READ_ROWS_PIN_4 _SFR_IO_ADDR(PINF)
+#define CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS "in %[dest_row_1], %[ioreg_row_1]\n\tin %[dest_row_2], %[ioreg_row_2]\n\tin %[dest_row_3], %[ioreg_row_3]\n\tin %[dest_row_4], %[ioreg_row_4]"
+#define CAPSENSE_READ_ROWS_STORE_TO_ARRAY_INSTRUCTIONS \
+    "st %a[arr]+, %[dest_row_1]"       "\n\t" \
+    "st %a[arr]+, %[dest_row_2]"       "\n\t" \
+    "st %a[arr]+, %[dest_row_3]"       "\n\t" \
+    "st %a[arr]+, %[dest_row_4]"
+#define CAPSENSE_READ_ROWS_STORE_TO_ARRAY_INSTRUCTIONS_FAKE \
+    "st %a[arr], %[dest_row_1]"       "\n\t" \
+    "st %a[arr], %[dest_row_2]"       "\n\t" \
+    "st %a[arr], %[dest_row_3]"       "\n\t" \
+    "st %a[arr], %[dest_row_4]"
+#define CAPSENSE_READ_ROWS_OUTPUT_CONSTRAINTS [dest_row_1] "=&r" (dest_row_1), [dest_row_2] "=&r" (dest_row_2), [dest_row_3] "=&r" (dest_row_3), [dest_row_4] "=&r" (dest_row_4)
+#define CAPSENSE_READ_ROWS_INPUT_CONSTRAINTS [ioreg_row_1] "I" (CAPSENSE_READ_ROWS_PIN_1), [ioreg_row_2] "I" (CAPSENSE_READ_ROWS_PIN_2), [ioreg_row_3] "I" (CAPSENSE_READ_ROWS_PIN_3), [ioreg_row_4] "I" (CAPSENSE_READ_ROWS_PIN_4)
+#define CAPSENSE_READ_ROWS_LOCAL_VARS uint8_t dest_row_1, dest_row_2, dest_row_3, dest_row_4
+#define CAPSENSE_READ_ROWS_VALUE (((dest_row_1 >> 4) & 0x04) | (dest_row_2 & 0x03) | ((dest_row_2 >> 1) & 0x08) | (dest_row_3 & 0x10) | ((dest_row_3 << 1) & 0x40) | ((dest_row_4 << 1) & 0x20) | ((dest_row_4 << 2) & 0x80))
+#define CAPSENSE_READ_ROWS_EXTRACT_FROM_ARRAY do { dest_row_1 = array[p0++]; dest_row_2 = array[p0++]; dest_row_3 = array[p0++]; dest_row_4 = array[p0++]; } while (0)
+#endif
 
-#define CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row) (3-(row))
-#define CAPSENSE_PHYSICAL_ROW_TO_KEYMAP_ROW(row) (3-(row))
+#define CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row) (MATRIX_ROWS-1-(row))
+#define CAPSENSE_PHYSICAL_ROW_TO_KEYMAP_ROW(row) (MATRIX_ROWS-1-(row))
 #ifndef CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL
 #define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (col)
 #endif
-//#define CAPSENSE_CONDUCTIVE_PLASTIC_IS_PUSHED_DOWN_ON_KEYPRESS
+
+#if defined(CONTROLLER_IS_THROUGHT_HOLE_BEAMSPRING)
 #define CAPSENSE_CONDUCTIVE_PLASTIC_IS_PULLED_UP_ON_KEYPRESS
-// TODO END
+#else
+#define CAPSENSE_CONDUCTIVE_PLASTIC_IS_PUSHED_DOWN_ON_KEYPRESS
+#endif
 
 #else
 
@@ -293,7 +346,21 @@ void shift_init(void)
     wait_us(CAPSENSE_KEYBOARD_SETTLE_TIME_US);
 }
 
-// the following function requires storage for 2 * (time + 1) bytes
+// Timing:
+// IN instructions (1 * CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE)
+// Store to array instructions (2 * number of bytes)
+// adiw: 1 cycle
+// cp: 1 cycle
+// cpc: 1 cycle
+// brlo: 2 cycles (when jumping)
+// --- Total loop length:
+// 3 * CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE + 5 cycles
+// first sample elements will be taken after [1..CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE-1] cycles
+// second sample elements will be taken after
+//       [3 * CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE + 5 + 1..
+//        3 * CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE + 5 + CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE-1] cycles
+
+// the following function requires storage for CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE * (time + 1) bytes
 // but returns valid data only in the first (time + 1) bytes
 void test_multiple(uint8_t col, uint16_t time, uint8_t *array)
 {
@@ -306,9 +373,8 @@ void test_multiple(uint8_t col, uint16_t time, uint8_t *array)
              "ldi %B[index], 0"                 "\n\t"
              "cli"                              "\n\t"
              "sbi %[stcp_regaddr], %[stcp_bit]" "\n\t"
-        "1:" CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS         "\n\t"
-             "st %a[arr]+, %[dest_row_1]"       "\n\t"
-             "st %a[arr]+, %[dest_row_2]"       "\n\t"
+        "1:" CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS            "\n\t"
+             CAPSENSE_READ_ROWS_STORE_TO_ARRAY_INSTRUCTIONS "\n\t"
              "adiw %A[index], 0x01"             "\n\t"
              "cp %A[index], %A[time]"           "\n\t"
              "cpc %B[index], %B[time]"          "\n\t"
@@ -328,8 +394,7 @@ void test_multiple(uint8_t col, uint16_t time, uint8_t *array)
     p0 = p1 = 0;
     for (i=0; i<=time; i++)
     {
-        dest_row_1 = array[p0++];
-        dest_row_2 = array[p0++];
+        CAPSENSE_READ_ROWS_EXTRACT_FROM_ARRAY;
         array[p1++] = CAPSENSE_READ_ROWS_VALUE;
     }
     shift_select_nothing();
@@ -348,9 +413,8 @@ uint8_t test_single(uint8_t col, uint16_t time)
              "ldi %B[index], 0"                 "\n\t"
              "cli"                              "\n\t"
              "sbi %[stcp_regaddr], %[stcp_bit]" "\n\t"
-        "1:" CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS         "\n\t"
-             "st %a[arr], %[dest_row_1]"       "\n\t"
-             "st %a[arr], %[dest_row_2]"       "\n\t"
+        "1:" CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS                 "\n\t"
+             CAPSENSE_READ_ROWS_STORE_TO_ARRAY_INSTRUCTIONS_FAKE "\n\t"
              "adiw %A[index], 0x01"             "\n\t"
              "cp %A[index], %A[time]"           "\n\t"
              "cpc %B[index], %B[time]"          "\n\t"
@@ -378,7 +442,7 @@ uint8_t test_single(uint8_t col, uint16_t time)
 void test_col_print_data_v2(uint8_t col)
 {
     uprintf("%d: ", col);
-    static uint8_t data[NRTIMES*2];
+    static uint8_t data[NRTIMES*CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE];
     static uint8_t sums[(TESTATONCE+1) * MATRIX_ROWS];
     uint8_t to_time = NRTIMES-1;
     uint8_t from_time = 0;
