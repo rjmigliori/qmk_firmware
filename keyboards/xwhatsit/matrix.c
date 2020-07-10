@@ -209,6 +209,34 @@
 #error "Please specify whether the flyplate is pushed down or pulled up on keypress!"
 #endif
 
+/* Notes on Expansion Header:
+
+Pinout:
+--1--O   O--2--
+--3--O   O--4--
+--5--O   O--6--
+
+Pin 1 is always VCC
+Pin 6 in always GND
+
+When using xwhatsit's solenoid controller board,
+pin 2 is connected to the ENABLE input of the current
+limiter, and pin 4 drives the solenoid.
+
+On original xwhatsit controllers:
+pin 2 = PB7
+pin 3 = PB4
+pin 4 = PB6
+pin 5 = PB5
+
+On the TH xwhatsit controller:
+pin 2 = HEADER3 = TXO        = PD3
+pin 3 = HEADER1 = D(igital)6 = PD7
+pin 4 = HEADER4 = RXI        = PD2
+pin 5 = HEADER2 = D(igital)7 = PE6
+*/
+
+
 static inline uint8_t read_rows(void)
 {
     CAPSENSE_READ_ROWS_LOCAL_VARS;
