@@ -273,3 +273,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) ((col) + 3)
+
+// By default we set up for support of xwhatsit's solenoid driver board.
+// Comment out USING_SOLENOID_ENABLE_PIN if you don't have an enable pin:
+#define USING_SOLENOID_ENABLE_PIN D3
+// Change this if you are using a different pin for the solenoid:
+#define SOLENOID_PIN D2
+// If you are not using a solenoid then commend out the above, and also in rules.mk, remove "HAPTIC_ENABLE += SOLENOID"
+// You can also tune the following for your solenoid:
+//#define SOLENOID_DEFAULT_DWELL 12
+//#define SOLENOID_MIN_DWELL 4
+//#define SOLENOID_MAX_DWELL 100

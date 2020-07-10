@@ -236,6 +236,10 @@ pin 4 = HEADER4 = RXI        = PD2
 pin 5 = HEADER2 = D(igital)7 = PE6
 */
 
+#ifdef USING_SOLENOID_ENABLE_PIN
+// ^^ this must be defined in config.h if you are using and xwhatsit type solenoid
+#endif
+
 
 static inline uint8_t read_rows(void)
 {
@@ -828,6 +832,11 @@ void real_keyboard_init_basic(void)
         writePin(D5, 1);
         setPinOutput(B0);
         writePin(B0, 1);
+    #endif
+    #ifdef USING_SOLENOID_ENABLE_PIN
+        // ^^ this must be defined in config.h if you are using and xwhatsit type solenoid
+        setPinOutput(USING_SOLENOID_ENABLE_PIN);
+        writePin(USING_SOLENOID_ENABLE_PIN, 1);
     #endif
 }
 
