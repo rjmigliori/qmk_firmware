@@ -84,7 +84,7 @@ def find_layouts(starting_dir):
                 spl1 = os.path.split(layouth_fn[:-2])
                 spl2 = os.path.split(spl1[0])
                 if spl1[1] == spl2[1]:
-                    infojson_fn = os.path.join(spl1[0], "info.json")
+                    infojson_fn = os.path.join(spl2[0], "info.json")
                     config_fn = os.path.join(spl1[0], "config.h")
                     layoutc_fn = "keyboards/xwhatsit" + layouth_fn[len(starting_dir):-2] + ".c"
                     keybname, cols, rows = handle_layouts(layouth_fn, layoutc_fn, infojson_fn, config_fn)
