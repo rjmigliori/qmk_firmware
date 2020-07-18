@@ -433,17 +433,19 @@ void test_multiple(uint8_t col, uint16_t time, uint8_t *array)
     wait_us(CAPSENSE_KEYBOARD_SETTLE_TIME_US);
 }
 
-uint8_t test_single(uint8_t col, uint16_t time)
+uint8_t test_single(uint8_t col, uint16_t time, uint8_t *interference_ptr)
 {
     shift_select_col_no_strobe(col);
     uint16_t index;
     CAPSENSE_READ_ROWS_LOCAL_VARS;
-    uint8_t dummy_data;
-    uint8_t *arrayp = &dummy_data;
+    uint8_t array[CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE + 1]; // one sample before triggering, and one dummy byte
+    uint8_t *arrayp = array;
     asm volatile (
              "ldi %A[index], 0"                 "\n\t"
              "ldi %B[index], 0"                 "\n\t"
              "cli"                              "\n\t"
+             CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS                 "\n\t"
+             CAPSENSE_READ_ROWS_STORE_TO_ARRAY_INSTRUCTIONS      "\n\t"
              "sbi %[stcp_regaddr], %[stcp_bit]" "\n\t"
         "1:" CAPSENSE_READ_ROWS_ASM_INSTRUCTIONS                 "\n\t"
              CAPSENSE_READ_ROWS_STORE_TO_ARRAY_INSTRUCTIONS_FAKE "\n\t"
@@ -464,7 +466,15 @@ uint8_t test_single(uint8_t col, uint16_t time)
       : "memory" );
     shift_select_nothing();
     wait_us(CAPSENSE_KEYBOARD_SETTLE_TIME_US);
-    return CAPSENSE_READ_ROWS_VALUE;
+    uint8_t value_at_time = CAPSENSE_READ_ROWS_VALUE;
+    if (interference_ptr)
+    {
+        uint16_t p0 = 0;
+        CAPSENSE_READ_ROWS_EXTRACT_FROM_ARRAY;
+        uint8_t interference = CAPSENSE_READ_ROWS_VALUE;
+        *interference_ptr = interference;
+    }
+    return value_at_time;
 }
 
 #ifndef NO_PRINT
@@ -610,7 +620,7 @@ uint16_t measure_middle(uint8_t col, uint8_t row, uint8_t time, uint8_t reps)
         uint8_t i;
         for (i=0;i<reps;i++)
         {
-            sum += (test_single(col, time) >> row) & 1;
+            sum += (test_single(col, time, NULL) >> row) & 1;
         }
         if (sum < reps_div2)
         {
@@ -707,13 +717,13 @@ uint16_t calibration_measure_all_valid_keys(uint8_t time, uint8_t reps, bool loo
             for (i=0;i<reps;i++) {
                 if (looking_for_all_zero)
                 {
-                    uint8_t all_zero = (test_single(physical_col, time) & valid_physical_rows) == 0;
+                    uint8_t all_zero = (test_single(physical_col, time, NULL) & valid_physical_rows) == 0;
                     if (!all_zero) {
                         min = mid + 1;
                         goto next_binary_search;
                     }
                 } else {
-                    uint8_t all_ones = (test_single(physical_col, time) & valid_physical_rows) == valid_physical_rows;
+                    uint8_t all_ones = (test_single(physical_col, time, NULL) & valid_physical_rows) == valid_physical_rows;
                     if (!all_ones) {
                         max = mid - 1;
                         goto next_binary_search;
@@ -899,21 +909,24 @@ void matrix_scan_raw(matrix_row_t current_matrix[]) {
         dac_write_threshold(cal_thresholds[cal]);
         for (col=0;col<MATRIX_COLS;col++) {
             uint8_t real_col = CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col);
-            uint8_t d;
+            uint8_t d, interference;
             uint8_t d_tested = 0;
             for (row=0;row<MATRIX_ROWS;row++) {
                 if (assigned_to_threshold[cal][row] & (((matrix_row_t)1) << col))
                 {
                     if (!d_tested)
                     {
-                        d = test_single(real_col, CAPSENSE_HARDCODED_SAMPLE_TIME);
+                        d = test_single(real_col, CAPSENSE_HARDCODED_SAMPLE_TIME, &interference);
                         #ifdef CAPSENSE_CONDUCTIVE_PLASTIC_IS_PULLED_UP_ON_KEYPRESS
                             d = ~d;
                         #endif
                         d_tested = 1;
                     }
                     uint8_t physical_row = CAPSENSE_KEYMAP_ROW_TO_PHYSICAL_ROW(row);
-                    current_matrix[row] |= ((matrix_row_t)((d >> physical_row) & 1)) << col;
+                    if (!((interference >> physical_row) & 1))
+                    {
+                        current_matrix[row] |= ((matrix_row_t)((d >> physical_row) & 1)) << col;
+                    }
                 }
             }
         }
@@ -922,7 +935,8 @@ void matrix_scan_raw(matrix_row_t current_matrix[]) {
     for (col=0;col<MATRIX_COLS;col++)
     {
         uint8_t real_col = CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col);
-        uint8_t d = test_single(real_col, CAPSENSE_HARDCODED_SAMPLE_TIME);
+        uint8_t interference;
+        uint8_t d = test_single(real_col, CAPSENSE_HARDCODED_SAMPLE_TIME, &interference);
         #ifdef CAPSENSE_CONDUCTIVE_PLASTIC_IS_PULLED_UP_ON_KEYPRESS
             d = ~d;
         #endif
