@@ -5,7 +5,7 @@
 A short description of the keyboard/project
 
 * Keyboard Maintainer: [Purdea Andrei](https://github.com/purdeaandrei)
-* Hardware Supported: Supports the brand new Model F reproductions from https://www.modelfkeyboards.com/, using the original Xwhatsit model F rev. 1 or rev. 2 controller PCB.
+* Hardware Supported: Supports the brand new Model F reproductions from https://www.modelfkeyboards.com/, using the (non-default) original Xwhatsit model F rev. 1 or rev. 2 controller PCB.
   WARNING: All the keyboards that ship from modelfkeyboards.com come with a "wcass" controller PCB,
   and the controller supported by this QMK subfolder is not compatible with that.
   This subfolder is only useful if you decide to modify your keyboard, and replace the controller PCB
