@@ -23,9 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define VENDOR_ID 0x0481
 #define PRODUCT_ID 0x0002
 #define DEVICE_VER 0x0001
-#define MANUFACTURER Tom Wong-Cornall/Ellipse/wcass/Purdea Andrei
+#define MANUFACTURER Tom Wong-Cornall/Ellipse/Purdea Andrei
 #define PRODUCT modelfkeyboards.com Brand New F62/F77 Model F Keybard by Model F Labs
-#define DESCRIPTION QMK firmware for the modelfkeyboards.com reproduction of the IBM Model F keyboards
+#define DESCRIPTION QMK firmware for the modelfkeyboards.com reproduction of the IBM Model F keyboards using the original Xwhatsit model F controller PCB
 
 /* key matrix size */
 #define MATRIX_ROWS 8

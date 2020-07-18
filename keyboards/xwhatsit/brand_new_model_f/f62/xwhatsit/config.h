@@ -23,13 +23,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define VENDOR_ID 0x0481
 #define PRODUCT_ID 0x0002
 #define DEVICE_VER 0x0001
-#define MANUFACTURER Tom Wong-Cornall/Ellipse/wcass/Purdea Andrei
+#define MANUFACTURER Tom Wong-Cornall/Ellipse/Purdea Andrei
 #define PRODUCT modelfkeyboards.com Brand New F62/F77 Model F Keybard by Model F Labs
-#define DESCRIPTION QMK firmware for the modelfkeyboards.com reproduction of the IBM Model F keyboards
+#define DESCRIPTION QMK firmware for the modelfkeyboards.com reproduction of the IBM Model F keyboards using the original Xwhatsit model F controller PCB
 
 /* key matrix size */
 #define MATRIX_ROWS 8
-#define MATRIX_COLS 11
+#define MATRIX_COLS 9
 // Note: physical column are 16, but only 11 are ever used. Column 0..9 match the physical column. Column 10 is physical column 15.
 
 /*
@@ -273,7 +273,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CAPSENSE_HARDCODED_THRESHOLD 142
 #endif
 
-#define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (((col) == 10)?15:(col))
+#define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (((col) == 8)?15:(col))
 
 // By default we set up for support of xwhatsit's solenoid driver board.
 // Comment out USING_SOLENOID_ENABLE_PIN if you don't have an enable pin:
