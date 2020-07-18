@@ -152,9 +152,9 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
                 response[5] = 1;
                 #elif defined(CONTROLLER_IS_XWHATSIT_MODEL_F_OR_WCASS_MODEL_F)
                 response[5] = 2;
-                #elif defined(CONTROLLER_IS_THROUGHT_HOLE_BEAMSPRING)
+                #elif defined(CONTROLLER_IS_THROUGH_HOLE_BEAMSPRING)
                 response[5] = 3;
-                #elif defined(CONTROLLER_IS_THROUGHT_HOLE_MODEL_F)
+                #elif defined(CONTROLLER_IS_THROUGH_HOLE_MODEL_F)
                 response[5] = 4;
                 #else
                 response[5] = 0;
