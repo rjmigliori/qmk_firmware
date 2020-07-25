@@ -77,8 +77,8 @@ def handle_layouts(layouth_fn, layoutc_fn, infojson_fn, config_fn):
 def find_layouts(starting_dir):
     print("#include \"kbd_defs.h\"")
     keebs = []
-    for root, dirs, files in os.walk(starting_dir):
-        for fil in files:
+    for root, dirs, files in sorted(os.walk(starting_dir)):
+        for fil in sorted(files):
             layouth_fn = os.path.join(root, fil)
             if layouth_fn.endswith(".h"):
                 spl1 = os.path.split(layouth_fn[:-2])
