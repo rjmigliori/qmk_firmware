@@ -286,3 +286,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define SOLENOID_DEFAULT_DWELL 12
 //#define SOLENOID_MIN_DWELL 4
 //#define SOLENOID_MAX_DWELL 100
+
+#include "../../../post_config.h"
