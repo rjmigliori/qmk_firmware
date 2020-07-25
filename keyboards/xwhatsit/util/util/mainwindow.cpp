@@ -162,14 +162,16 @@ void MainWindow::on_signalLevelPushButton_clicked()
 
 void MainWindow::on_columnTesterButton_clicked()
 {
-    ColumnTester *ctw = new ColumnTester(thread, ui->listWidget->currentItem()->text().toStdString(), this);
+    std::string path = ui->listWidget->currentItem()->text().toStdString();
+    ColumnTester *ctw = new ColumnTester(thread, path, this);
     ctw->setAttribute(Qt::WA_DeleteOnClose);
     bool previousScanning = thread.setScanning(false);
-    thread.shiftData(ui->listWidget->currentItem()->text().toStdString(), 0);
+    thread.shiftData(path, 0);
     this->setEnabled(false);
     ctw->setEnabled(true);
     ctw->exec();
-    thread.shiftData(ui->listWidget->currentItem()->text().toStdString(), 0);
+    thread.shiftData(path, 0);
     this->setEnabled(true);
+    thread.enableKeyboard(path);
     thread.setScanning(previousScanning);
 }
