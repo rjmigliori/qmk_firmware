@@ -40,6 +40,8 @@ SignalLevelMonitorWindow::SignalLevelMonitorWindow(HidThread &thread, QWidget *p
     this->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
             this, SLOT(ShowContextMenu(const QPoint &)));
+    HORIZONTAL_MARGIN = 10;
+    VERTICAL_MARGIN = 10;
 }
 
 void SignalLevelMonitorWindow::ShowContextMenu(const QPoint &pos)
@@ -58,6 +60,8 @@ SignalLevelMonitorWindow::~SignalLevelMonitorWindow()
 
 void SignalLevelMonitorWindow::setMinimumSizeUnits(unsigned int width_units_times_8, unsigned int height_units_times_8)
 {
+    HORIZONTAL_MARGIN = ui->label_keyboardname->pos().x();
+    VERTICAL_MARGIN = ui->label_keyboardname->pos().x();
     this->setMinimumSize(std::max(ui->layoutSel->width() + ui->layoutSel->x() * 2,
                                   static_cast<int>(width_units_times_8 * MIN_HORIZONTAL_SCALE / 8 + 2 * HORIZONTAL_MARGIN)),
                          ui->last_label->geometry().y() + ui->last_label->geometry().height() +
@@ -180,6 +184,8 @@ void SignalLevelMonitorWindow::updateCurrentLayout()
 void SignalLevelMonitorWindow::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
+    HORIZONTAL_MARGIN = ui->label_keyboardname->pos().x();
+    VERTICAL_MARGIN = ui->label_keyboardname->pos().x();
     if (!keyboard) return;
     QPainter painter(this);
     int xadd = HORIZONTAL_MARGIN;

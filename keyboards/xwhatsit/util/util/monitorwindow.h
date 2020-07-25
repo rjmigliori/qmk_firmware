@@ -66,8 +66,8 @@ private:
     unsigned int keyboard_height_uis_times_8;
     static constexpr double MIN_HORIZONTAL_SCALE = 32;
     static constexpr double MIN_VERTICAL_SCALE = 32;
-    static const int HORIZONTAL_MARGIN = 10;
-    static const int VERTICAL_MARGIN = 10;
+    int HORIZONTAL_MARGIN;
+    int VERTICAL_MARGIN;
 };
 
 #endif // MONITORWINDOW_H

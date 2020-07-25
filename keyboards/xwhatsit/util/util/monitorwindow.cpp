@@ -41,6 +41,8 @@ MonitorWindow::MonitorWindow(HidThread &thread, QWidget *parent) :
     this->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
             this, SLOT(ShowContextMenu(const QPoint &)));
+    HORIZONTAL_MARGIN = 10;
+    VERTICAL_MARGIN = 10;
 }
 
 void MonitorWindow::ShowContextMenu(const QPoint &pos)
@@ -59,6 +61,8 @@ MonitorWindow::~MonitorWindow()
 
 void MonitorWindow::setMinimumSizeUnits(unsigned int width_units_times_8, unsigned int height_units_times_8)
 {
+    HORIZONTAL_MARGIN = ui->label_keyboardname->pos().x();
+    VERTICAL_MARGIN = ui->label_keyboardname->pos().x();
     this->setMinimumSize(std::max(ui->layoutSel->width() + ui->layoutSel->x() * 2,
                                   static_cast<int>(width_units_times_8 * MIN_HORIZONTAL_SCALE / 8 + 2 * HORIZONTAL_MARGIN)),
                          ui->last_label->geometry().y() + ui->last_label->geometry().height() +
@@ -157,6 +161,8 @@ void MonitorWindow::updateCurrentLayout()
 
 void MonitorWindow::paintEvent(QPaintEvent *event)
 {
+    HORIZONTAL_MARGIN = ui->label_keyboardname->pos().x();
+    VERTICAL_MARGIN = ui->label_keyboardname->pos().x();
     Q_UNUSED(event);
     if (!keyboard) return;
     QPainter painter(this);
