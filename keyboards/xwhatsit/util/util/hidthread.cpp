@@ -10,6 +10,12 @@ HidThread::HidThread(Communication &comm, QObject *parent) : QThread(parent), co
     autoenter_mode = false;
     close_monitored_device = false;
     shift_data_path = "";
+    monitor_path = "";
+    monitor_row_state_path = "";
+    signal_level_path = "";
+    erase_eeprom_path = "";
+    enable_keyboard_path = "";
+    set_dac = false;
 }
 
 HidThread::~HidThread()
@@ -52,6 +58,13 @@ void HidThread::monitor(std::string path)
     condition.wakeOne();
 }
 
+void HidThread::monitorRowState(std::string path)
+{
+    QMutexLocker locker(&mutex);
+    this->monitor_row_state_path = path;
+    condition.wakeOne();
+}
+
 void HidThread::signalLevel(std::string path)
 {
     QMutexLocker locker(&mutex);
@@ -88,6 +101,14 @@ void HidThread::enableKeyboard(std::string path)
     condition.wakeOne();
 }
 
+void HidThread::setDacValue(uint16_t value)
+{
+    QMutexLocker locker(&mutex);
+    this->set_dac = true;
+    this->set_dac_value = value;
+    condition.wakeOne();
+}
+
 void HidThread::nameTranslation(std::string &name)
 {
     if (name.compare("keyboards/xwhatsit/brand_new_model_f_keyboards/f62/f62.c") == 0)
@@ -111,13 +132,15 @@ void HidThread::nameTranslation(std::string &name)
 void HidThread::run()
 {
     Device *monitoredDevice = nullptr;
+    Device *monitoredRowStateDevice = nullptr;
     Device *signalLevelDevice = nullptr;
     uint8_t cols=0, rows=0, current_col=0, current_row=0;
     forever {
         mutex.lock();
-        bool l_keep_scanning, l_abort, nothing_to_do, l_autoenter_mode, l_close_monitored_device;
+        bool l_keep_scanning, l_abort, nothing_to_do, l_autoenter_mode, l_close_monitored_device, l_set_dac;
         uint32_t l_shift_data;
-        std::string l_enter_bootloader_path, l_monitor_path, l_erase_eeprom_path, l_signal_level_path, l_shift_data_path, l_enable_keyboard_path;
+        std::string l_enter_bootloader_path, l_monitor_path, l_erase_eeprom_path, l_signal_level_path, l_shift_data_path, l_enable_keyboard_path, l_monitor_row_state_path;
+        uint16_t l_set_dac_value;
         do {
             l_keep_scanning = this->keep_scanning;
             l_enter_bootloader_path = this->enter_bootloader_path;
@@ -130,6 +153,9 @@ void HidThread::run()
             l_shift_data_path = shift_data_path;
             l_shift_data = shift_data;
             l_enable_keyboard_path = enable_keyboard_path;
+            l_set_dac = set_dac;
+            l_set_dac_value = set_dac_value;
+            l_monitor_row_state_path = monitor_row_state_path;
             nothing_to_do = (!l_keep_scanning) &&
                             (!l_abort) &&
                             (l_enter_bootloader_path.size()==0) &&
@@ -141,7 +167,10 @@ void HidThread::run()
                             (l_signal_level_path.size() == 0) &&
                             (signalLevelDevice == nullptr) &&
                             (l_shift_data_path.size() == 0) &&
-                            (l_enable_keyboard_path.size() == 0);
+                            (l_enable_keyboard_path.size() == 0) &&
+                            (!l_set_dac) &&
+                            (l_monitor_row_state_path.size() == 0) &&
+                            (monitoredRowStateDevice == nullptr);
             if (nothing_to_do) {
                 condition.wait(&mutex);
             }
@@ -219,6 +248,40 @@ void HidThread::run()
             this->monitor_path = "";
             mutex.unlock();
         }
+        if (l_monitor_row_state_path.size() != 0)
+        {
+            try {
+                QScopedPointer<Device> dev(comm.open(l_monitor_row_state_path));
+                dev.data()->assertVersionIsAtLeast(2, 0, 4);
+                std::vector<uint8_t> details = dev.data()->getKeyboardDetails();
+                uint8_t rows = details[1];
+                uint16_t max_dac = (details[7] | static_cast<uint16_t>((static_cast<uint16_t>(details[8]) << 8)));
+                emit reportRowsAndMaxDac(rows, max_dac);
+                dev.data()->disableKeyboard();
+                monitoredRowStateDevice = dev.take();
+            } catch (const std::runtime_error &e1) {
+                emit reportMonitorError(e1.what());
+            }
+            mutex.lock();
+            monitor_row_state_path = "";
+            mutex.unlock();
+        }
+        if (l_set_dac)
+        {
+            try {
+                if (monitoredRowStateDevice!=nullptr)
+                {
+                    monitoredRowStateDevice->setDacValue(l_set_dac_value);
+                } else {
+                    throw std::runtime_error("device not open for row monitoring");
+                }
+            } catch (const std::runtime_error &e1) {
+                emit reportError(e1.what());
+            }
+            mutex.lock();
+            this->set_dac = false;
+            mutex.unlock();
+        }
         if (l_signal_level_path.size() != 0)
         {
             try {
@@ -254,6 +317,12 @@ void HidThread::run()
                 delete signalLevelDevice;
                 signalLevelDevice = nullptr;
             }
+            if (monitoredRowStateDevice != nullptr)
+            {
+                monitoredRowStateDevice->enableKeyboard();
+                delete monitoredRowStateDevice;
+                monitoredRowStateDevice = nullptr;
+            }
             mutex.lock();
             this->close_monitored_device = false;
             mutex.unlock();
@@ -261,6 +330,10 @@ void HidThread::run()
         if (monitoredDevice != nullptr)
         {
             emit keystate(monitoredDevice->getKeyState());
+        }
+        if (monitoredRowStateDevice != nullptr)
+        {
+            emit rowstate(monitoredRowStateDevice->getRowState());
         }
         if (signalLevelDevice != nullptr)
         {

@@ -405,6 +405,71 @@ std::vector<uint16_t> Device::getSignalValue(uint8_t col, uint8_t row)
     return ret;
 }
 
+void Device::setDacValue(uint16_t value)
+{
+    QMutexLocker locker(&mutex);
+    if (xwhatsit_original_firmware)
+    {
+        throw std::runtime_error("This doesn't work with xwhatsit original firmware");
+    }
+    uint8_t data[33];
+    data[0] = 0;
+    memcpy(data + 1, magic, sizeof(magic));
+    data[2+1] = UTIL_COMM_SET_DAC_VALUE;
+    data[3+1] = value & 0xFF;
+    data[4+1] = (value >> 8) & 0xFF;
+    if (-1==hid_write(device, data, sizeof(data)))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_write failed to set DAC value");
+    }
+    if ((sizeof(data)-1)!=hid_read_timeout(device, data, sizeof(data)-1, 1000))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_read failed while setting DAC value");
+    }
+    if ((data[0] != magic[0]) || (data[1] != magic[1]))
+    {
+        throw std::runtime_error("hid_read failed while setting DAC value -- no magic returned");
+    }
+    if (data[2] != UTIL_COMM_RESPONSE_OK)
+    {
+        throw std::runtime_error("hid_read failed while setting DAC value -- response not okay");
+    }
+}
+
+uint8_t Device::getRowState()
+{
+    QMutexLocker locker(&mutex);
+    if (xwhatsit_original_firmware)
+    {
+        throw std::runtime_error("This doesn't work with xwhatsit original firmware");
+    }
+    uint8_t data[33];
+    data[0] = 0;
+    memcpy(data + 1, magic, sizeof(magic));
+    data[2+1] = UTIL_COMM_GET_ROW_STATE;
+    if (-1==hid_write(device, data, sizeof(data)))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_write failed to get row state");
+    }
+    if ((sizeof(data)-1)!=hid_read_timeout(device, data, sizeof(data)-1, 1000))
+    {
+        printf("hid error: %ls\n", hid_error(device));
+        throw std::runtime_error("hid_read failed while getting row state");
+    }
+    if ((data[0] != magic[0]) || (data[1] != magic[1]))
+    {
+        throw std::runtime_error("hid_read failed while getting row state -- no magic returned");
+    }
+    if (data[2] != UTIL_COMM_RESPONSE_OK)
+    {
+        throw std::runtime_error("hid_read failed while getting row state -- response not okay");
+    }
+    return data[3];
+}
+
 uint32_t Device::getVersion()
 {
     return version;

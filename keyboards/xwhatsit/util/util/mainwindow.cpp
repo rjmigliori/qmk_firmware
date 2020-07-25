@@ -8,12 +8,14 @@
 #include <QMenu>
 #include <QAction>
 #include "columntester.h"
+#include "rowdactester.h"
 
 Q_DECLARE_METATYPE(std::vector<std::string>)
 Q_DECLARE_METATYPE(std::string)
 Q_DECLARE_METATYPE(std::vector<std::vector<uint8_t> >)
 Q_DECLARE_METATYPE(std::vector<uint8_t>)
 Q_DECLARE_METATYPE(std::vector<uint16_t>)
+Q_DECLARE_METATYPE(uint8_t)
 
 MainWindow::MainWindow(Communication &comm, QWidget *parent) :
     QMainWindow(parent),
@@ -27,6 +29,8 @@ MainWindow::MainWindow(Communication &comm, QWidget *parent) :
     qRegisterMetaType<std::vector<std::vector<uint8_t>>>("vector_of_vector_of_uint8t");
     qRegisterMetaType<std::vector<uint8_t>>("vector_of_uint8t");
     qRegisterMetaType<std::vector<uint16_t>>("vector_of_uint16t");
+    qRegisterMetaType<uint8_t>("uint8_t");
+    qRegisterMetaType<uint16_t>("uint16_t");
     connect(&thread, &HidThread::scannedDevices, this, &MainWindow::on_updateScannedDevices);
     connect(&thread, &HidThread::reportError, this, &MainWindow::on_reportError);
     connect(&thread, &HidThread::reportInfo, this, &MainWindow::on_reportInfo);
@@ -104,6 +108,7 @@ void MainWindow::on_listWidget_itemSelectionChanged()
     ui->eraseEepromPushButton->setEnabled(enabled && !is_xwhatsit);
     ui->signalLevelPushButton->setEnabled(enabled && !is_xwhatsit);
     ui->columnTesterButton->setEnabled(enabled && !is_xwhatsit);
+    ui->rowDacPushButton->setEnabled(enabled && !is_xwhatsit);
     Q_UNUSED(is_xwhatsit);
 }
 
@@ -173,5 +178,19 @@ void MainWindow::on_columnTesterButton_clicked()
     thread.shiftData(path, 0);
     this->setEnabled(true);
     thread.enableKeyboard(path);
+    thread.setScanning(previousScanning);
+}
+
+void MainWindow::on_rowDacPushButton_clicked()
+{
+    std::string path = ui->listWidget->currentItem()->text().toStdString();
+    RowDacTester *w = new RowDacTester(thread, path, this);
+    w->setAttribute(Qt::WA_DeleteOnClose);
+    bool previousScanning = thread.setScanning(false);
+    thread.monitorRowState(path);
+    this->setEnabled(false);
+    w->setEnabled(true);
+    w->exec();
+    this->setEnabled(true);
     thread.setScanning(previousScanning);
 }

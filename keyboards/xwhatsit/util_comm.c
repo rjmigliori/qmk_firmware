@@ -163,6 +163,8 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
                 response[7] = CAPSENSE_DAC_SETTLE_TIME_US;
                 response[8] = CAPSENSE_HARDCODED_SAMPLE_TIME;
                 response[9] = CAPSENSE_CAL_ENABLED;
+                response[10] = CAPSENSE_DAC_MAX & 0xFF;
+                response[11] = (CAPSENSE_DAC_MAX >> 8) & 0xFF;
                 break;
             }
         case UTIL_COMM_SHIFT_DATA:
@@ -173,6 +175,20 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
                                 (((uint32_t)(data[5])) << 16) |
                                 (((uint32_t)(data[6])) << 24);
                 shift_data(shdata);
+                break;
+            }
+        case UTIL_COMM_SET_DAC_VALUE:
+            {
+                response[2] = UTIL_COMM_RESPONSE_OK;
+                uint16_t value = data[3] | (((uint16_t)data[4]) << 8);
+                dac_write_threshold(value);
+                break;
+            }
+        case UTIL_COMM_GET_ROW_STATE:
+            {
+                response[2] = UTIL_COMM_RESPONSE_OK;
+                response[3] = test_single(255, 0, NULL);
+                break;
             }
         default:
             break;

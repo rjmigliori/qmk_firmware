@@ -95,6 +95,16 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="rowDacPushButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Row and DAC tester</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>

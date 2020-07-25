@@ -27,6 +27,8 @@ public:
     std::vector<uint8_t> getKeyState();
     std::vector<uint8_t> getKeyboardDetails();
     std::vector<uint16_t> getSignalValue(uint8_t col, uint8_t row);
+    void setDacValue(uint16_t value);
+    uint8_t getRowState();
     std::string getKeyboardFilename();
 private:
     hid_device *device = NULL;

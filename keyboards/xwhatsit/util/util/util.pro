@@ -33,7 +33,8 @@ SOURCES += \
     hidthread.cpp \
     kbd_defs.cpp \
     signal_level.cpp \
-    columntester.cpp
+    columntester.cpp \
+    rowdactester.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,7 +44,8 @@ HEADERS += \
     hidthread.h \
     kbd_defs.h \
     signal_level.h \
-    columntester.h
+    columntester.h \
+    rowdactester.h
 
 unix:!macx {
     LIBS += -lhidapi-libusb
@@ -66,7 +68,8 @@ FORMS += \
         mainwindow.ui \
     monitorwindow.ui \
     signal_level.ui \
-    columntester.ui
+    columntester.ui \
+    rowdactester.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

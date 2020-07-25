@@ -20,11 +20,13 @@ public:
     bool setAutoEnter(bool enabled);
     void enterBootloader(std::string path);
     void monitor(std::string path);
+    void monitorRowState(std::string path);
     void signalLevel(std::string path);
     void eraseEeprom(std::string path);
     void closeMonitoredDevice();
     void shiftData(std::string path, uint32_t shdata);
     void enableKeyboard(std::string path);
+    void setDacValue(uint16_t value);
     Device *connectToDevice(std::string path);
 signals:
     void scannedDevices(std::vector<std::string> devices);
@@ -33,8 +35,10 @@ signals:
     void keyboardName(std::string name);
     void thresholds(std::vector<std::vector<uint8_t>>);
     void keystate(std::vector<uint8_t>);
+    void rowstate(uint8_t);
     void reportMonitorError(std::string error_message);
     void reportSignalLevel(std::vector<uint16_t>);
+    void reportRowsAndMaxDac(uint8_t rows, uint16_t max_dac);
 
 protected:
     void run() override;
@@ -48,9 +52,12 @@ private:
     std::string shift_data_path;
     std::string enter_bootloader_path;
     std::string monitor_path;
+    std::string monitor_row_state_path;
     std::string signal_level_path;
     std::string erase_eeprom_path;
     std::string enable_keyboard_path;
+    bool set_dac;
+    uint16_t set_dac_value;
     QMutex mutex;
     QWaitCondition condition;
     Communication &comm;

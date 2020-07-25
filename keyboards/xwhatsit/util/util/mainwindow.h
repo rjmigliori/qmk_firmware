@@ -37,6 +37,8 @@ private slots:
 
     void on_columnTesterButton_clicked();
 
+    void on_rowDacPushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     Communication &comm;
