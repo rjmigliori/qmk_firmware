@@ -53,5 +53,6 @@ This has not been tested yet. You may need to tweak util.pro for this to work. I
 8) Run it: ```./util.app/Contents/MacOS/util```
 9) Create .dmg package: ```/usr/local/opt/qt5/bin/macdeployqt util.app -dmg util```
 
+# License
 
-
+All of the files in this folder are licensed under the GNU GPLv2 (or at your option any later version) license, except when otherwise specified.
