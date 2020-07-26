@@ -642,7 +642,7 @@ void real_keyboard_init_basic(void)
     dac_write_threshold(CAPSENSE_HARDCODED_THRESHOLD);
     dac_write_threshold(CAPSENSE_HARDCODED_THRESHOLD);
     #endif
-    #if defined(CONTROLLER_IS_THROUGH_HOLE_BEAMSPRING)
+    #if defined(CONTROLLER_IS_THROUGH_HOLE_BEAMSPRING) || defined(CONTROLLER_IS_THROUGH_HOLE_MODEL_F)
         // Disable on-board leds.
         setPinOutput(D5);
         writePin(D5, 1);
