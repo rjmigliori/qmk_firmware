@@ -56,6 +56,9 @@ Device::Device(std::string path, QMutex &mutex) :
     if (!xwhatsit_original_firmware)
     {
         uint8_t data[33];
+        // Extract any pending data, for more reliable operation.
+        while ((sizeof(data)-1)==hid_read_timeout(device, data, sizeof(data)-1, 100))
+            ;
         data[0] = 0;
         memcpy(data + 1, magic, sizeof(magic));
         data[2+1] = UTIL_COMM_GET_VERSION;
