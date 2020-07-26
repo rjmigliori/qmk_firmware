@@ -63,8 +63,7 @@ void MonitorWindow::setMinimumSizeUnits(unsigned int width_units_times_8, unsign
 {
     HORIZONTAL_MARGIN = ui->label_keyboardname->pos().x();
     VERTICAL_MARGIN = ui->label_keyboardname->pos().x();
-    this->setMinimumSize(std::max(ui->layoutSel->width() + ui->layoutSel->x() * 2,
-                                  static_cast<int>(width_units_times_8 * MIN_HORIZONTAL_SCALE / 8 + 2 * HORIZONTAL_MARGIN)),
+    this->setMinimumSize(static_cast<int>(width_units_times_8 * MIN_HORIZONTAL_SCALE / 8 + 2 * HORIZONTAL_MARGIN),
                          ui->last_label->geometry().y() + ui->last_label->geometry().height() +
                              static_cast<int>(height_units_times_8 * MIN_VERTICAL_SCALE / 8 + 2 * VERTICAL_MARGIN));
 }
