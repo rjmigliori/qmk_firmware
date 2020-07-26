@@ -125,7 +125,8 @@ void dac_write_threshold(uint16_t value)
 
 #endif
 
-#define SHIFT_BITS ((CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(MATRIX_COLS - 1) >= 16) ? 24 : 16)
+#define SHIFT_BITS (((CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(MATRIX_COLS - 1) >= 16) || \
+                     (CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(0) >= 16)) ? 24 : 16)
 
 void shift_select_nothing(void)
 {
