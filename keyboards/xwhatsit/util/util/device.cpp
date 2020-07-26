@@ -306,7 +306,7 @@ std::vector<std::vector<uint8_t>> Device::getThresholds()
         {
             throw std::runtime_error("hid_read failed while getting thresholds -- response not okay");
         }
-        std::vector<uint8_t> trdata(&data[3], &data[qMin(32, matrixsize + 3)]);
+        std::vector<uint8_t> trdata(&data[3], &data[qMin(32, matrixsize + 3 + 3)]);
         if (matrixsize > 32 - 6)
         {
             data[0] = 0;
