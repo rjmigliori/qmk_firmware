@@ -39,6 +39,7 @@ bool is_xwhatsit_original_firmware_path(std::string path)
 Device::Device(std::string path, QMutex &mutex) :
     mutex(mutex)
 {
+    this->keystate_matrix_size = 0;
     QMutexLocker locker(&mutex);
     std::string real_path = path;
     xwhatsit_original_firmware = is_xwhatsit_original_firmware_path(path);
@@ -271,6 +272,7 @@ void Device::disableKeyboard()
 
 std::vector<std::vector<uint8_t>> Device::getThresholds()
 {
+    int matrixsize = getKeystateMatrixSize();
     QMutexLocker locker(&mutex);
     std::vector<std::vector<uint8_t>> ret;
     if (xwhatsit_original_firmware)
@@ -285,6 +287,7 @@ std::vector<std::vector<uint8_t>> Device::getThresholds()
         memcpy(data + 1, magic, sizeof(magic));
         data[2+1] = UTIL_COMM_GET_THRESHOLDS;
         data[3+1] = current_bin;
+        data[4+1] = 0;
         if (-1==hid_write(device, data, sizeof(data)))
         {
             printf("hid error: %ls\n", hid_error(device));
@@ -303,7 +306,34 @@ std::vector<std::vector<uint8_t>> Device::getThresholds()
         {
             throw std::runtime_error("hid_read failed while getting thresholds -- response not okay");
         }
-        std::vector<uint8_t> trdata(&data[3], &data[32]);
+        std::vector<uint8_t> trdata(&data[3], &data[qMin(32, matrixsize + 3)]);
+        if (matrixsize > 32 - 6)
+        {
+            data[0] = 0;
+            memcpy(data + 1, magic, sizeof(magic));
+            data[2+1] = UTIL_COMM_GET_THRESHOLDS;
+            data[3+1] = current_bin;
+            data[4+1] = 32-6;
+            if (-1==hid_write(device, data, sizeof(data)))
+            {
+                printf("hid error: %ls\n", hid_error(device));
+                throw std::runtime_error("hid_write failed to disable keyboard");
+            }
+            if ((sizeof(data)-1)!=hid_read_timeout(device, data, sizeof(data)-1, 1000))
+            {
+                printf("hid error: %ls\n", hid_error(device));
+                throw std::runtime_error("hid_read failed while getting thresholds");
+            }
+            if ((data[0] != magic[0]) || (data[1] != magic[1]))
+            {
+                throw std::runtime_error("hid_read failed while getting thresholds -- no magic returned");
+            }
+            if (data[2] != UTIL_COMM_RESPONSE_OK)
+            {
+                throw std::runtime_error("hid_read failed while getting thresholds -- response not okay");
+            }
+            trdata.insert(trdata.end(), &data[6], &data[qMin(32, matrixsize - (32 - 6) + 6)]);
+        }
         ret.push_back(trdata);
         bins = data[3];
         current_bin ++;
@@ -313,6 +343,7 @@ std::vector<std::vector<uint8_t>> Device::getThresholds()
 
 std::vector<uint8_t> Device::getKeyState()
 {
+    int matrixsize = getKeystateMatrixSize();
     QMutexLocker locker(&mutex);
     if (xwhatsit_original_firmware)
     {
@@ -322,6 +353,7 @@ std::vector<uint8_t> Device::getKeyState()
     data[0] = 0;
     memcpy(data + 1, magic, sizeof(magic));
     data[2+1] = UTIL_COMM_GET_KEYSTATE;
+    data[3+1] = 0;
     if (-1==hid_write(device, data, sizeof(data)))
     {
         printf("hid error: %ls\n", hid_error(device));
@@ -340,7 +372,33 @@ std::vector<uint8_t> Device::getKeyState()
     {
         throw std::runtime_error("hid_read failed while getting keystate -- response not okay");
     }
-    std::vector<uint8_t> ret(&data[3], &data[32]);
+    std::vector<uint8_t> ret(&data[3], &data[qMin(32, matrixsize + 3)]);
+    if (matrixsize > 32 - 3)
+    {
+        data[0] = 0;
+        memcpy(data + 1, magic, sizeof(magic));
+        data[2+1] = UTIL_COMM_GET_KEYSTATE;
+        data[3+1] = 32-3;
+        if (-1==hid_write(device, data, sizeof(data)))
+        {
+            printf("hid error: %ls\n", hid_error(device));
+            throw std::runtime_error("hid_write failed to get keystate");
+        }
+        if ((sizeof(data)-1)!=hid_read_timeout(device, data, sizeof(data)-1, 1000))
+        {
+            printf("hid error: %ls\n", hid_error(device));
+            throw std::runtime_error("hid_read failed while getting keystate");
+        }
+        if ((data[0] != magic[0]) || (data[1] != magic[1]))
+        {
+            throw std::runtime_error("hid_read failed while getting keystate -- no magic returned");
+        }
+        if (data[2] != UTIL_COMM_RESPONSE_OK)
+        {
+            throw std::runtime_error("hid_read failed while getting keystate -- response not okay");
+        }
+        ret.insert(ret.end(), &data[3], &data[qMin(32, matrixsize - (32 - 3) + 3)]);
+    }
     return ret;
 }
 
@@ -376,6 +434,18 @@ std::vector<uint8_t> Device::getKeyboardDetails()
     }
     std::vector<uint8_t> ret(&data[3], &data[32]);
     return ret;
+}
+
+int Device::getKeystateMatrixSize()
+{
+    if (!isVersionAtLeast(2, 0, 2)) return 16;
+    if (this->keystate_matrix_size) return this->keystate_matrix_size;
+    std::vector<uint8_t> details = getKeyboardDetails();
+    uint8_t cols = details[0];
+    uint8_t rows = details[1];
+    uint8_t bytes_per_row = (cols > 16) ? 4 : ((cols > 8) ? 2 : 1);
+    this->keystate_matrix_size = bytes_per_row * rows;
+    return this->keystate_matrix_size;
 }
 
 std::vector<uint16_t> Device::getSignalValue(uint8_t col, uint8_t row)

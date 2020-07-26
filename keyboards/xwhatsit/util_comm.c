@@ -29,6 +29,8 @@
 #define RAW_EPSIZE 32
 #endif
 
+#define min(x, y) (((x) < (y))?(x):(y))
+
 extern const char *KEYBOARD_FILENAME; // This must be defined in keyboard_name.c to equal the filename. This is sent back to the PC-side software for it to determine which keyboard we are using.
 
 static const uint8_t magic[] = UTIL_COMM_MAGIC;
@@ -69,15 +71,18 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
             break;
         case UTIL_COMM_GET_KEYSTATE:
             response[2] = UTIL_COMM_RESPONSE_OK;
-            #if 1
-                matrix_scan_raw((matrix_row_t *)&response[3]); // AVR doesn't require not-byte values to be aligned, so this is correct, and it's an optimization.
-            #else
+            {
+                matrix_row_t current_matrix[MATRIX_ROWS];
+                matrix_scan_raw(current_matrix);
+                char *current_matrix_ptr = (char *)current_matrix;
+                int offset = 0;
+                if (sizeof(current_matrix) > 32-3)
                 {
-                    matrix_row_t current_matrix[MATRIX_ROWS];
-                    matrix_scan_raw(current_matrix);
-                    memcpy(&response[3], current_matrix, sizeof(current_matrix));
+                    offset = data[3];
+                    current_matrix_ptr += offset;
                 }
-            #endif
+                memcpy(&response[3], current_matrix_ptr, min(32-3, sizeof(current_matrix)-offset));
+            }
             break;
         case UTIL_COMM_GET_THRESHOLDS:
             response[2] = UTIL_COMM_RESPONSE_OK;
@@ -87,7 +92,14 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
                 const uint8_t cal_bin = data[3];
                 response[4] = cal_thresholds[cal_bin] & 0xff;
                 response[5] = (cal_thresholds[cal_bin] >> 8) & 0xff;
-                memcpy(&response[6], assigned_to_threshold[cal_bin], sizeof(assigned_to_threshold[cal_bin]));
+                char *assigned_to_threshold_ptr = (char *)assigned_to_threshold[cal_bin];
+                int offset = 0;
+                if (sizeof(assigned_to_threshold[cal_bin]) > 32-6)
+                {
+                    offset = data[4];
+                    assigned_to_threshold_ptr += offset;
+                }
+                memcpy(&response[6], assigned_to_threshold_ptr, min(32-6, sizeof(assigned_to_threshold[cal_bin]) - offset));
             }
             #else
             response[3] = 0;

@@ -51,6 +51,8 @@ private:
     QMutex &mutex;
     bool xwhatsit_original_firmware;
     uint32_t version;
+    int keystate_matrix_size;
+    int getKeystateMatrixSize();
 };
 
 #endif // DEVICE_H
