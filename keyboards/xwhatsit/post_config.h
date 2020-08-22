@@ -33,6 +33,18 @@
 
 #define SETUP_ROW_GPIOS() do {} while (0)
 
+#if 1
+#define SETUP_UNUSED_PINS() do {} while (0)
+#else
+// TODO ENABLE THIS ONCE TESTED
+#define SETUP_UNUSED_PINS() \
+    do { \
+        PORTB |= ~(DDRB | 0x07); \
+        PORTC |= ~(DDRC | 0xf3); \
+        PORTD |= ~(DDRD | 0x8f); \
+    } while (0)
+#endif
+
 #    define CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE 2
 #    define CAPSENSE_READ_ROWS_PIN_1 _SFR_IO_ADDR(PIND)
 #    define CAPSENSE_READ_ROWS_PIN_2 _SFR_IO_ADDR(PIND)
@@ -74,6 +86,18 @@
 #    define CAPSENSE_SHIFT_STCP_BIT 6
 
 #define SETUP_ROW_GPIOS() do {} while (0)
+
+#if 1
+#define SETUP_UNUSED_PINS() do {} while (0)
+#else
+// TODO ENABLE THIS ONCE TESTED
+#define SETUP_UNUSED_PINS() \
+    do { \
+        PORTB |= ~(DDRB | 0x07); \
+        PORTC |= ~(DDRC | 0xf3); \
+        PORTD |= ~(DDRD | 0xff); \
+    } while (0)
+#endif
 
 #    define CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE 2
 #    define CAPSENSE_READ_ROWS_PIN_1 _SFR_IO_ADDR(PINC)
@@ -129,6 +153,20 @@
         PORTD |= (1 << 4) | (1 << 1) | (1 << 0); \
         PORTC |= (1 << 6); \
     } while (0)
+
+#if 1
+#define SETUP_UNUSED_PINS() do {} while (0)
+#else
+// TODO ENABLE THIS ONCE TESTED
+#define SETUP_UNUSED_PINS() \
+    do { \
+        PORTB |= ~(DDRB | 0x77); \
+        PORTC |= ~(DDRC | (1 << 6)); \
+        PORTD |= ~(DDRD | 0x33); \
+        PORTE |= ~(DDRE); \
+        PORTF |= ~(DDRF | 0xf0); \
+    } while (0)
+#endif
 
 #    if MATRIX_ROWS <= 4
 #        define CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE 2

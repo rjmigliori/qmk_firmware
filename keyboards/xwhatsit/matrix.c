@@ -625,6 +625,7 @@ void calibration(void)
 
 void real_keyboard_init_basic(void)
 {
+    SETUP_UNUSED_PINS();
     #ifndef NO_PRINT
     uprintf("shift_init()");
     #endif
