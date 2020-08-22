@@ -31,6 +31,8 @@
 #    define CAPSENSE_SHIFT_STCP_IO _SFR_IO_ADDR(PORTC)
 #    define CAPSENSE_SHIFT_STCP_BIT 7
 
+#define SETUP_ROW_GPIOS() do {} while (0)
+
 #    define CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE 2
 #    define CAPSENSE_READ_ROWS_PIN_1 _SFR_IO_ADDR(PIND)
 #    define CAPSENSE_READ_ROWS_PIN_2 _SFR_IO_ADDR(PIND)
@@ -70,6 +72,8 @@
 #    define CAPSENSE_SHIFT_STCP D6
 #    define CAPSENSE_SHIFT_STCP_IO _SFR_IO_ADDR(PORTD)
 #    define CAPSENSE_SHIFT_STCP_BIT 6
+
+#define SETUP_ROW_GPIOS() do {} while (0)
 
 #    define CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE 2
 #    define CAPSENSE_READ_ROWS_PIN_1 _SFR_IO_ADDR(PINC)
@@ -116,6 +120,15 @@
 // TH schematic numbering (sense/row lines)
 // 8    6    7    5    4    3    2    1
 // F5,  B5,  F4,  B4,  D4,  C6,  D1,  D0
+
+// pull-ups are only necessary for some variants of the TH controller design:
+#define SETUP_ROW_GPIOS() \
+    do { \
+        PORTF |= (1 << 5) | (1 << 4); \
+        PORTB |= (1 << 5) | (1 << 4); \
+        PORTD |= (1 << 4) | (1 << 1) | (1 << 0); \
+        PORTC |= (1 << 6); \
+    } while (0)
 
 #    if MATRIX_ROWS <= 4
 #        define CAPSENSE_READ_ROWS_NUMBER_OF_BYTES_PER_SAMPLE 2

@@ -637,6 +637,7 @@ void real_keyboard_init_basic(void)
     #ifndef NO_PRINT
     uprintf(" DONE\n");
     #endif
+    SETUP_ROW_GPIOS();
     #if CAPSENSE_CAL_ENABLED
     calibration();
     #else
