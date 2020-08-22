@@ -179,6 +179,7 @@ void shift_init(void)
     setPinOutput(CAPSENSE_SHIFT_OE);
     setPinOutput(CAPSENSE_SHIFT_STCP);
     setPinOutput(CAPSENSE_SHIFT_SHCP);
+    writePin(CAPSENSE_SHIFT_OE, 0);
     writePin(CAPSENSE_SHIFT_STCP, 0);
     writePin(CAPSENSE_SHIFT_SHCP, 0);
     shift_select_nothing();
