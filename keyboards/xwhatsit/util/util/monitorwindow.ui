@@ -57,11 +57,18 @@
     </widget>
    </item>
    <item>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>*NOTE3: The keystates shown here don't go through debouncing.</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="last_label">
        <property name="text">
-        <string>*NOTE3: Colors:</string>
+        <string>*NOTE4: Colors:</string>
        </property>
       </widget>
      </item>
