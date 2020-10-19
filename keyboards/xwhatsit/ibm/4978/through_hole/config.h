@@ -286,4 +286,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define SOLENOID_MIN_DWELL 4
 //#define SOLENOID_MAX_DWELL 100
 
+// If the lock lights are not used, then please don't define the below pins,
+// or leave them set as unused pins:
+
+// The following definitions are compatible with the Model F SMD controllers
+// from here: https://deskthority.net/viewtopic.php?f=7&t=24597 supporting the
+// AT lock lights header
+#define LED_NUM_LOCK_PIN D7
+#define LED_CAPS_LOCK_PIN E6
+#define LED_SCROLL_LOCK_PIN B6
+
+// The following definitions match the lock lights as used by the original
+// xwhatsit firmware, but enabling all three of these is not compatible with
+// solenoid support
+//#define LED_NUM_LOCK_PIN E6
+//#define LED_CAPS_LOCK_PIN D2
+//#define LED_SCROLL_LOCK_PIN D7
+
+// Uncomment below if the leds are on when the pin is driving zero:
+//#define LED_NUM_LOCK_ACTIVE_LOW
+//#define LED_CAPS_LOCK_ACTIVE_LOW
+//#define LED_SCROLL_LOCK_ACTIVE_LOW
+
 #include "../../../post_config.h"

@@ -623,9 +623,46 @@ void calibration(void)
     }
 }
 
+void set_leds(int num_lock, int caps_lock, int scroll_lock)
+{
+    #if defined(LED_NUM_LOCK_PIN)
+        #if defined(LED_NUM_LOCK_ACTIVE_LOW)
+            writePin(LED_NUM_LOCK_PIN, !num_lock);
+        #else
+            writePin(LED_NUM_LOCK_PIN, num_lock);
+        #endif
+    #endif
+    #if defined(LED_CAPS_LOCK_PIN)
+        #if defined(LED_CAPS_LOCK_ACTIVE_LOW)
+            writePin(LED_CAPS_LOCK_PIN, !caps_lock);
+        #else
+            writePin(LED_CAPS_LOCK_PIN, caps_lock);
+        #endif
+    #endif
+    #if defined(LED_SCROLL_LOCK_PIN)
+        #if defined(LED_SCROLL_LOCK_ACTIVE_LOW)
+            writePin(LED_SCROLL_LOCK_PIN, !scroll_lock);
+        #else
+            writePin(LED_SCROLL_LOCK_PIN, scroll_lock);
+        #endif
+    #endif
+}
+
 void real_keyboard_init_basic(void)
 {
     SETUP_UNUSED_PINS();
+
+    #if defined(LED_NUM_LOCK_PIN)
+        setPinOutput(LED_NUM_LOCK_PIN);
+    #endif
+    #if defined(LED_CAPS_LOCK_PIN)
+        setPinOutput(LED_CAPS_LOCK_PIN);
+    #endif
+    #if defined(LED_SCROLL_LOCK_PIN)
+        setPinOutput(LED_SCROLL_LOCK_PIN);
+    #endif
+    set_leds(0, 0, 0);
+
     #ifndef NO_PRINT
     uprintf("shift_init()");
     #endif
@@ -660,7 +697,18 @@ void real_keyboard_init_basic(void)
     #endif
 }
 
+
+bool led_update_kb(led_t led_state) {
+    bool res = led_update_user(led_state);
+    if(res) {
+        set_leds(led_state.num_lock, led_state.caps_lock, led_state.scroll_lock);
+    }
+    return res;
+}
+
 void matrix_init_custom(void) {
+
+
     //test_v2();
     //tracking_test();
     real_keyboard_init_basic();
