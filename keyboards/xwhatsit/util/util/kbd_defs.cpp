@@ -15,7 +15,7 @@
  */
 
 #include "kbd_defs.h"
-struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_all_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_all_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -82,7 +82,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hol
     { .row = 7, .col = 7, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 8, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_regular_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -144,7 +144,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hol
     { .row = 7, .col = 7, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 8, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_regular_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -207,7 +207,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hol
     { .row = 7, .col = 7, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 8, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -270,7 +270,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hol
     { .row = 7, .col = 7, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 8, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -334,7 +334,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hol
     { .row = 7, .col = 7, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 8, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -397,7 +397,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hol
     { .row = 7, .col = 7, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 8, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -461,7 +461,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hol
     { .row = 7, .col = 7, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 8, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_regular_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -524,7 +524,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hol
     { .row = 7, .col = 7, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 8, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_regular_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -588,7 +588,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hol
     { .row = 7, .col = 7, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 8, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -652,7 +652,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hol
     { .row = 7, .col = 7, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 8, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -717,7 +717,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hol
     { .row = 7, .col = 7, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 8, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -781,7 +781,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hol
     { .row = 7, .col = 7, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 8, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -846,71 +846,71 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hol
     { .row = 7, .col = 7, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 8, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT_all",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_all_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_all_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_all_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_all_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_hhkb_split_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_hhkb_split_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_nonhhkb_split_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_nonhhkb_split_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_regular_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_regular_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_regular_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_regular_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_regular_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_regular_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_regular_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_ansi_regular_shift_split_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_iso_hhkb_split_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_iso_hhkb_split_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_iso_nonhhkb_split_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_iso_nonhhkb_split_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_iso_regular_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_regular_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_regular_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_regular_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_iso_regular_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_regular_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_regular_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_LAYOUT_iso_regular_shift_split_backspace_keys,
     },
 };
 struct key_def keyboards_xwhatsit_brand_new_model_f_f62_wcass_wcass_c_LAYOUT_all_keys[] = {
@@ -2709,7 +2709,7 @@ struct lay_def keyboards_xwhatsit_brand_new_model_f_f62_xwhatsit_xwhatsit_c_lays
         .keys = keyboards_xwhatsit_brand_new_model_f_f62_xwhatsit_xwhatsit_c_LAYOUT_iso_regular_shift_split_backspace_keys,
     },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_all_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_all_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -2791,7 +2791,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hol
     { .row = 7, .col = 9, .x = 16.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 10, .x = 17.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_regular_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -2868,7 +2868,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hol
     { .row = 7, .col = 9, .x = 16.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 10, .x = 17.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_regular_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -2946,7 +2946,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hol
     { .row = 7, .col = 9, .x = 16.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 10, .x = 17.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -3024,7 +3024,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hol
     { .row = 7, .col = 9, .x = 16.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 10, .x = 17.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -3103,7 +3103,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hol
     { .row = 7, .col = 9, .x = 16.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 10, .x = 17.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -3181,7 +3181,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hol
     { .row = 7, .col = 9, .x = 16.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 10, .x = 17.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -3260,7 +3260,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hol
     { .row = 7, .col = 9, .x = 16.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 10, .x = 17.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_regular_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_regular_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -3338,7 +3338,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hol
     { .row = 7, .col = 9, .x = 16.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 10, .x = 17.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_regular_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_regular_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -3417,7 +3417,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hol
     { .row = 7, .col = 9, .x = 16.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 10, .x = 17.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -3496,7 +3496,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hol
     { .row = 7, .col = 9, .x = 16.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 10, .x = 17.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -3576,7 +3576,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hol
     { .row = 7, .col = 9, .x = 16.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 10, .x = 17.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -3655,7 +3655,7 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hol
     { .row = 7, .col = 9, .x = 16.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 10, .x = 17.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -3735,71 +3735,71 @@ struct key_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hol
     { .row = 7, .col = 9, .x = 16.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 10, .x = 17.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT_all",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_all_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_all_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_all_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_all_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_hhkb_split_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_hhkb_split_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_hhkb_split_shift_split_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_nonhhkb_split_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_nonhhkb_split_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_regular_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_regular_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_regular_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_regular_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_regular_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_regular_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_regular_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_ansi_regular_shift_split_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_iso_hhkb_split_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_hhkb_split_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_iso_hhkb_split_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_hhkb_split_shift_split_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_iso_nonhhkb_split_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_iso_nonhhkb_split_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_iso_regular_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_regular_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_regular_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_regular_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_regular_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_regular_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_regular_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_iso_regular_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_regular_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_regular_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_LAYOUT_iso_regular_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_regular_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_regular_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_LAYOUT_iso_regular_shift_split_backspace_keys,
     },
 };
 struct key_def keyboards_xwhatsit_brand_new_model_f_f77_wcass_wcass_c_LAYOUT_all_keys[] = {
@@ -5988,7 +5988,7 @@ struct lay_def keyboards_xwhatsit_brand_new_model_f_f77_xwhatsit_xwhatsit_c_lays
         .keys = keyboards_xwhatsit_brand_new_model_f_f77_xwhatsit_xwhatsit_c_LAYOUT_iso_regular_shift_split_backspace_keys,
     },
 };
-struct key_def keyboards_xwhatsit_ibm_3101_3727_3278_87key_through_hole_through_hole_c_LAYOUT_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_3101_3727_3278_87key_universal_universal_c_LAYOUT_keys[] = {
     { .row = 0, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 3, .x = 2.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -6077,11 +6077,11 @@ struct key_def keyboards_xwhatsit_ibm_3101_3727_3278_87key_through_hole_through_
     { .row = 3, .col = 17, .x = 13.750000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 3, .col = 15, .x = 14.750000, .y = 4.000000, .w = 2.500000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_ibm_3101_3727_3278_87key_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_ibm_3101_3727_3278_87key_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_3101_3727_3278_87key_through_hole_through_hole_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_3101_3727_3278_87key_through_hole_through_hole_c_LAYOUT_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_3101_3727_3278_87key_through_hole_through_hole_c_LAYOUT_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_3101_3727_3278_87key_universal_universal_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_3101_3727_3278_87key_universal_universal_c_LAYOUT_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_3101_3727_3278_87key_universal_universal_c_LAYOUT_keys,
     },
 };
 struct key_def keyboards_xwhatsit_ibm_3101_3727_3278_87key_xwhatsit_rev4_xwhatsit_rev4_c_LAYOUT_keys[] = {
@@ -6180,7 +6180,7 @@ struct lay_def keyboards_xwhatsit_ibm_3101_3727_3278_87key_xwhatsit_rev4_xwhatsi
         .keys = keyboards_xwhatsit_ibm_3101_3727_3278_87key_xwhatsit_rev4_xwhatsit_rev4_c_LAYOUT_keys,
     },
 };
-struct key_def keyboards_xwhatsit_ibm_3276_3278_75key_through_hole_through_hole_c_LAYOUT_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_3276_3278_75key_universal_universal_c_LAYOUT_keys[] = {
     { .row = 0, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 3, .x = 2.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -6257,11 +6257,11 @@ struct key_def keyboards_xwhatsit_ibm_3276_3278_75key_through_hole_through_hole_
     { .row = 3, .col = 17, .x = 13.750000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 3, .col = 15, .x = 14.750000, .y = 4.000000, .w = 2.500000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_ibm_3276_3278_75key_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_ibm_3276_3278_75key_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_3276_3278_75key_through_hole_through_hole_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_3276_3278_75key_through_hole_through_hole_c_LAYOUT_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_3276_3278_75key_through_hole_through_hole_c_LAYOUT_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_3276_3278_75key_universal_universal_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_3276_3278_75key_universal_universal_c_LAYOUT_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_3276_3278_75key_universal_universal_c_LAYOUT_keys,
     },
 };
 struct key_def keyboards_xwhatsit_ibm_3276_3278_75key_xwhatsit_rev4_xwhatsit_rev4_c_LAYOUT_keys[] = {
@@ -6348,7 +6348,7 @@ struct lay_def keyboards_xwhatsit_ibm_3276_3278_75key_xwhatsit_rev4_xwhatsit_rev
         .keys = keyboards_xwhatsit_ibm_3276_3278_75key_xwhatsit_rev4_xwhatsit_rev4_c_LAYOUT_keys,
     },
 };
-struct key_def keyboards_xwhatsit_ibm_3277_66key_through_hole_through_hole_c_LAYOUT_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_3277_66key_universal_universal_c_LAYOUT_keys[] = {
     { .row = 0, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 2, .x = 1.500000, .y = 0.000000, .w = 1.500000, .h = 1.000000 },
     { .row = 0, .col = 3, .x = 3.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -6416,11 +6416,11 @@ struct key_def keyboards_xwhatsit_ibm_3277_66key_through_hole_through_hole_c_LAY
     { .row = 3, .col = 13, .x = 4.000000, .y = 4.000000, .w = 8.500000, .h = 1.000000 },
     { .row = 3, .col = 14, .x = 12.500000, .y = 4.000000, .w = 2.500000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_ibm_3277_66key_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_ibm_3277_66key_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_3277_66key_through_hole_through_hole_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_3277_66key_through_hole_through_hole_c_LAYOUT_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_3277_66key_through_hole_through_hole_c_LAYOUT_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_3277_66key_universal_universal_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_3277_66key_universal_universal_c_LAYOUT_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_3277_66key_universal_universal_c_LAYOUT_keys,
     },
 };
 struct key_def keyboards_xwhatsit_ibm_3277_66key_xwhatsit_rev4_xwhatsit_rev4_c_LAYOUT_keys[] = {
@@ -6498,7 +6498,7 @@ struct lay_def keyboards_xwhatsit_ibm_3277_66key_xwhatsit_rev4_xwhatsit_rev4_c_l
         .keys = keyboards_xwhatsit_ibm_3277_66key_xwhatsit_rev4_xwhatsit_rev4_c_LAYOUT_keys,
     },
 };
-struct key_def keyboards_xwhatsit_ibm_3277_78key_through_hole_through_hole_c_LAYOUT_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_3277_78key_universal_universal_c_LAYOUT_keys[] = {
     { .row = 0, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 2, .x = 1.500000, .y = 0.000000, .w = 1.500000, .h = 1.000000 },
     { .row = 0, .col = 3, .x = 3.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -6578,11 +6578,11 @@ struct key_def keyboards_xwhatsit_ibm_3277_78key_through_hole_through_hole_c_LAY
     { .row = 3, .col = 13, .x = 4.000000, .y = 4.000000, .w = 8.500000, .h = 1.000000 },
     { .row = 3, .col = 14, .x = 12.500000, .y = 4.000000, .w = 2.500000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_ibm_3277_78key_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_ibm_3277_78key_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_3277_78key_through_hole_through_hole_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_3277_78key_through_hole_through_hole_c_LAYOUT_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_3277_78key_through_hole_through_hole_c_LAYOUT_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_3277_78key_universal_universal_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_3277_78key_universal_universal_c_LAYOUT_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_3277_78key_universal_universal_c_LAYOUT_keys,
     },
 };
 struct key_def keyboards_xwhatsit_ibm_3277_78key_xwhatsit_rev4_xwhatsit_rev4_c_LAYOUT_keys[] = {
@@ -6672,7 +6672,7 @@ struct lay_def keyboards_xwhatsit_ibm_3277_78key_xwhatsit_rev4_xwhatsit_rev4_c_l
         .keys = keyboards_xwhatsit_ibm_3277_78key_xwhatsit_rev4_xwhatsit_rev4_c_LAYOUT_keys,
     },
 };
-struct key_def keyboards_xwhatsit_ibm_3277_split_66key_through_hole_through_hole_c_LAYOUT_all_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_3277_split_66key_universal_universal_c_LAYOUT_all_keys[] = {
     { .row = 0, .col = 1, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 2, .x = 1.500000, .y = 0.000000, .w = 1.500000, .h = 1.000000 },
     { .row = 0, .col = 3, .x = 3.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -6743,7 +6743,7 @@ struct key_def keyboards_xwhatsit_ibm_3277_split_66key_through_hole_through_hole
     { .row = 3, .col = 13, .x = 11.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 3, .col = 14, .x = 12.500000, .y = 4.000000, .w = 2.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_3277_split_66key_through_hole_through_hole_c_LAYOUT_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_3277_split_66key_universal_universal_c_LAYOUT_keys[] = {
     { .row = 0, .col = 1, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 2, .x = 1.500000, .y = 0.000000, .w = 1.500000, .h = 1.000000 },
     { .row = 0, .col = 3, .x = 3.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -6812,16 +6812,16 @@ struct key_def keyboards_xwhatsit_ibm_3277_split_66key_through_hole_through_hole
     { .row = 3, .col = 15, .x = 9.500000, .y = 4.000000, .w = 3.000000, .h = 1.000000 },
     { .row = 3, .col = 14, .x = 12.500000, .y = 4.000000, .w = 2.500000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_ibm_3277_split_66key_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_ibm_3277_split_66key_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_3277_split_66key_through_hole_through_hole_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_3277_split_66key_through_hole_through_hole_c_LAYOUT_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_3277_split_66key_through_hole_through_hole_c_LAYOUT_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_3277_split_66key_universal_universal_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_3277_split_66key_universal_universal_c_LAYOUT_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_3277_split_66key_universal_universal_c_LAYOUT_keys,
     },
     {
         .lay_name = "LAYOUT_all",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_3277_split_66key_through_hole_through_hole_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_ibm_3277_split_66key_through_hole_through_hole_c_LAYOUT_all_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_3277_split_66key_through_hole_through_hole_c_LAYOUT_all_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_3277_split_66key_universal_universal_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_ibm_3277_split_66key_universal_universal_c_LAYOUT_all_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_3277_split_66key_universal_universal_c_LAYOUT_all_keys,
     },
 };
 struct key_def keyboards_xwhatsit_ibm_3277_split_66key_xwhatsit_rev4_xwhatsit_rev4_c_LAYOUT_all_keys[] = {
@@ -6976,7 +6976,7 @@ struct lay_def keyboards_xwhatsit_ibm_3277_split_66key_xwhatsit_rev4_xwhatsit_re
         .keys = keyboards_xwhatsit_ibm_3277_split_66key_xwhatsit_rev4_xwhatsit_rev4_c_LAYOUT_all_keys,
     },
 };
-struct key_def keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_LAYOUT_all_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_4978_universal_universal_c_LAYOUT_all_keys[] = {
     { .row = 0, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 2, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -7149,7 +7149,7 @@ struct key_def keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_LAYOUT_al
     { .row = 7, .col = 20, .x = 21.000000, .y = 7.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 21, .x = 22.000000, .y = 7.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_LAYOUT_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_4978_universal_universal_c_LAYOUT_keys[] = {
     { .row = 0, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.500000, .h = 1.000000 },
     { .row = 0, .col = 2, .x = 1.500000, .y = 0.000000, .w = 1.500000, .h = 1.000000 },
     { .row = 0, .col = 3, .x = 3.000000, .y = 0.000000, .w = 1.500000, .h = 1.000000 },
@@ -7273,7 +7273,7 @@ struct key_def keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_LAYOUT_ke
     { .row = 7, .col = 20, .x = 20.000000, .y = 7.000000, .w = 2.000000, .h = 1.000000 },
     { .row = 7, .col = 21, .x = 22.000000, .y = 7.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_LAYOUT_all_no_case_mods_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_4978_universal_universal_c_LAYOUT_all_no_case_mods_keys[] = {
     { .row = 0, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 2, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -7424,24 +7424,24 @@ struct key_def keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_LAYOUT_al
     { .row = 7, .col = 20, .x = 21.000000, .y = 7.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 21, .x = 22.000000, .y = 7.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_ibm_4978_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_LAYOUT_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_LAYOUT_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_4978_universal_universal_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_4978_universal_universal_c_LAYOUT_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_4978_universal_universal_c_LAYOUT_keys,
     },
     {
         .lay_name = "LAYOUT_all",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_LAYOUT_all_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_LAYOUT_all_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_4978_universal_universal_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_ibm_4978_universal_universal_c_LAYOUT_all_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_4978_universal_universal_c_LAYOUT_all_keys,
     },
     {
         .lay_name = "LAYOUT_all_no_case_mods",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_LAYOUT_all_no_case_mods_keys) / sizeof(keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_LAYOUT_all_no_case_mods_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_LAYOUT_all_no_case_mods_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_4978_universal_universal_c_LAYOUT_all_no_case_mods_keys) / sizeof(keyboards_xwhatsit_ibm_4978_universal_universal_c_LAYOUT_all_no_case_mods_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_4978_universal_universal_c_LAYOUT_all_no_case_mods_keys,
     },
 };
-struct key_def keyboards_xwhatsit_ibm_5251_through_hole_through_hole_c_LAYOUT_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_5251_universal_universal_c_LAYOUT_keys[] = {
     { .row = 0, .col = 1, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 2, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 5, .x = 2.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -7526,11 +7526,11 @@ struct key_def keyboards_xwhatsit_ibm_5251_through_hole_through_hole_c_LAYOUT_ke
     { .row = 3, .col = 21, .x = 16.250000, .y = 4.000000, .w = 3.000000, .h = 1.000000 },
     { .row = 3, .col = 22, .x = 19.250000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_ibm_5251_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_ibm_5251_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_5251_through_hole_through_hole_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_5251_through_hole_through_hole_c_LAYOUT_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_5251_through_hole_through_hole_c_LAYOUT_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_5251_universal_universal_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_5251_universal_universal_c_LAYOUT_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_5251_universal_universal_c_LAYOUT_keys,
     },
 };
 struct key_def keyboards_xwhatsit_ibm_5251_xwhatsit_rev4_xwhatsit_rev4_c_LAYOUT_keys[] = {
@@ -7625,7 +7625,7 @@ struct lay_def keyboards_xwhatsit_ibm_5251_xwhatsit_rev4_xwhatsit_rev4_c_lays[] 
         .keys = keyboards_xwhatsit_ibm_5251_xwhatsit_rev4_xwhatsit_rev4_c_LAYOUT_keys,
     },
 };
-struct key_def keyboards_xwhatsit_ibm_displaywriter_through_hole_through_hole_c_LAYOUT_all_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_displaywriter_universal_universal_c_LAYOUT_all_keys[] = {
     { .row = 4, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 4, .col = 1, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 10, .x = 18.750000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -7711,14 +7711,14 @@ struct key_def keyboards_xwhatsit_ibm_displaywriter_through_hole_through_hole_c_
     { .row = 3, .col = 1, .x = 7.500000, .y = 5.000000, .w = 5.500000, .h = 1.000000 },
     { .row = 3, .col = 8, .x = 13.000000, .y = 5.000000, .w = 1.250000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_ibm_displaywriter_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_ibm_displaywriter_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT_all",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_displaywriter_through_hole_through_hole_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_ibm_displaywriter_through_hole_through_hole_c_LAYOUT_all_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_displaywriter_through_hole_through_hole_c_LAYOUT_all_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_displaywriter_universal_universal_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_ibm_displaywriter_universal_universal_c_LAYOUT_all_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_displaywriter_universal_universal_c_LAYOUT_all_keys,
     },
 };
-struct key_def keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_LAYOUT_102key_ansi_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f107_universal_universal_c_LAYOUT_102key_ansi_keys[] = {
     { .row = 2, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 2, .col = 1, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 1, .col = 2, .x = 2.250000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -7822,7 +7822,7 @@ struct key_def keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_LAYOUT_10
     { .row = 7, .col = 13, .x = 20.750000, .y = 4.000000, .w = 2.000000, .h = 1.000000 },
     { .row = 6, .col = 13, .x = 22.750000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_LAYOUT_all_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f107_universal_universal_c_LAYOUT_all_keys[] = {
     { .row = 2, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 2, .col = 1, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 1, .col = 2, .x = 2.250000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -7933,7 +7933,7 @@ struct key_def keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_LAYOUT_al
     { .row = 6, .col = 13, .x = 22.750000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 14, .x = 23.750000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_LAYOUT_107key_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f107_universal_universal_c_LAYOUT_107key_keys[] = {
     { .row = 2, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 2, .col = 1, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 1, .col = 2, .x = 2.250000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -8042,21 +8042,21 @@ struct key_def keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_LAYOUT_10
     { .row = 6, .col = 13, .x = 22.750000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 14, .x = 23.750000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_ibm_f107_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT_102key_ansi",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_LAYOUT_102key_ansi_keys) / sizeof(keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_LAYOUT_102key_ansi_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_LAYOUT_102key_ansi_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f107_universal_universal_c_LAYOUT_102key_ansi_keys) / sizeof(keyboards_xwhatsit_ibm_f107_universal_universal_c_LAYOUT_102key_ansi_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f107_universal_universal_c_LAYOUT_102key_ansi_keys,
     },
     {
         .lay_name = "LAYOUT_107key",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_LAYOUT_107key_keys) / sizeof(keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_LAYOUT_107key_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_LAYOUT_107key_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f107_universal_universal_c_LAYOUT_107key_keys) / sizeof(keyboards_xwhatsit_ibm_f107_universal_universal_c_LAYOUT_107key_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f107_universal_universal_c_LAYOUT_107key_keys,
     },
     {
         .lay_name = "LAYOUT_all",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_LAYOUT_all_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_LAYOUT_all_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f107_universal_universal_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_ibm_f107_universal_universal_c_LAYOUT_all_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f107_universal_universal_c_LAYOUT_all_keys,
     },
 };
 struct key_def keyboards_xwhatsit_ibm_f107_wcass_wcass_c_LAYOUT_102key_ansi_keys[] = {
@@ -8741,7 +8741,7 @@ struct lay_def keyboards_xwhatsit_ibm_f107_xwhatsit_xwhatsit_c_lays[] = {
         .keys = keyboards_xwhatsit_ibm_f107_xwhatsit_xwhatsit_c_LAYOUT_all_keys,
     },
 };
-struct key_def keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_all_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_all_keys[] = {
     { .row = 0, .col = 0, .x = 3.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 4.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 2, .x = 5.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -8870,7 +8870,7 @@ struct key_def keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_al
     { .row = 6, .col = 14, .x = 23.500000, .y = 7.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 15, .x = 24.500000, .y = 7.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_121key_ansi_enter_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_121key_ansi_enter_keys[] = {
     { .row = 0, .col = 0, .x = 3.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 4.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 2, .x = 5.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -8993,7 +8993,7 @@ struct key_def keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_12
     { .row = 7, .col = 14, .x = 21.500000, .y = 7.000000, .w = 2.000000, .h = 1.000000 },
     { .row = 6, .col = 14, .x = 23.500000, .y = 7.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_121key_iso_enter_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_121key_iso_enter_keys[] = {
     { .row = 0, .col = 0, .x = 3.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 4.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 2, .x = 5.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -9116,7 +9116,7 @@ struct key_def keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_12
     { .row = 7, .col = 14, .x = 21.500000, .y = 7.000000, .w = 2.000000, .h = 1.000000 },
     { .row = 6, .col = 14, .x = 23.500000, .y = 7.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_122key_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_122key_keys[] = {
     { .row = 0, .col = 0, .x = 3.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 4.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 2, .x = 5.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -9240,26 +9240,26 @@ struct key_def keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_12
     { .row = 7, .col = 14, .x = 21.500000, .y = 7.000000, .w = 2.000000, .h = 1.000000 },
     { .row = 6, .col = 14, .x = 23.500000, .y = 7.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_ibm_f122_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT_121key_ansi_enter",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_121key_ansi_enter_keys) / sizeof(keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_121key_ansi_enter_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_121key_ansi_enter_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_121key_ansi_enter_keys) / sizeof(keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_121key_ansi_enter_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_121key_ansi_enter_keys,
     },
     {
         .lay_name = "LAYOUT_121key_iso_enter",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_121key_iso_enter_keys) / sizeof(keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_121key_iso_enter_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_121key_iso_enter_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_121key_iso_enter_keys) / sizeof(keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_121key_iso_enter_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_121key_iso_enter_keys,
     },
     {
         .lay_name = "LAYOUT_122key",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_122key_keys) / sizeof(keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_122key_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_122key_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_122key_keys) / sizeof(keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_122key_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_122key_keys,
     },
     {
         .lay_name = "LAYOUT_all",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_all_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_LAYOUT_all_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_all_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f122_universal_universal_c_LAYOUT_all_keys,
     },
 };
 struct key_def keyboards_xwhatsit_ibm_f122_wcass_wcass_c_LAYOUT_all_keys[] = {
@@ -10304,7 +10304,7 @@ struct lay_def keyboards_xwhatsit_ibm_f122_xwhatsit_xwhatsit_c_lays[] = {
         .keys = keyboards_xwhatsit_ibm_f122_xwhatsit_xwhatsit_c_LAYOUT_all_keys,
     },
 };
-struct key_def keyboards_xwhatsit_ibm_f50_through_hole_through_hole_c_LAYOUT_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f50_universal_universal_c_LAYOUT_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 1, .col = 1, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -10356,11 +10356,11 @@ struct key_def keyboards_xwhatsit_ibm_f50_through_hole_through_hole_c_LAYOUT_key
     { .row = 6, .col = 5, .x = 9.000000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 6, .x = 10.000000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_ibm_f50_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_ibm_f50_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f50_through_hole_through_hole_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_f50_through_hole_through_hole_c_LAYOUT_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f50_through_hole_through_hole_c_LAYOUT_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f50_universal_universal_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_ibm_f50_universal_universal_c_LAYOUT_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f50_universal_universal_c_LAYOUT_keys,
     },
 };
 struct key_def keyboards_xwhatsit_ibm_f50_wcass_wcass_c_LAYOUT_keys[] = {
@@ -10481,7 +10481,7 @@ struct lay_def keyboards_xwhatsit_ibm_f50_xwhatsit_xwhatsit_c_lays[] = {
         .keys = keyboards_xwhatsit_ibm_f50_xwhatsit_xwhatsit_c_LAYOUT_keys,
     },
 };
-struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_default_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_default_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -10545,7 +10545,7 @@ struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_def
     { .row = 6, .col = 6, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 7, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_all_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_all_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -10611,7 +10611,7 @@ struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_all
     { .row = 6, .col = 6, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 7, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_regular_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -10673,7 +10673,7 @@ struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ans
     { .row = 6, .col = 6, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 7, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_regular_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -10736,7 +10736,7 @@ struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ans
     { .row = 6, .col = 6, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 7, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -10799,7 +10799,7 @@ struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ans
     { .row = 6, .col = 6, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 7, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -10863,7 +10863,7 @@ struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ans
     { .row = 6, .col = 6, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 7, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_regular_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -10926,7 +10926,7 @@ struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso
     { .row = 6, .col = 6, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 7, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_regular_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -10990,7 +10990,7 @@ struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso
     { .row = 6, .col = 6, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 7, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -11054,7 +11054,7 @@ struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso
     { .row = 6, .col = 6, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 7, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys[] = {
     { .row = 1, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -11119,56 +11119,56 @@ struct key_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso
     { .row = 6, .col = 6, .x = 12.500000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 7, .x = 13.500000, .y = 4.000000, .w = 1.500000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_ibm_f62_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT_all",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_all_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_all_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_all_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_all_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_nonhhkb_split_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_nonhhkb_split_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_nonhhkb_split_shift_split_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_regular_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_regular_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_regular_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_regular_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_ansi_regular_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_ansi_regular_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_regular_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_regular_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_ansi_regular_shift_split_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_default",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_default_keys) / sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_default_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_default_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_default_keys) / sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_default_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_default_keys,
     },
     {
         .lay_name = "LAYOUT_iso_nonhhkb_split_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_iso_nonhhkb_split_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_nonhhkb_split_shift_split_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_iso_regular_shift_regular_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_regular_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_regular_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_regular_shift_regular_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_regular_shift_regular_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_regular_shift_regular_backspace_keys,
     },
     {
         .lay_name = "LAYOUT_iso_regular_shift_split_backspace",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_split_backspace_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_LAYOUT_iso_regular_shift_split_backspace_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_regular_shift_split_backspace_keys) / sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_regular_shift_split_backspace_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_f62_universal_universal_c_LAYOUT_iso_regular_shift_split_backspace_keys,
     },
 };
 struct key_def keyboards_xwhatsit_ibm_f62_wcass_wcass_c_LAYOUT_default_keys[] = {
@@ -12551,7 +12551,7 @@ struct lay_def keyboards_xwhatsit_ibm_f62_xwhatsit_xwhatsit_c_lays[] = {
         .keys = keyboards_xwhatsit_ibm_f62_xwhatsit_xwhatsit_c_LAYOUT_iso_regular_shift_split_backspace_keys,
     },
 };
-struct key_def keyboards_xwhatsit_ibm_fat_through_hole_through_hole_c_LAYOUT_all_keys[] = {
+struct key_def keyboards_xwhatsit_ibm_fat_universal_universal_c_LAYOUT_all_keys[] = {
     { .row = 3, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 2, .col = 0, .x = 1.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 2, .col = 1, .x = 2.500000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -12645,11 +12645,11 @@ struct key_def keyboards_xwhatsit_ibm_fat_through_hole_through_hole_c_LAYOUT_all
     { .row = 6, .col = 14, .x = 20.000000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 7, .col = 15, .x = 21.000000, .y = 4.000000, .w = 1.000000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_ibm_fat_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_ibm_fat_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT_all",
-        .n_keys = sizeof(keyboards_xwhatsit_ibm_fat_through_hole_through_hole_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_ibm_fat_through_hole_through_hole_c_LAYOUT_all_keys[0]),
-        .keys = keyboards_xwhatsit_ibm_fat_through_hole_through_hole_c_LAYOUT_all_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_ibm_fat_universal_universal_c_LAYOUT_all_keys) / sizeof(keyboards_xwhatsit_ibm_fat_universal_universal_c_LAYOUT_all_keys[0]),
+        .keys = keyboards_xwhatsit_ibm_fat_universal_universal_c_LAYOUT_all_keys,
     },
 };
 struct key_def keyboards_xwhatsit_ibm_fat_wcass_wcass_c_LAYOUT_all_keys[] = {
@@ -12854,7 +12854,7 @@ struct lay_def keyboards_xwhatsit_ibm_fat_xwhatsit_xwhatsit_c_lays[] = {
         .keys = keyboards_xwhatsit_ibm_fat_xwhatsit_xwhatsit_c_LAYOUT_all_keys,
     },
 };
-struct key_def keyboards_xwhatsit_sneakyrobb_beam104_through_hole_through_hole_c_LAYOUT_keys[] = {
+struct key_def keyboards_xwhatsit_sneakyrobb_beam104_universal_universal_c_LAYOUT_keys[] = {
     { .row = 0, .col = 0, .x = 0.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 1, .col = 1, .x = 2.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
     { .row = 0, .col = 1, .x = 3.000000, .y = 0.000000, .w = 1.000000, .h = 1.000000 },
@@ -12960,18 +12960,18 @@ struct key_def keyboards_xwhatsit_sneakyrobb_beam104_through_hole_through_hole_c
     { .row = 6, .col = 13, .x = 18.500000, .y = 5.500000, .w = 2.000000, .h = 1.000000 },
     { .row = 7, .col = 14, .x = 20.500000, .y = 5.500000, .w = 1.000000, .h = 1.000000 },
 };
-struct lay_def keyboards_xwhatsit_sneakyrobb_beam104_through_hole_through_hole_c_lays[] = {
+struct lay_def keyboards_xwhatsit_sneakyrobb_beam104_universal_universal_c_lays[] = {
     {
         .lay_name = "LAYOUT",
-        .n_keys = sizeof(keyboards_xwhatsit_sneakyrobb_beam104_through_hole_through_hole_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_sneakyrobb_beam104_through_hole_through_hole_c_LAYOUT_keys[0]),
-        .keys = keyboards_xwhatsit_sneakyrobb_beam104_through_hole_through_hole_c_LAYOUT_keys,
+        .n_keys = sizeof(keyboards_xwhatsit_sneakyrobb_beam104_universal_universal_c_LAYOUT_keys) / sizeof(keyboards_xwhatsit_sneakyrobb_beam104_universal_universal_c_LAYOUT_keys[0]),
+        .keys = keyboards_xwhatsit_sneakyrobb_beam104_universal_universal_c_LAYOUT_keys,
     },
 };
 struct kbd_def keyboards[] = {
     {
-        .kbd_name = "keyboards/xwhatsit/brand_new_model_f/f62/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_brand_new_model_f_f62_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/brand_new_model_f/f62/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_brand_new_model_f_f62_universal_universal_c_lays,
         .cols = 9,
         .rows = 8,
     },
@@ -12990,9 +12990,9 @@ struct kbd_def keyboards[] = {
         .rows = 8,
     },
     {
-        .kbd_name = "keyboards/xwhatsit/brand_new_model_f/f77/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_brand_new_model_f_f77_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/brand_new_model_f/f77/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_brand_new_model_f_f77_universal_universal_c_lays,
         .cols = 11,
         .rows = 8,
     },
@@ -13011,9 +13011,9 @@ struct kbd_def keyboards[] = {
         .rows = 8,
     },
     {
-        .kbd_name = "keyboards/xwhatsit/ibm/3101_3727_3278_87key/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_ibm_3101_3727_3278_87key_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_ibm_3101_3727_3278_87key_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_ibm_3101_3727_3278_87key_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/ibm/3101_3727_3278_87key/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_ibm_3101_3727_3278_87key_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_ibm_3101_3727_3278_87key_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_ibm_3101_3727_3278_87key_universal_universal_c_lays,
         .cols = 23,
         .rows = 4,
     },
@@ -13025,9 +13025,9 @@ struct kbd_def keyboards[] = {
         .rows = 4,
     },
     {
-        .kbd_name = "keyboards/xwhatsit/ibm/3276_3278_75key/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_ibm_3276_3278_75key_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_ibm_3276_3278_75key_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_ibm_3276_3278_75key_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/ibm/3276_3278_75key/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_ibm_3276_3278_75key_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_ibm_3276_3278_75key_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_ibm_3276_3278_75key_universal_universal_c_lays,
         .cols = 20,
         .rows = 4,
     },
@@ -13039,9 +13039,9 @@ struct kbd_def keyboards[] = {
         .rows = 4,
     },
     {
-        .kbd_name = "keyboards/xwhatsit/ibm/3277_66key/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_ibm_3277_66key_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_ibm_3277_66key_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_ibm_3277_66key_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/ibm/3277_66key/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_ibm_3277_66key_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_ibm_3277_66key_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_ibm_3277_66key_universal_universal_c_lays,
         .cols = 17,
         .rows = 4,
     },
@@ -13053,9 +13053,9 @@ struct kbd_def keyboards[] = {
         .rows = 4,
     },
     {
-        .kbd_name = "keyboards/xwhatsit/ibm/3277_78key/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_ibm_3277_78key_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_ibm_3277_78key_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_ibm_3277_78key_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/ibm/3277_78key/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_ibm_3277_78key_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_ibm_3277_78key_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_ibm_3277_78key_universal_universal_c_lays,
         .cols = 20,
         .rows = 4,
     },
@@ -13067,9 +13067,9 @@ struct kbd_def keyboards[] = {
         .rows = 4,
     },
     {
-        .kbd_name = "keyboards/xwhatsit/ibm/3277_split_66key/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_ibm_3277_split_66key_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_ibm_3277_split_66key_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_ibm_3277_split_66key_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/ibm/3277_split_66key/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_ibm_3277_split_66key_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_ibm_3277_split_66key_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_ibm_3277_split_66key_universal_universal_c_lays,
         .cols = 18,
         .rows = 4,
     },
@@ -13081,16 +13081,16 @@ struct kbd_def keyboards[] = {
         .rows = 4,
     },
     {
-        .kbd_name = "keyboards/xwhatsit/ibm/4978/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_ibm_4978_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/ibm/4978/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_ibm_4978_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_ibm_4978_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_ibm_4978_universal_universal_c_lays,
         .cols = 22,
         .rows = 8,
     },
     {
-        .kbd_name = "keyboards/xwhatsit/ibm/5251/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_ibm_5251_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_ibm_5251_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_ibm_5251_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/ibm/5251/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_ibm_5251_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_ibm_5251_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_ibm_5251_universal_universal_c_lays,
         .cols = 23,
         .rows = 4,
     },
@@ -13102,16 +13102,16 @@ struct kbd_def keyboards[] = {
         .rows = 4,
     },
     {
-        .kbd_name = "keyboards/xwhatsit/ibm/displaywriter/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_ibm_displaywriter_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_ibm_displaywriter_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_ibm_displaywriter_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/ibm/displaywriter/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_ibm_displaywriter_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_ibm_displaywriter_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_ibm_displaywriter_universal_universal_c_lays,
         .cols = 12,
         .rows = 8,
     },
     {
-        .kbd_name = "keyboards/xwhatsit/ibm/f107/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_ibm_f107_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/ibm/f107/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_ibm_f107_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_ibm_f107_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_ibm_f107_universal_universal_c_lays,
         .cols = 15,
         .rows = 8,
     },
@@ -13130,9 +13130,9 @@ struct kbd_def keyboards[] = {
         .rows = 8,
     },
     {
-        .kbd_name = "keyboards/xwhatsit/ibm/f122/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_ibm_f122_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/ibm/f122/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_ibm_f122_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_ibm_f122_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_ibm_f122_universal_universal_c_lays,
         .cols = 16,
         .rows = 8,
     },
@@ -13151,9 +13151,9 @@ struct kbd_def keyboards[] = {
         .rows = 8,
     },
     {
-        .kbd_name = "keyboards/xwhatsit/ibm/f50/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_ibm_f50_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_ibm_f50_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_ibm_f50_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/ibm/f50/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_ibm_f50_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_ibm_f50_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_ibm_f50_universal_universal_c_lays,
         .cols = 7,
         .rows = 8,
     },
@@ -13172,9 +13172,9 @@ struct kbd_def keyboards[] = {
         .rows = 8,
     },
     {
-        .kbd_name = "keyboards/xwhatsit/ibm/f62/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_ibm_f62_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/ibm/f62/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_ibm_f62_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_ibm_f62_universal_universal_c_lays,
         .cols = 8,
         .rows = 8,
     },
@@ -13193,9 +13193,9 @@ struct kbd_def keyboards[] = {
         .rows = 8,
     },
     {
-        .kbd_name = "keyboards/xwhatsit/ibm/fat/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_ibm_fat_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_ibm_fat_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_ibm_fat_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/ibm/fat/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_ibm_fat_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_ibm_fat_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_ibm_fat_universal_universal_c_lays,
         .cols = 16,
         .rows = 8,
     },
@@ -13214,9 +13214,9 @@ struct kbd_def keyboards[] = {
         .rows = 8,
     },
     {
-        .kbd_name = "keyboards/xwhatsit/sneakyrobb/beam104/through_hole/through_hole.c",
-        .n_layouts = sizeof(keyboards_xwhatsit_sneakyrobb_beam104_through_hole_through_hole_c_lays)/sizeof(keyboards_xwhatsit_sneakyrobb_beam104_through_hole_through_hole_c_lays[0]),
-        .layouts = keyboards_xwhatsit_sneakyrobb_beam104_through_hole_through_hole_c_lays,
+        .kbd_name = "keyboards/xwhatsit/sneakyrobb/beam104/universal/universal.c",
+        .n_layouts = sizeof(keyboards_xwhatsit_sneakyrobb_beam104_universal_universal_c_lays)/sizeof(keyboards_xwhatsit_sneakyrobb_beam104_universal_universal_c_lays[0]),
+        .layouts = keyboards_xwhatsit_sneakyrobb_beam104_universal_universal_c_lays,
         .cols = 16,
         .rows = 8,
     },
