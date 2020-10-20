@@ -1,6 +1,6 @@
 # xwhatsit/ibm/fssk/universal
 
-![xwhatsit/ibm/fssk/universal](http://kishy.ca/wp-content/uploads/2013/02/4704kb.jpg)
+![xwhatsit/ibm/fssk/universal](https://deskthority.net/download/file.php?id=29306)
 
 A short description of the keyboard/project
 
