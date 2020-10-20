@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* key matrix size */
 #define MATRIX_ROWS 8
 #define MATRIX_COLS 16
-// Note: there is a column that is only used for calibration pads. That one is not listed here.
 
 /*
  * Keyboard Matrix Assignments
