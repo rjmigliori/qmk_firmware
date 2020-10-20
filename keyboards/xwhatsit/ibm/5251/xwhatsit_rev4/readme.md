@@ -5,7 +5,7 @@
 A short description of the keyboard/project
 
 * Keyboard Maintainer: [Purdea Andrei](https://github.com/purdeaandrei)
-* Hardware Supported: Supports the IBM 5251 beamspring keyboards, using the original Xwhatist beamspring rev. 4 controller PCB.
+* Hardware Supported: Supports the IBM 5251 beamspring keyboards, using the original Xwhatsit beamspring rev. 4 controller PCB.
 * Hardware Availability: Rare collector's item
 
 Make example for this keyboard (after setting up your build environment):
