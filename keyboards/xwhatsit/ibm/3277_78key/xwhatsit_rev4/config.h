@@ -280,7 +280,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define USING_SOLENOID_ENABLE_PIN B7
 // Change this if you are using a different pin for the solenoid:
 #define SOLENOID_PIN B6
-// If you are not using a solenoid then commend out the above, and also in rules.mk, remove "HAPTIC_ENABLE += SOLENOID"
+// If you are not using a solenoid then comment out the above, and also in rules.mk, remove "HAPTIC_ENABLE += SOLENOID"
 // You can also tune the following for your solenoid:
 //#define SOLENOID_DEFAULT_DWELL 12
 //#define SOLENOID_MIN_DWELL 4
