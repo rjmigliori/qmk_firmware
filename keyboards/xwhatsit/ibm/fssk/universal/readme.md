@@ -5,7 +5,7 @@
 A short description of the keyboard/project
 
 * Keyboard Maintainer: [Purdea Andrei](https://github.com/purdeaandrei)
-* Hardware Supported: Supports IBM IBM Model FSSK keyboards, using one of the xwhatsit controller PCBs supported by the 'universal' driver: the through_hole controller, or one of the SMD Model F controllers.
+* Hardware Supported: Supports IBM Model FSSK keyboards, using one of the xwhatsit controller PCBs supported by the 'universal' driver: the through_hole controller, or one of the SMD Model F controllers.
   The controllers supported by this firmware are described in these threads:
   https://deskthority.net/viewtopic.php?f=7&t=23406
   https://deskthority.net/viewtopic.php?f=7&t=24597

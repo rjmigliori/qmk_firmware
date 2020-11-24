@@ -5,7 +5,7 @@
 A short description of the keyboard/project
 
 * Keyboard Maintainer: [Purdea Andrei](https://github.com/purdeaandrei)
-* Hardware Supported: Supports IBM IBM Model F AT keyboards, using the original Xwhatsit model F rev. 1 or rev. 2 controller PCB.
+* Hardware Supported: Supports IBM Model F AT keyboards, using the original Xwhatsit model F rev. 1 or rev. 2 controller PCB.
 * Hardware Availability: Rare collector's item
 
 Make example for this keyboard (after setting up your build environment):

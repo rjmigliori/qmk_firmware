@@ -5,7 +5,7 @@
 A short description of the keyboard/project
 
 * Keyboard Maintainer: [Purdea Andrei](https://github.com/purdeaandrei)
-* Hardware Supported: Supports IBM IBM Model FSSK keyboards, using the "wcass" controller board.
+* Hardware Supported: Supports IBM Model FSSK keyboards, using the "wcass" controller board.
 * Hardware Availability: Rare collector's item
 
 Make example for this keyboard (after setting up your build environment):
