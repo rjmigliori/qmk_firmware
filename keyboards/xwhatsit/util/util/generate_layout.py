@@ -73,6 +73,10 @@ def handle_layouts(layouth_fn, layoutc_fn, infojson_fn, config_fn):
             y = item['y']
             w = item['w'] if 'w' in item else 1
             h = item['h'] if 'h' in item else 1
+            if len(arr) <= i:
+                raise BaseException("Error index " + str(i) + " in array " + str(arr))
+            if len(arr[i]) < 2:
+                raise BaseException("Error array must have at least two elements: " + str(arr[i]) + " (full arr = " + str(arr) + ")")
             print ("    { .row = %d, .col = %d, .x = %f, .y = %f, .w = %f, .h = %f }," % (arr[i][0], arr[i][1], x, y, w, h))
         print("};")
         laynames.append((layname, lname))
