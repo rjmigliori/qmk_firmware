@@ -273,6 +273,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CAPSENSE_HARDCODED_THRESHOLD 142
 #endif
 
+#define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (11-(col))
+
 // By default we set up for support of xwhatsit's solenoid driver board.
 // Comment out USING_SOLENOID_ENABLE_PIN if you don't have an enable pin:
 #define USING_SOLENOID_ENABLE_PIN B7
