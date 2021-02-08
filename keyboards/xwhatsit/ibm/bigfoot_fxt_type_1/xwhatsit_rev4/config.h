@@ -273,7 +273,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CAPSENSE_HARDCODED_THRESHOLD 142
 #endif
 
-#define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (23-col)
+#define CAPSENSE_KEYMAP_COL_TO_PHYSICAL_COL(col) (23-(col))
 // We're using a beamspring controller to driver a Model F keyboard:
 #define CAPSENSE_CONDUCTIVE_PLASTIC_IS_PUSHED_DOWN_ON_KEYPRESS
 
