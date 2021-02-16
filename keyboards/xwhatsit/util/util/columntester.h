@@ -38,6 +38,7 @@ public:
 private slots:
     void onButtonClicked();
     void ShowContextMenu(const QPoint &pos);
+    void onReportControlState(std::vector<uint8_t>);
 
 private:
     Ui::ColumnTester *ui;

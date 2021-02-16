@@ -242,6 +242,53 @@ void Device::shiftData(uint32_t shdata)
     }
 }
 
+std::vector<uint8_t> Device::shiftDataExt(uint32_t shdata, bool data_idle, bool shcp_idle, bool stcp_idle)
+{
+    uint8_t data[33];
+    {
+        QMutexLocker locker(&mutex);
+        if (xwhatsit_original_firmware)
+        {
+            throw std::runtime_error("This doesn't work with xwhatsit original firmware");
+        }
+
+        data[0] = 0;
+        memcpy(data + 1, magic, sizeof(magic));
+        data[2+1] = UTIL_COMM_SHIFT_DATA_EXT;
+        data[3+1] = shdata & 0xff;
+        data[4+1] = (shdata >> 8) & 0xff;
+        data[5+1] = (shdata >> 16) & 0xff;
+        data[6+1] = (shdata >> 24) & 0xff;
+        data[7+1] = (uint8_t)data_idle;
+        data[8+1] = (uint8_t)shcp_idle;
+        data[9+1] = (uint8_t)stcp_idle;
+        if (-1==hid_write(device, data, sizeof(data)))
+        {
+            printf("hid error: %ls\n", hid_error(device));
+            throw std::runtime_error("hid_write failed to shift data");
+        }
+        if ((sizeof(data)-1)!=hid_read_timeout(device, data, sizeof(data)-1, 1000))
+        {
+            printf("hid error: %ls\n", hid_error(device));
+            throw std::runtime_error("hid_read failed while shifting data");
+        }
+        if ((data[0] != magic[0]) || (data[1] != magic[1]))
+        {
+            throw std::runtime_error("hid_read failed while shifting data -- no magic returned");
+        }
+    }
+    std::vector<uint8_t> ret;
+    if (data[2] != UTIL_COMM_RESPONSE_OK)
+    {
+        shiftData(shdata);
+        return ret;
+    }
+    ret.push_back(data[3]);
+    ret.push_back(data[4]);
+    ret.push_back(data[5]);
+    return ret;
+}
+
 void Device::disableKeyboard()
 {
     QMutexLocker locker(&mutex);

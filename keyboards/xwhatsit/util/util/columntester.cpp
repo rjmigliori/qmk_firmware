@@ -36,9 +36,14 @@ ColumnTester::ColumnTester(HidThread &thread, std::string path, QWidget *parent)
         button->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         button->setMinimumSize(20, 0);
         button->setCheckable(true);
+        button->setStyleSheet(":checked {background-color: #c0FFc0; color:black }");
         ui->horizontalLayout->addWidget(button);
         connect(button, SIGNAL(clicked()), this, SLOT(onButtonClicked()));
     }
+    connect(ui->pushButton_data, SIGNAL(clicked()), this, SLOT(onButtonClicked()));
+    connect(ui->pushButton_shcp, SIGNAL(clicked()), this, SLOT(onButtonClicked()));
+    connect(ui->pushButton_stcp, SIGNAL(clicked()), this, SLOT(onButtonClicked()));
+    connect(&thread, &HidThread::reportControlReadback, this, &ColumnTester::onReportControlState);
     this->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
             this, SLOT(ShowContextMenu(const QPoint &)));
@@ -72,5 +77,26 @@ void ColumnTester::onButtonClicked()
             data |= 1 << i;
         }
     }
-    thread.shiftData(path, data);
+    thread.shiftData(path, data,
+                     ui->pushButton_data->isChecked(),
+                     ui->pushButton_shcp->isChecked(),
+                     ui->pushButton_stcp->isChecked());
+}
+
+void ColumnTester::onReportControlState(std::vector<uint8_t> readback)
+{
+    const bool enabled = readback.size() != 0;
+    ui->pushButton_data->setEnabled(enabled);
+    ui->pushButton_shcp->setEnabled(enabled);
+    ui->pushButton_stcp->setEnabled(enabled);
+    ui->label_control_set->setEnabled(enabled);
+    ui->label_control_readback->setEnabled(enabled);
+    if (enabled) {
+        if (readback[0]) ui->frame_data->setStyleSheet("background-color:#c0FFc0");
+        else ui->frame_data->setStyleSheet("background-color:");
+        if (readback[1]) ui->frame_shcp->setStyleSheet("background-color:#c0FFc0");
+        else ui->frame_shcp->setStyleSheet("background-color:");
+        if (readback[2]) ui->frame_stcp->setStyleSheet("background-color:#c0FFc0");
+        else ui->frame_stcp->setStyleSheet("background-color:");
+    }
 }

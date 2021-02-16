@@ -38,6 +38,7 @@ enum command {
     UTIL_COMM_SHIFT_DATA,
     UTIL_COMM_SET_DAC_VALUE,
     UTIL_COMM_GET_ROW_STATE,
+    UTIL_COMM_SHIFT_DATA_EXT,
 };
 
 enum response {

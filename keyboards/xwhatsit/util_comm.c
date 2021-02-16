@@ -180,13 +180,26 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
                 break;
             }
         case UTIL_COMM_SHIFT_DATA:
+        case UTIL_COMM_SHIFT_DATA_EXT:
             {
                 response[2] = UTIL_COMM_RESPONSE_OK;
                 uint32_t shdata = (((uint32_t)(data[3])) << 0) |
                                 (((uint32_t)(data[4])) << 8) |
                                 (((uint32_t)(data[5])) << 16) |
                                 (((uint32_t)(data[6])) << 24);
-                shift_data(shdata);
+                int data_idle = 0;
+                int shcp_idle = 0;
+                int stcp_idle = 0;
+                if (data[2] == UTIL_COMM_SHIFT_DATA_EXT)
+                {
+                    data_idle = data[7];
+                    shcp_idle = data[8];
+                    stcp_idle = data[9];
+                }
+                shift_data(shdata, data_idle, shcp_idle, stcp_idle);
+                response[3] = readPin(CAPSENSE_SHIFT_DIN);
+                response[4] = readPin(CAPSENSE_SHIFT_SHCP);
+                response[5] = readPin(CAPSENSE_SHIFT_STCP);
                 break;
             }
         case UTIL_COMM_SET_DAC_VALUE:

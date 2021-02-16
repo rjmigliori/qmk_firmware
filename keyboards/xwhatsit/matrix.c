@@ -141,18 +141,25 @@ void shift_select_nothing(void)
     writePin(CAPSENSE_SHIFT_STCP, 0);
 }
 
-void shift_data(uint32_t data)
+void shift_data(uint32_t data, int data_idle, int shcp_idle, int stcp_idle)
 {
     int i;
+    writePin(CAPSENSE_SHIFT_SHCP, 0);
+    writePin(CAPSENSE_SHIFT_STCP, 0);
     for (i=SHIFT_BITS-1; i>=0; i--)
     {
         writePin(CAPSENSE_SHIFT_DIN, (data >> (SHIFT_BITS - 1)) & 1);
         writePin(CAPSENSE_SHIFT_SHCP, 1);
-        writePin(CAPSENSE_SHIFT_SHCP, 0);
+        if (!((i == 0) && (shcp_idle))) {
+            writePin(CAPSENSE_SHIFT_SHCP, 0);
+        }
         data <<= 1;
     }
     writePin(CAPSENSE_SHIFT_STCP, 1);
-    writePin(CAPSENSE_SHIFT_STCP, 0);
+    if (!stcp_idle) {
+        writePin(CAPSENSE_SHIFT_STCP, 0);
+    }
+    writePin(CAPSENSE_SHIFT_DIN, !!data_idle);
 }
 
 void shift_select_col_no_strobe(uint8_t col)

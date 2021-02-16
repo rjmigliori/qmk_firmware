@@ -39,6 +39,7 @@ public:
     void assertVersionIsAtLeast(uint8_t major, uint8_t mid, uint16_t minor);
     void eraseEeprom();
     void shiftData(uint32_t shdata);
+    std::vector<uint8_t> shiftDataExt(uint32_t shdata, bool data_idle, bool shcp_idle, bool stcp_idle);
     std::vector<std::vector<uint8_t>> getThresholds();
     std::vector<uint8_t> getKeyState();
     std::vector<uint8_t> getKeyboardDetails();

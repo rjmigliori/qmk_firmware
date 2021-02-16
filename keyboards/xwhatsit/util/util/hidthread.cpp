@@ -102,10 +102,13 @@ void HidThread::closeMonitoredDevice()
     condition.wakeOne();
 }
 
-void HidThread::shiftData(std::string path, uint32_t shdata)
+void HidThread::shiftData(std::string path, uint32_t shdata, bool data_idle, bool shcp_idle, bool stcp_idle)
 {
     QMutexLocker locker(&mutex);
     this->shift_data = shdata;
+    this->shift_data_idle = data_idle;
+    this->shift_shcp_idle = shcp_idle;
+    this->shift_stcp_idle = stcp_idle;
     this->shift_data_path = path;
     condition.wakeOne();
 }
@@ -161,6 +164,7 @@ void HidThread::run()
         mutex.lock();
         bool l_keep_scanning, l_abort, nothing_to_do, l_autoenter_mode, l_close_monitored_device, l_set_dac;
         uint32_t l_shift_data;
+        bool l_shift_data_idle, l_shift_shcp_idle, l_shift_stcp_idle;
         std::string l_enter_bootloader_path, l_monitor_path, l_erase_eeprom_path, l_signal_level_path, l_shift_data_path, l_enable_keyboard_path, l_monitor_row_state_path;
         uint16_t l_set_dac_value;
         do {
@@ -174,6 +178,9 @@ void HidThread::run()
             l_erase_eeprom_path = this->erase_eeprom_path;
             l_shift_data_path = shift_data_path;
             l_shift_data = shift_data;
+            l_shift_data_idle = shift_data_idle;
+            l_shift_shcp_idle = shift_shcp_idle;
+            l_shift_stcp_idle = shift_stcp_idle;
             l_enable_keyboard_path = enable_keyboard_path;
             l_set_dac = set_dac;
             l_set_dac_value = set_dac_value;
@@ -218,7 +225,7 @@ void HidThread::run()
                 QScopedPointer<Device> dev(comm.open(l_shift_data_path));
                 dev.data()->disableKeyboard();
                 dev.data()->assertVersionIsAtLeast(2, 0, 3);
-                dev.data()->shiftData(l_shift_data);
+                emit reportControlReadback(dev.data()->shiftDataExt(l_shift_data, l_shift_data_idle, l_shift_shcp_idle, l_shift_stcp_idle));
             } catch (const std::runtime_error &e1) {
                 emit reportError(e1.what());
             }

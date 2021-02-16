@@ -40,7 +40,7 @@ public:
     void signalLevel(std::string path);
     void eraseEeprom(std::string path);
     void closeMonitoredDevice();
-    void shiftData(std::string path, uint32_t shdata);
+    void shiftData(std::string path, uint32_t shdata, bool data_idle, bool shcp_idle, bool stcp_idle);
     void enableKeyboard(std::string path);
     void setDacValue(uint16_t value);
     Device *connectToDevice(std::string path);
@@ -55,6 +55,7 @@ signals:
     void reportMonitorError(std::string error_message);
     void reportSignalLevel(std::vector<uint16_t>);
     void reportRowsAndMaxDac(uint8_t rows, uint16_t max_dac);
+    void reportControlReadback(std::vector<uint8_t>);
 
 protected:
     void run() override;
@@ -65,6 +66,9 @@ private:
     bool autoenter_mode;
     bool close_monitored_device;
     uint32_t shift_data;
+    bool shift_data_idle;
+    bool shift_shcp_idle;
+    bool shift_stcp_idle;
     std::string shift_data_path;
     std::string enter_bootloader_path;
     std::string monitor_path;
