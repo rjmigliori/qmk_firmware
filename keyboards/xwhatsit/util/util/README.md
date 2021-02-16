@@ -1,5 +1,9 @@
 # Building
 
+## Before building
+
+If you have added a new keyboard, or changed layout macros, then please run: ```python generate_layout.py >  kbd_defs.cpp```
+
 ## Building on Linux for Linux
 
 ### Option 1: Building on local system
