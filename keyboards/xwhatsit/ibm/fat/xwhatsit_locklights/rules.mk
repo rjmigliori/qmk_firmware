@@ -49,4 +49,4 @@ RAW_ENABLE = yes
 
 CUSTOM_MATRIX=lite
 SRC += keyboards/xwhatsit/matrix.c keyboards/xwhatsit/util_comm.c
-HAPTIC_ENABLE += SOLENOID
+# HAPTIC_ENABLE += SOLENOID
