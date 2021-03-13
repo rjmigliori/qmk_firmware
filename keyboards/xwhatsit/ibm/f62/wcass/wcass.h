@@ -27,10 +27,6 @@
  * represents the switch matrix.
  */
 
-// Note: unused columns 10..15 are not listed here.
-// Note arguments representing the layout are named based on default reproduction F77 hhkb split backspace configuration, for other layouts argument naming might not make much sense
-// This was done for ease of implementation.
-
 #define LAYOUT_default( \
     k_esc, k_1, k_2, k_3, k_4, k_5, k_6, k_7, k_8, k_9, k_0, k_minus, k_equals, k_backspace,\
     k_tab,   k_q, k_w, k_e, k_r, k_t, k_y, k_u, k_i, k_o, k_p, k_squarebrop, k_squarebrcl, k_backslash,\
